@@ -1,0 +1,6 @@
+{
+  "name": "214-introbusiness",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=18" }
+}
