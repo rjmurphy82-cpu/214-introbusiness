@@ -1,0 +1,4228 @@
+{
+ "companies": [
+  {
+   "id": "driftwave",
+   "name": "Driftwave Audio",
+   "product": "wireless earbuds",
+   "unit": "per pair",
+   "blurb": "Driftwave is a Chicago startup launching its first wireless earbuds. The founders want three versions on the shelf by spring, but they can't agree on who each version is for.",
+   "base": 14,
+   "prices": [
+    29,
+    49,
+    79,
+    119,
+    159,
+    199
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 9000,
+     "key": "Gym Grinders",
+     "bullets": [
+      "Ages 15 to 24, works out 4 or more times a week",
+      "68% have lost or broken earbuds mid-workout",
+      "Wants a pair cheap enough to replace without crying"
+     ],
+     "quote": "If they fall out during a box jump, they're dead to me.",
+     "wtp": [
+      84,
+      72,
+      37,
+      6,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0,
+       1
+      ],
+      "cost": 20,
+      "price": 79,
+      "pi": 2,
+      "pct": 37,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3330,
+      "profit": 196470
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 73,
+      "price": 119,
+      "pi": 3,
+      "pct": 6,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 594,
+      "profit": 27324
+     },
+     "bare": {
+      "feats": [],
+      "cost": 14,
+      "price": 49,
+      "pi": 1,
+      "pct": 72,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 1620,
+      "profit": 56700
+     }
+    },
+    {
+     "letter": "B",
+     "size": 14000,
+     "key": "Everyday Students",
+     "bullets": [
+      "Ages 14 to 22, rides the bus or train every day",
+      "Mostly streams music and videos",
+      "Usually paying with their own job money or a gift card"
+     ],
+     "quote": "I just need them to last the whole school day.",
+     "wtp": [
+      71,
+      41,
+      8,
+      0,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       2
+      ],
+      "cost": 19,
+      "price": 49,
+      "pi": 1,
+      "pct": 41,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 5740,
+      "profit": 172200
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 73,
+      "price": 79,
+      "pi": 2,
+      "pct": 8,
+      "fit": 1.2,
+      "missing": 0,
+      "nice": 4,
+      "buyers": 1344,
+      "profit": 8064
+     },
+     "bare": {
+      "feats": [],
+      "cost": 14,
+      "price": 49,
+      "pi": 1,
+      "pct": 41,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 2870,
+      "profit": 100450
+     }
+    },
+    {
+     "letter": "C",
+     "size": 4000,
+     "key": "Work-From-Anywhere Pros",
+     "bullets": [
+      "Ages 22 to 40, takes video calls for work",
+      "Works from home, coffee shops, and airports",
+      "Says sound quality is the #1 reason they'd switch brands"
+     ],
+     "quote": "I'll pay more if I never hear the leaf blower outside again.",
+     "wtp": [
+      91,
+      90,
+      86,
+      76,
+      55,
+      29
+     ],
+     "best": {
+      "feats": [
+       2,
+       3,
+       4,
+       5
+      ],
+      "cost": 57,
+      "price": 159,
+      "pi": 4,
+      "pct": 55,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 2310,
+      "profit": 235620
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 73,
+      "price": 159,
+      "pi": 4,
+      "pct": 55,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 2420,
+      "profit": 208120
+     },
+     "bare": {
+      "feats": [],
+      "cost": 14,
+      "price": 119,
+      "pi": 3,
+      "pct": 76,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 380,
+      "profit": 39900
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Sweatproof and waterproof",
+     "desc": "Survives sweat, rain, and the occasional sink",
+     "cost": 4,
+     "tags": "MNX",
+     "pct": [
+      66,
+      47,
+      20
+     ]
+    },
+    {
+     "name": "Secure ear wings",
+     "desc": "Soft hooks that lock the bud in place",
+     "cost": 2,
+     "tags": "MXX",
+     "pct": [
+      86,
+      11,
+      18
+     ]
+    },
+    {
+     "name": "10-hour battery",
+     "desc": "Lasts a full day without the case",
+     "cost": 5,
+     "tags": "NMN",
+     "pct": [
+      56,
+      73,
+      46
+     ]
+    },
+    {
+     "name": "Active noise cancellation",
+     "desc": "Blocks out background noise",
+     "cost": 18,
+     "tags": "XNM",
+     "pct": [
+      22,
+      36,
+      79
+     ]
+    },
+    {
+     "name": "Premium audio drivers",
+     "desc": "Richer bass and clearer highs",
+     "cost": 14,
+     "tags": "XXM",
+     "pct": [
+      9,
+      8,
+      85
+     ]
+    },
+    {
+     "name": "Clear-call microphones",
+     "desc": "Callers hear you, not the wind",
+     "cost": 6,
+     "tags": "XNM",
+     "pct": [
+      20,
+      41,
+      63
+     ]
+    },
+    {
+     "name": "Wireless charging case",
+     "desc": "Drop it on a pad to charge",
+     "cost": 7,
+     "tags": "XXN",
+     "pct": [
+      12,
+      16,
+      40
+     ]
+    },
+    {
+     "name": "Custom colors",
+     "desc": "Pick from 8 colorways",
+     "cost": 3,
+     "tags": "NNX",
+     "pct": [
+      42,
+      39,
+      11
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     2
+    ],
+    "price": 49,
+    "cost": 25,
+    "profit": 319272,
+    "buyers": 13303
+   },
+   "lineup": 604290
+  },
+  {
+   "id": "rally",
+   "name": "Rally Paddle Co.",
+   "product": "pickleball paddles",
+   "unit": "per paddle",
+   "blurb": "Rally Paddle Co. makes pickleball paddles in a small shop in Schaumburg. Pickleball is exploding, and Rally wants a lineup that covers brand-new players all the way to tournament regulars.",
+   "base": 12,
+   "prices": [
+    25,
+    40,
+    60,
+    90,
+    130,
+    180
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 11000,
+     "key": "Park District Newbies",
+     "bullets": [
+      "Ages 30 to 65, picked up the sport in the last year",
+      "Plays once a week at park district courts",
+      "Often buying for a spouse or kids too"
+     ],
+     "quote": "I just don't want to look silly the first time I play.",
+     "wtp": [
+      74,
+      50,
+      17,
+      2,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       2,
+       4,
+       7
+      ],
+      "cost": 29,
+      "price": 40,
+      "pi": 1,
+      "pct": 50,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 5500,
+      "profit": 60500
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 67,
+      "price": 90,
+      "pi": 3,
+      "pct": 2,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 231,
+      "profit": 5313
+     },
+     "bare": {
+      "feats": [],
+      "cost": 12,
+      "price": 40,
+      "pi": 1,
+      "pct": 50,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 688,
+      "profit": 19264
+     }
+    },
+    {
+     "letter": "B",
+     "size": 3500,
+     "key": "Tournament Grinders",
+     "bullets": [
+      "Plays 4 or more times a week, enters tournaments",
+      "Watches pro matches and gear reviews online",
+      "Replaces their paddle about once a year"
+     ],
+     "quote": "Spin wins points. Give me spin.",
+     "wtp": [
+      90,
+      89,
+      86,
+      79,
+      59,
+      27
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       4,
+       5,
+       6
+      ],
+      "cost": 48,
+      "price": 130,
+      "pi": 4,
+      "pct": 59,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 2272,
+      "profit": 186304
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 67,
+      "price": 130,
+      "pi": 4,
+      "pct": 59,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 2375,
+      "profit": 149625
+     },
+     "bare": {
+      "feats": [],
+      "cost": 12,
+      "price": 130,
+      "pi": 4,
+      "pct": 59,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 258,
+      "profit": 30444
+     }
+    },
+    {
+     "letter": "C",
+     "size": 7000,
+     "key": "Courtside Crew",
+     "bullets": [
+      "Ages 14 to 22, plays with friends and in gym class",
+      "Posts court videos on social media",
+      "Cares how the paddle looks as much as how it plays"
+     ],
+     "quote": "If it looks sick, I'll use it.",
+     "wtp": [
+      83,
+      72,
+      49,
+      15,
+      2,
+      0
+     ],
+     "best": {
+      "feats": [
+       3
+      ],
+      "cost": 16,
+      "price": 60,
+      "pi": 2,
+      "pct": 49,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3430,
+      "profit": 150920
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 67,
+      "price": 90,
+      "pi": 3,
+      "pct": 15,
+      "fit": 1.2,
+      "missing": 0,
+      "nice": 4,
+      "buyers": 1260,
+      "profit": 28980
+     },
+     "bare": {
+      "feats": [],
+      "cost": 12,
+      "price": 60,
+      "pi": 2,
+      "pct": 49,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 1715,
+      "profit": 82320
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Carbon fiber spin face",
+     "desc": "Gritty surface that grabs the ball",
+     "cost": 16,
+     "tags": "XMN",
+     "pct": [
+      24,
+      68,
+      50
+     ]
+    },
+    {
+     "name": "Pro-weight 16mm core",
+     "desc": "More power and control for advanced players",
+     "cost": 9,
+     "tags": "XMX",
+     "pct": [
+      17,
+      76,
+      7
+     ]
+    },
+    {
+     "name": "Wider sweet spot",
+     "desc": "More forgiving on off-center hits",
+     "cost": 5,
+     "tags": "MNN",
+     "pct": [
+      83,
+      49,
+      39
+     ]
+    },
+    {
+     "name": "Custom graphic designs",
+     "desc": "Bold art and colorways",
+     "cost": 4,
+     "tags": "XXM",
+     "pct": [
+      13,
+      15,
+      77
+     ]
+    },
+    {
+     "name": "Cushioned grip",
+     "desc": "Softer on the hands",
+     "cost": 2,
+     "tags": "MNX",
+     "pct": [
+      84,
+      39,
+      16
+     ]
+    },
+    {
+     "name": "Official tournament approval",
+     "desc": "Legal for sanctioned tournaments",
+     "cost": 6,
+     "tags": "XMX",
+     "pct": [
+      20,
+      64,
+      14
+     ]
+    },
+    {
+     "name": "Padded paddle cover",
+     "desc": "Protects the face in a bag",
+     "cost": 3,
+     "tags": "NNN",
+     "pct": [
+      39,
+      38,
+      35
+     ]
+    },
+    {
+     "name": "Starter bundle (2 paddles + balls)",
+     "desc": "Everything needed to play today",
+     "cost": 10,
+     "tags": "MXN",
+     "pct": [
+      76,
+      23,
+      44
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     4,
+     5,
+     6
+    ],
+    "price": 130,
+    "cost": 48,
+    "profit": 192618,
+    "buyers": 2349
+   },
+   "lineup": 397724
+  },
+  {
+   "id": "northbound",
+   "name": "Northbound Packs",
+   "product": "backpacks",
+   "unit": "per bag",
+   "blurb": "Northbound Packs designs backpacks out of an Evanston studio. Their one bag sells fine, but customers keep asking for 'the same bag, but...' and every request is different.",
+   "base": 11,
+   "prices": [
+    30,
+    45,
+    65,
+    90,
+    120,
+    160
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 15000,
+     "key": "Hallway Haulers",
+     "bullets": [
+      "High school students, ages 14 to 18",
+      "Carries a laptop, books, and gym clothes every day",
+      "Parents usually pay and expect it to last"
+     ],
+     "quote": "My bag has to survive four years and a locker.",
+     "wtp": [
+      80,
+      63,
+      32,
+      7,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       7
+      ],
+      "cost": 24,
+      "price": 45,
+      "pi": 1,
+      "pct": 63,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 9450,
+      "profit": 198450
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 60,
+      "price": 90,
+      "pi": 3,
+      "pct": 7,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 1155,
+      "profit": 34650
+     },
+     "bare": {
+      "feats": [],
+      "cost": 11,
+      "price": 45,
+      "pi": 1,
+      "pct": 63,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 1181,
+      "profit": 40154
+     }
+    },
+    {
+     "letter": "B",
+     "size": 6000,
+     "key": "Carry-On Crew",
+     "bullets": [
+      "College students and young adults who travel",
+      "Flies 3 or more times a year, always carry-on only",
+      "Packs for a week out of one bag"
+     ],
+     "quote": "I refuse to pay a checked bag fee.",
+     "wtp": [
+      89,
+      86,
+      80,
+      65,
+      39,
+      12
+     ],
+     "best": {
+      "feats": [
+       0,
+       2,
+       3,
+       4,
+       7
+      ],
+      "cost": 30,
+      "price": 90,
+      "pi": 3,
+      "pct": 65,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 4095,
+      "profit": 245700
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 60,
+      "price": 120,
+      "pi": 4,
+      "pct": 39,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 2457,
+      "profit": 147420
+     },
+     "bare": {
+      "feats": [],
+      "cost": 11,
+      "price": 90,
+      "pi": 3,
+      "pct": 65,
+      "fit": 0.06,
+      "missing": 4,
+      "nice": 0,
+      "buyers": 244,
+      "profit": 19276
+     }
+    },
+    {
+     "letter": "C",
+     "size": 5000,
+     "key": "Metra Professionals",
+     "bullets": [
+      "Ages 25 to 45, commutes downtown by train",
+      "Carries a work laptop every day",
+      "Wants a bag that looks right in a meeting"
+     ],
+     "quote": "It needs to look good in a meeting and survive the train.",
+     "wtp": [
+      90,
+      88,
+      85,
+      77,
+      61,
+      31
+     ],
+     "best": {
+      "feats": [
+       0,
+       3,
+       4,
+       5
+      ],
+      "cost": 38,
+      "price": 120,
+      "pi": 4,
+      "pct": 61,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 3202,
+      "profit": 262564
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 60,
+      "price": 120,
+      "pi": 4,
+      "pct": 61,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 3507,
+      "profit": 210420
+     },
+     "bare": {
+      "feats": [],
+      "cost": 11,
+      "price": 120,
+      "pi": 4,
+      "pct": 61,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 381,
+      "profit": 41529
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Padded laptop sleeve",
+     "desc": "Fits up to a 16-inch laptop",
+     "cost": 4,
+     "tags": "MMM",
+     "pct": [
+      66,
+      83,
+      81
+     ]
+    },
+    {
+     "name": "Lifetime warranty",
+     "desc": "Free repair or replacement, forever",
+     "cost": 8,
+     "tags": "MXN",
+     "pct": [
+      73,
+      11,
+      50
+     ]
+    },
+    {
+     "name": "Suitcase-style clamshell opening",
+     "desc": "Unzips flat like a suitcase",
+     "cost": 6,
+     "tags": "XMX",
+     "pct": [
+      11,
+      74,
+      15
+     ]
+    },
+    {
+     "name": "Water-resistant fabric",
+     "desc": "Keeps the laptop dry in a downpour",
+     "cost": 5,
+     "tags": "NMM",
+     "pct": [
+      52,
+      75,
+      80
+     ]
+    },
+    {
+     "name": "Hidden anti-theft pocket",
+     "desc": "Back-panel pocket for passport and wallet",
+     "cost": 3,
+     "tags": "XMN",
+     "pct": [
+      24,
+      63,
+      56
+     ]
+    },
+    {
+     "name": "Premium leather trim",
+     "desc": "Minimal, professional look",
+     "cost": 15,
+     "tags": "XXM",
+     "pct": [
+      22,
+      23,
+      81
+     ]
+    },
+    {
+     "name": "Built-in USB charging port",
+     "desc": "Charge your phone from a battery inside",
+     "cost": 7,
+     "tags": "NXN",
+     "pct": [
+      56,
+      22,
+      38
+     ]
+    },
+    {
+     "name": "Side water bottle pockets",
+     "desc": "Holds a 32 oz bottle",
+     "cost": 1,
+     "tags": "MNX",
+     "pct": [
+      85,
+      45,
+      20
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     2,
+     3,
+     4,
+     5,
+     7
+    ],
+    "price": 120,
+    "cost": 45,
+    "profit": 430350,
+    "buyers": 5738
+   },
+   "lineup": 706714
+  },
+  {
+   "id": "frame",
+   "name": "Frame Fitness",
+   "product": "workout app memberships",
+   "unit": "per member per month",
+   "blurb": "Frame Fitness is a workout app built by two former college athletes. They want to replace their single $9.99 plan with three plans aimed at very different people.",
+   "base": 1,
+   "prices": [
+    3,
+    6,
+    10,
+    15,
+    20,
+    30
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 20000,
+     "key": "Fresh Starters",
+     "bullets": [
+      "Ages 25 to 50, has not worked out regularly in years",
+      "Has 20 to 30 minutes on a weeknight",
+      "Does not own any gym equipment"
+     ],
+     "quote": "Tell me exactly what to do for 20 minutes.",
+     "wtp": [
+      80,
+      60,
+      24,
+      4,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0
+      ],
+      "cost": 2.0,
+      "price": 6,
+      "pi": 1,
+      "pct": 60,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 12000,
+      "profit": 48000.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 17.5,
+      "price": 20,
+      "pi": 4,
+      "pct": 1,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 220,
+      "profit": 550.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 1,
+      "price": 6,
+      "pi": 1,
+      "pct": 60,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 6000,
+      "profit": 30000
+     }
+    },
+    {
+     "letter": "B",
+     "size": 6000,
+     "key": "Sport Trainers",
+     "bullets": [
+      "High school and college athletes",
+      "Training for a specific sport in the off-season",
+      "Already wears a smartwatch to track runs"
+     ],
+     "quote": "I want numbers. Am I getting faster or not?",
+     "wtp": [
+      89,
+      85,
+      75,
+      52,
+      25,
+      3
+     ],
+     "best": {
+      "feats": [
+       2,
+       3,
+       4
+      ],
+      "cost": 5.0,
+      "price": 15,
+      "pi": 3,
+      "pct": 52,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3120,
+      "profit": 31200.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 17.5,
+      "price": 20,
+      "pi": 4,
+      "pct": 25,
+      "fit": 1.2,
+      "missing": 0,
+      "nice": 4,
+      "buyers": 1800,
+      "profit": 4500.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 1,
+      "price": 15,
+      "pi": 3,
+      "pct": 52,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 390,
+      "profit": 5460
+     }
+    },
+    {
+     "letter": "C",
+     "size": 5000,
+     "key": "Home Gym Crowd",
+     "bullets": [
+      "Ages 30 to 55, owns a bike, rower, or weights at home",
+      "Misses the energy of group classes",
+      "Spent $1,000 or more on equipment"
+     ],
+     "quote": "I bought the rowing machine. Now give me a reason to use it.",
+     "wtp": [
+      90,
+      88,
+      85,
+      77,
+      64,
+      28
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       4,
+       5,
+       6
+      ],
+      "cost": 8.0,
+      "price": 20,
+      "pi": 4,
+      "pct": 64,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 3520,
+      "profit": 42240.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 17.5,
+      "price": 30,
+      "pi": 5,
+      "pct": 28,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 1610,
+      "profit": 20125.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 1,
+      "price": 20,
+      "pi": 4,
+      "pct": 64,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 400,
+      "profit": 7600
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Guided video workouts",
+     "desc": "Follow-along workouts from 10 to 45 minutes",
+     "cost": 1.0,
+     "tags": "MNM",
+     "pct": [
+      84,
+      47,
+      85
+     ]
+    },
+    {
+     "name": "Live instructor classes",
+     "desc": "Real-time classes with a leaderboard",
+     "cost": 4.0,
+     "tags": "XXM",
+     "pct": [
+      12,
+      8,
+      81
+     ]
+    },
+    {
+     "name": "Performance stats and tracking",
+     "desc": "Charts of speed, strength, and progress",
+     "cost": 1.5,
+     "tags": "XMN",
+     "pct": [
+      9,
+      82,
+      45
+     ]
+    },
+    {
+     "name": "Sport-specific training plans",
+     "desc": "Plans for 12 sports, built by coaches",
+     "cost": 2.0,
+     "tags": "XMX",
+     "pct": [
+      20,
+      72,
+      9
+     ]
+    },
+    {
+     "name": "Smartwatch sync",
+     "desc": "Pulls in heart rate and runs automatically",
+     "cost": 0.5,
+     "tags": "NMN",
+     "pct": [
+      48,
+      64,
+      37
+     ]
+    },
+    {
+     "name": "Equipment workout library",
+     "desc": "Workouts for bikes, rowers, and weights",
+     "cost": 1.0,
+     "tags": "XNM",
+     "pct": [
+      13,
+      51,
+      88
+     ]
+    },
+    {
+     "name": "Community challenges",
+     "desc": "Monthly team challenges and badges",
+     "cost": 0.5,
+     "tags": "NNN",
+     "pct": [
+      33,
+      34,
+      40
+     ]
+    },
+    {
+     "name": "1-on-1 coach messaging",
+     "desc": "Text a real coach any time",
+     "cost": 6.0,
+     "tags": "XNX",
+     "pct": [
+      9,
+      55,
+      10
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     4,
+     5
+    ],
+    "price": 10,
+    "cost": 3.5,
+    "profit": 55308.5,
+    "buyers": 8509
+   },
+   "lineup": 121440.0
+  },
+  {
+   "id": "polarpop",
+   "name": "Polar Pop Cameras",
+   "product": "instant cameras",
+   "unit": "per camera",
+   "blurb": "Polar Pop makes instant cameras that print a photo seconds after you take it. Sales are growing, and Polar Pop thinks one camera can't fit all the different people buying it.",
+   "base": 22,
+   "prices": [
+    45,
+    60,
+    80,
+    110,
+    150,
+    200
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 12000,
+     "key": "Party Snappers",
+     "bullets": [
+      "Ages 13 to 24, uses it at birthdays, dances, and trips",
+      "Covers dorm and bedroom walls with prints",
+      "Often asks for it as a gift"
+     ],
+     "quote": "Phone pics disappear. These go on my wall.",
+     "wtp": [
+      79,
+      63,
+      34,
+      7,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0,
+       1
+      ],
+      "cost": 26,
+      "price": 60,
+      "pi": 1,
+      "pct": 63,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 7560,
+      "profit": 257040
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 82,
+      "price": 110,
+      "pi": 3,
+      "pct": 7,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 966,
+      "profit": 27048
+     },
+     "bare": {
+      "feats": [],
+      "cost": 22,
+      "price": 60,
+      "pi": 1,
+      "pct": 63,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 1890,
+      "profit": 71820
+     }
+    },
+    {
+     "letter": "B",
+     "size": 2500,
+     "key": "Event Pros",
+     "bullets": [
+      "Wedding and party planners, photo booth companies",
+      "Hands the camera to hundreds of guests",
+      "Needs it to work all night without a dead battery"
+     ],
+     "quote": "It has to survive 200 wedding guests.",
+     "wtp": [
+      90,
+      89,
+      86,
+      77,
+      54,
+      19
+     ],
+     "best": {
+      "feats": [
+       3,
+       4,
+       6
+      ],
+      "cost": 46,
+      "price": 150,
+      "pi": 4,
+      "pct": 54,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1350,
+      "profit": 140400
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 82,
+      "price": 150,
+      "pi": 4,
+      "pct": 54,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 1418,
+      "profit": 96424
+     },
+     "bare": {
+      "feats": [],
+      "cost": 22,
+      "price": 150,
+      "pi": 4,
+      "pct": 54,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 169,
+      "profit": 21632
+     }
+    },
+    {
+     "letter": "C",
+     "size": 4000,
+     "key": "Creative Hobbyists",
+     "bullets": [
+      "Ages 18 to 40, already owns a 'real' camera",
+      "Shares film photos in online photography groups",
+      "Wants control over every shot"
+     ],
+     "quote": "Auto mode is for amateurs.",
+     "wtp": [
+      87,
+      84,
+      78,
+      62,
+      33,
+      9
+     ],
+     "best": {
+      "feats": [
+       2,
+       5,
+       7
+      ],
+      "cost": 54,
+      "price": 110,
+      "pi": 3,
+      "pct": 62,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 2480,
+      "profit": 138880
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 82,
+      "price": 150,
+      "pi": 4,
+      "pct": 33,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 1518,
+      "profit": 103224
+     },
+     "bare": {
+      "feats": [],
+      "cost": 22,
+      "price": 110,
+      "pi": 3,
+      "pct": 62,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 310,
+      "profit": 27280
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Fun color shells",
+     "desc": "Pastel and neon body colors",
+     "cost": 3,
+     "tags": "MXN",
+     "pct": [
+      62,
+      12,
+      56
+     ]
+    },
+    {
+     "name": "Selfie mirror",
+     "desc": "Small mirror on the front for selfies",
+     "cost": 1,
+     "tags": "MXX",
+     "pct": [
+      86,
+      13,
+      18
+     ]
+    },
+    {
+     "name": "Manual exposure controls",
+     "desc": "Adjust brightness and shutter speed",
+     "cost": 12,
+     "tags": "XXM",
+     "pct": [
+      16,
+      6,
+      84
+     ]
+    },
+    {
+     "name": "Print-from-phone app",
+     "desc": "Bluetooth printing of phone photos",
+     "cost": 10,
+     "tags": "NMN",
+     "pct": [
+      37,
+      87,
+      33
+     ]
+    },
+    {
+     "name": "Rechargeable battery",
+     "desc": "USB charging instead of AA batteries",
+     "cost": 6,
+     "tags": "NMN",
+     "pct": [
+      38,
+      65,
+      37
+     ]
+    },
+    {
+     "name": "Creative modes",
+     "desc": "Double exposure and long exposure",
+     "cost": 5,
+     "tags": "NXM",
+     "pct": [
+      36,
+      8,
+      82
+     ]
+    },
+    {
+     "name": "Rugged drop-proof body",
+     "desc": "Survives a 6-foot drop",
+     "cost": 8,
+     "tags": "XMX",
+     "pct": [
+      16,
+      73,
+      7
+     ]
+    },
+    {
+     "name": "Glass lens upgrade",
+     "desc": "Sharper, clearer prints",
+     "cost": 15,
+     "tags": "XNM",
+     "pct": [
+      12,
+      51,
+      70
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1
+    ],
+    "price": 60,
+    "cost": 26,
+    "profit": 281486,
+    "buyers": 8279
+   },
+   "lineup": 536320
+  },
+  {
+   "id": "grip",
+   "name": "Grip Gaming",
+   "product": "game controllers",
+   "unit": "per controller",
+   "blurb": "Grip Gaming builds controllers that work on consoles and PCs. Gamers are not all the same, and Grip wants a lineup instead of one controller that tries to please everyone.",
+   "base": 15,
+   "prices": [
+    30,
+    45,
+    65,
+    90,
+    130,
+    180
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 16000,
+     "key": "Couch Co-op Crowd",
+     "bullets": [
+      "Ages 12 to 30, plays a few hours a week with friends",
+      "Needs a second or third controller for guests",
+      "Plays mostly sports and party games"
+     ],
+     "quote": "I just need a backup controller for when friends come over.",
+     "wtp": [
+      75,
+      52,
+      18,
+      3,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       3
+      ],
+      "cost": 21,
+      "price": 45,
+      "pi": 1,
+      "pct": 52,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 8320,
+      "profit": 199680
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 62,
+      "price": 90,
+      "pi": 3,
+      "pct": 3,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 552,
+      "profit": 15456
+     },
+     "bare": {
+      "feats": [],
+      "cost": 15,
+      "price": 45,
+      "pi": 1,
+      "pct": 52,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 4160,
+      "profit": 124800
+     }
+    },
+    {
+     "letter": "B",
+     "size": 5000,
+     "key": "Ranked Grinders",
+     "bullets": [
+      "Ages 15 to 28, plays ranked matches daily",
+      "Watches pro esports and copies their setups",
+      "Has upgraded controllers 3 or more times"
+     ],
+     "quote": "Back paddles are not optional.",
+     "wtp": [
+      90,
+      88,
+      85,
+      77,
+      54,
+      19
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       2,
+       6
+      ],
+      "cost": 41,
+      "price": 130,
+      "pi": 4,
+      "pct": 54,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 2835,
+      "profit": 252315
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 62,
+      "price": 130,
+      "pi": 4,
+      "pct": 54,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 3105,
+      "profit": 211140
+     },
+     "bare": {
+      "feats": [],
+      "cost": 15,
+      "price": 130,
+      "pi": 4,
+      "pct": 54,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 338,
+      "profit": 38870
+     }
+    },
+    {
+     "letter": "C",
+     "size": 8000,
+     "key": "Parent Buyers",
+     "bullets": [
+      "Parents of gamers ages 6 to 13",
+      "Buying as a gift or a replacement",
+      "Has replaced at least one broken controller this year"
+     ],
+     "quote": "My son has broken three controllers. Three.",
+     "wtp": [
+      79,
+      59,
+      23,
+      4,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       1,
+       5,
+       7
+      ],
+      "cost": 37,
+      "price": 65,
+      "pi": 2,
+      "pct": 23,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1840,
+      "profit": 51520
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 62,
+      "price": 90,
+      "pi": 3,
+      "pct": 4,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 336,
+      "profit": 9408
+     },
+     "bare": {
+      "feats": [],
+      "cost": 15,
+      "price": 45,
+      "pi": 1,
+      "pct": 59,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 590,
+      "profit": 17700
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Back paddles",
+     "desc": "Extra buttons on the back for faster inputs",
+     "cost": 8,
+     "tags": "XMX",
+     "pct": [
+      24,
+      73,
+      24
+     ]
+    },
+    {
+     "name": "Drift-proof magnetic sticks",
+     "desc": "Joysticks that never drift or wear out",
+     "cost": 10,
+     "tags": "NMM",
+     "pct": [
+      36,
+      62,
+      71
+     ]
+    },
+    {
+     "name": "Trigger stops",
+     "desc": "Shorter trigger pull for faster shots",
+     "cost": 4,
+     "tags": "XMX",
+     "pct": [
+      22,
+      86,
+      24
+     ]
+    },
+    {
+     "name": "40-hour rechargeable battery",
+     "desc": "No more AA batteries",
+     "cost": 6,
+     "tags": "MNN",
+     "pct": [
+      72,
+      42,
+      38
+     ]
+    },
+    {
+     "name": "RGB lighting",
+     "desc": "Color-changing lights",
+     "cost": 3,
+     "tags": "NXX",
+     "pct": [
+      44,
+      11,
+      10
+     ]
+    },
+    {
+     "name": "Reinforced drop-proof shell",
+     "desc": "Survives drops and throws",
+     "cost": 5,
+     "tags": "XXM",
+     "pct": [
+      9,
+      18,
+      73
+     ]
+    },
+    {
+     "name": "Swappable faceplates",
+     "desc": "Change the look in seconds",
+     "cost": 4,
+     "tags": "NNX",
+     "pct": [
+      38,
+      46,
+      18
+     ]
+    },
+    {
+     "name": "2-year replacement warranty",
+     "desc": "Broken? We send a new one",
+     "cost": 7,
+     "tags": "XNM",
+     "pct": [
+      20,
+      48,
+      83
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     2,
+     6
+    ],
+    "price": 130,
+    "cost": 41,
+    "profit": 252315,
+    "buyers": 2835
+   },
+   "lineup": 503515
+  },
+  {
+   "id": "shellshock",
+   "name": "Shellshock Cases",
+   "product": "phone cases",
+   "unit": "per case",
+   "blurb": "Shellshock sells phone cases online and at mall kiosks. They have 40 designs but no plan, and the owners want to rebuild the lineup around who actually buys cases.",
+   "base": 3,
+   "prices": [
+    12,
+    20,
+    30,
+    45,
+    60,
+    80
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 18000,
+     "key": "Style Swappers",
+     "bullets": [
+      "Ages 13 to 25, buys 3 or more cases a year",
+      "Matches the case to outfits or seasons",
+      "Finds new cases on social media"
+     ],
+     "quote": "My case is an accessory, not armor.",
+     "wtp": [
+      80,
+      62,
+      30,
+      5,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0
+      ],
+      "cost": 4,
+      "price": 20,
+      "pi": 1,
+      "pct": 62,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 11160,
+      "profit": 178560
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 26.5,
+      "price": 30,
+      "pi": 2,
+      "pct": 30,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 6210,
+      "profit": 21735.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 3,
+      "price": 20,
+      "pi": 1,
+      "pct": 62,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 5580,
+      "profit": 94860
+     }
+    },
+    {
+     "letter": "B",
+     "size": 12000,
+     "key": "Butterfingers",
+     "bullets": [
+      "All ages, has cracked a screen in the last 2 years",
+      "Paid $150 or more for a screen repair",
+      "Buys one case and keeps it until it falls apart"
+     ],
+     "quote": "I have dropped my phone in a lake. Twice.",
+     "wtp": [
+      87,
+      81,
+      65,
+      29,
+      7,
+      1
+     ],
+     "best": {
+      "feats": [
+       1,
+       2
+      ],
+      "cost": 9,
+      "price": 30,
+      "pi": 2,
+      "pct": 65,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 7800,
+      "profit": 163800
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 26.5,
+      "price": 45,
+      "pi": 3,
+      "pct": 29,
+      "fit": 1.2,
+      "missing": 0,
+      "nice": 4,
+      "buyers": 4176,
+      "profit": 77256.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 3,
+      "price": 30,
+      "pi": 2,
+      "pct": 65,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 1950,
+      "profit": 52650
+     }
+    },
+    {
+     "letter": "C",
+     "size": 4000,
+     "key": "Job Site Tough",
+     "bullets": [
+      "Ages 20 to 55, works construction or outdoors",
+      "Uses the phone in rain, dust, and mud",
+      "Needs the phone on their hip, not in a pocket"
+     ],
+     "quote": "If it can't survive a job site, I don't want it.",
+     "wtp": [
+      89,
+      87,
+      82,
+      69,
+      46,
+      18
+     ],
+     "best": {
+      "feats": [
+       1,
+       2,
+       5,
+       6
+      ],
+      "cost": 20,
+      "price": 60,
+      "pi": 4,
+      "pct": 46,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1840,
+      "profit": 73600
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 26.5,
+      "price": 60,
+      "pi": 4,
+      "pct": 46,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 1932,
+      "profit": 64722.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 3,
+      "price": 45,
+      "pi": 3,
+      "pct": 69,
+      "fit": 0.06,
+      "missing": 4,
+      "nice": 0,
+      "buyers": 172,
+      "profit": 7224
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Trendy prints and colors",
+     "desc": "New designs every month",
+     "cost": 1,
+     "tags": "MNX",
+     "pct": [
+      84,
+      48,
+      6
+     ]
+    },
+    {
+     "name": "10-foot drop rating",
+     "desc": "Tested to survive a 10-foot fall",
+     "cost": 4,
+     "tags": "XMM",
+     "pct": [
+      23,
+      78,
+      88
+     ]
+    },
+    {
+     "name": "Raised lip + screen protector",
+     "desc": "Screen never touches the ground",
+     "cost": 2,
+     "tags": "XMM",
+     "pct": [
+      21,
+      63,
+      87
+     ]
+    },
+    {
+     "name": "Magnetic ring",
+     "desc": "Snaps onto chargers and car mounts",
+     "cost": 3,
+     "tags": "NNN",
+     "pct": [
+      41,
+      35,
+      39
+     ]
+    },
+    {
+     "name": "Card wallet slot",
+     "desc": "Holds an ID and two cards",
+     "cost": 1.5,
+     "tags": "NNX",
+     "pct": [
+      48,
+      44,
+      19
+     ]
+    },
+    {
+     "name": "Waterproof seal",
+     "desc": "Fully sealed against water and dust",
+     "cost": 8,
+     "tags": "XNM",
+     "pct": [
+      20,
+      56,
+      82
+     ]
+    },
+    {
+     "name": "Belt clip holster",
+     "desc": "Wear the phone on your belt",
+     "cost": 3,
+     "tags": "XXM",
+     "pct": [
+      15,
+      13,
+      85
+     ]
+    },
+    {
+     "name": "Charms and glitter add-ons",
+     "desc": "Clip-on charms and sparkle finish",
+     "cost": 1,
+     "tags": "NXX",
+     "pct": [
+      47,
+      14,
+      21
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     2
+    ],
+    "price": 30,
+    "cost": 10,
+    "profit": 288200,
+    "buyers": 14410
+   },
+   "lineup": 415960
+  },
+  {
+   "id": "passlane",
+   "name": "Pass Lane Driving School",
+   "product": "driver's training packages",
+   "unit": "per student",
+   "blurb": "Pass Lane is a driving school with locations in the northwest suburbs. Right now every student buys the same package, and Pass Lane is losing customers on both ends.",
+   "base": 120,
+   "prices": [
+    225,
+    300,
+    375,
+    475,
+    600,
+    750
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 6000,
+     "key": "Permit Parents",
+     "bullets": [
+      "Parents of 15-year-olds starting the permit process",
+      "The parent pays, the teen drives",
+      "Worried about their teen driving with friends"
+     ],
+     "quote": "Just get my kid licensed without me panicking in the passenger seat.",
+     "wtp": [
+      87,
+      80,
+      63,
+      32,
+      7,
+      1
+     ],
+     "best": {
+      "feats": [
+       1,
+       4,
+       5
+      ],
+      "cost": 185,
+      "price": 375,
+      "pi": 2,
+      "pct": 63,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3780,
+      "profit": 718200
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 415,
+      "price": 475,
+      "pi": 3,
+      "pct": 32,
+      "fit": 1.25,
+      "missing": 0,
+      "nice": 5,
+      "buyers": 2400,
+      "profit": 144000
+     },
+     "bare": {
+      "feats": [],
+      "cost": 120,
+      "price": 375,
+      "pi": 2,
+      "pct": 63,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 472,
+      "profit": 120360
+     }
+    },
+    {
+     "letter": "B",
+     "size": 1500,
+     "key": "Late Starters",
+     "bullets": [
+      "Adults ages 20 to 35 who never got a license",
+      "Nervous about highways and city traffic",
+      "Works full time during the week"
+     ],
+     "quote": "I'm 26 and I've never driven on the Kennedy.",
+     "wtp": [
+      90,
+      87,
+      82,
+      66,
+      36,
+      10
+     ],
+     "best": {
+      "feats": [
+       2,
+       3,
+       7
+      ],
+      "cost": 290,
+      "price": 475,
+      "pi": 3,
+      "pct": 66,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 990,
+      "profit": 183150
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 415,
+      "price": 600,
+      "pi": 4,
+      "pct": 36,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 621,
+      "profit": 114885
+     },
+     "bare": {
+      "feats": [],
+      "cost": 120,
+      "price": 475,
+      "pi": 3,
+      "pct": 66,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 124,
+      "profit": 44020
+     }
+    },
+    {
+     "letter": "C",
+     "size": 3500,
+     "key": "Test-Day Only",
+     "bullets": [
+      "Teens who already practiced plenty with family",
+      "Just need the required minimum and a car for the test",
+      "Paying with their own money"
+     ],
+     "quote": "My dad taught me. I just need a car for the road test.",
+     "wtp": [
+      75,
+      46,
+      17,
+      3,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       0
+      ],
+      "cost": 160,
+      "price": 300,
+      "pi": 1,
+      "pct": 46,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1610,
+      "profit": 225400
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 415,
+      "price": 475,
+      "pi": 3,
+      "pct": 3,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 116,
+      "profit": 6960
+     },
+     "bare": {
+      "feats": [],
+      "cost": 120,
+      "price": 300,
+      "pi": 1,
+      "pct": 46,
+      "fit": 0.5,
+      "missing": 1,
+      "nice": 0,
+      "buyers": 805,
+      "profit": 144900
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Road test car + scheduling",
+     "desc": "We book the test and provide the car",
+     "cost": 40,
+     "tags": "NNM",
+     "pct": [
+      40,
+      52,
+      80
+     ]
+    },
+    {
+     "name": "Online classroom course",
+     "desc": "The required 30-hour course for teens",
+     "cost": 25,
+     "tags": "MXN",
+     "pct": [
+      86,
+      19,
+      48
+     ]
+    },
+    {
+     "name": "Extra 4 hours behind the wheel",
+     "desc": "More practice with an instructor",
+     "cost": 110,
+     "tags": "NMX",
+     "pct": [
+      42,
+      66,
+      19
+     ]
+    },
+    {
+     "name": "Expressway lesson",
+     "desc": "A full lesson on the expressway",
+     "cost": 45,
+     "tags": "NMX",
+     "pct": [
+      50,
+      86,
+      9
+     ]
+    },
+    {
+     "name": "Pickup at home or school",
+     "desc": "Instructor picks the student up",
+     "cost": 30,
+     "tags": "MNX",
+     "pct": [
+      70,
+      42,
+      7
+     ]
+    },
+    {
+     "name": "Parent progress app",
+     "desc": "Parents see lesson notes and scores",
+     "cost": 10,
+     "tags": "MXX",
+     "pct": [
+      84,
+      14,
+      16
+     ]
+    },
+    {
+     "name": "Parallel parking bootcamp",
+     "desc": "One hour of parking practice",
+     "cost": 20,
+     "tags": "NNN",
+     "pct": [
+      39,
+      38,
+      51
+     ]
+    },
+    {
+     "name": "Weekend scheduling",
+     "desc": "Lessons on Saturdays and Sundays",
+     "cost": 15,
+     "tags": "NMX",
+     "pct": [
+      39,
+      66,
+      23
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     1,
+     4,
+     5
+    ],
+    "price": 375,
+    "cost": 185,
+    "profit": 808070,
+    "buyers": 4253
+   },
+   "lineup": 1126750
+  },
+  {
+   "id": "marquee",
+   "name": "Marquee Cinemas",
+   "product": "monthly movie passes",
+   "unit": "per member per month",
+   "blurb": "Marquee Cinemas runs four movie theaters around Chicagoland. To compete with streaming, Marquee is launching monthly passes and wants a different pass for each kind of moviegoer.",
+   "base": 6,
+   "prices": [
+    8,
+    12,
+    16,
+    22,
+    28,
+    38
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 15000,
+     "key": "Friday Night Regulars",
+     "bullets": [
+      "Ages 13 to 22, goes with a group of friends",
+      "Sees 2 to 4 movies a month",
+      "On a tight budget, loves concessions"
+     ],
+     "quote": "Fridays are movie night. Every Friday.",
+     "wtp": [
+      74,
+      53,
+      27,
+      7,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       2,
+       4
+      ],
+      "cost": 8.5,
+      "price": 16,
+      "pi": 2,
+      "pct": 27,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 4050,
+      "profit": 30375.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 29.5,
+      "price": 38,
+      "pi": 5,
+      "pct": 0,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 0,
+      "profit": 0.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 6,
+      "price": 12,
+      "pi": 1,
+      "pct": 53,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 1988,
+      "profit": 11928
+     }
+    },
+    {
+     "letter": "B",
+     "size": 9000,
+     "key": "Family Outing",
+     "bullets": [
+      "Parents with 2 or more kids under 13",
+      "Goes about twice a month, usually weekends",
+      "Spends the most on tickets for the whole group"
+     ],
+     "quote": "Taking a family of five to the movies costs a fortune.",
+     "wtp": [
+      87,
+      81,
+      71,
+      46,
+      21,
+      4
+     ],
+     "best": {
+      "feats": [
+       0,
+       2,
+       4,
+       6
+      ],
+      "cost": 13.5,
+      "price": 22,
+      "pi": 3,
+      "pct": 46,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 4140,
+      "profit": 35190.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 29.5,
+      "price": 38,
+      "pi": 5,
+      "pct": 4,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 396,
+      "profit": 3366.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 6,
+      "price": 22,
+      "pi": 3,
+      "pct": 46,
+      "fit": 0.06,
+      "missing": 4,
+      "nice": 0,
+      "buyers": 259,
+      "profit": 4144
+     }
+    },
+    {
+     "letter": "C",
+     "size": 3000,
+     "key": "Big Screen Buffs",
+     "bullets": [
+      "Ages 20 to 45, sees every major release",
+      "Follows release dates and fan theories online",
+      "Will drive farther for the best screen"
+     ],
+     "quote": "If it's not IMAX, why did I leave the house?",
+     "wtp": [
+      90,
+      88,
+      85,
+      75,
+      57,
+      22
+     ],
+     "best": {
+      "feats": [
+       1,
+       5,
+       7
+      ],
+      "cost": 20,
+      "price": 28,
+      "pi": 4,
+      "pct": 57,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1710,
+      "profit": 13680
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 29.5,
+      "price": 38,
+      "pi": 5,
+      "pct": 22,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 726,
+      "profit": 6171.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 6,
+      "price": 28,
+      "pi": 4,
+      "pct": 57,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 214,
+      "profit": 4708
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Bring-a-guest pass",
+     "desc": "One free guest ticket each month",
+     "cost": 4,
+     "tags": "NMX",
+     "pct": [
+      37,
+      84,
+      8
+     ]
+    },
+    {
+     "name": "Premium formats",
+     "desc": "IMAX and 3D shows included",
+     "cost": 5,
+     "tags": "XNM",
+     "pct": [
+      18,
+      56,
+      70
+     ]
+    },
+    {
+     "name": "Free popcorn refills",
+     "desc": "Unlimited refills on any popcorn",
+     "cost": 1.5,
+     "tags": "MMN",
+     "pct": [
+      74,
+      68,
+      35
+     ]
+    },
+    {
+     "name": "Reserved recliner seats",
+     "desc": "Pick your seat when you buy",
+     "cost": 2,
+     "tags": "XNN",
+     "pct": [
+      15,
+      39,
+      38
+     ]
+    },
+    {
+     "name": "Snack combo discounts",
+     "desc": "20% off snack combos",
+     "cost": 1,
+     "tags": "MMX",
+     "pct": [
+      68,
+      84,
+      16
+     ]
+    },
+    {
+     "name": "Early screenings",
+     "desc": "See big movies the night before",
+     "cost": 3,
+     "tags": "XXM",
+     "pct": [
+      12,
+      9,
+      68
+     ]
+    },
+    {
+     "name": "Kids' matinee club",
+     "desc": "Saturday morning kids' movies",
+     "cost": 1,
+     "tags": "XMX",
+     "pct": [
+      8,
+      79,
+      19
+     ]
+    },
+    {
+     "name": "No monthly cap",
+     "desc": "Unlimited movies instead of 3 a month",
+     "cost": 6,
+     "tags": "NXM",
+     "pct": [
+      36,
+      23,
+      72
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     2,
+     4,
+     6
+    ],
+    "price": 16,
+    "cost": 9.5,
+    "profit": 49270.0,
+    "buyers": 7580
+   },
+   "lineup": 79245.0
+  },
+  {
+   "id": "shine",
+   "name": "Shine Club Car Wash",
+   "product": "car wash memberships",
+   "unit": "per member per month",
+   "blurb": "Shine Club is a car wash on Rand Road that wants to switch from single washes to monthly memberships. Different drivers want very different things from a car wash.",
+   "base": 5,
+   "prices": [
+    10,
+    15,
+    22,
+    30,
+    40,
+    55
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 7000,
+     "key": "First-Car Proud",
+     "bullets": [
+      "Ages 16 to 22, just got their first car",
+      "Washes it before school events and weekends",
+      "Paying with money from a part-time job"
+     ],
+     "quote": "My car is basically my personality.",
+     "wtp": [
+      78,
+      57,
+      20,
+      3,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       1,
+       4,
+       7
+      ],
+      "cost": 9.5,
+      "price": 15,
+      "pi": 1,
+      "pct": 57,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3990,
+      "profit": 21945.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 32.5,
+      "price": 40,
+      "pi": 4,
+      "pct": 0,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 0,
+      "profit": 0.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 5,
+      "price": 15,
+      "pi": 1,
+      "pct": 57,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 499,
+      "profit": 4990
+     }
+    },
+    {
+     "letter": "B",
+     "size": 3000,
+     "key": "Gig Drivers",
+     "bullets": [
+      "Rideshare and delivery drivers",
+      "Drives 40 or more hours a week",
+      "Customer ratings depend on a clean car"
+     ],
+     "quote": "A dirty car costs me stars.",
+     "wtp": [
+      89,
+      87,
+      81,
+      67,
+      40,
+      10
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       3,
+       6,
+       7
+      ],
+      "cost": 22.5,
+      "price": 40,
+      "pi": 4,
+      "pct": 40,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 1260,
+      "profit": 22050.0
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 32.5,
+      "price": 40,
+      "pi": 4,
+      "pct": 40,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 1380,
+      "profit": 10350.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 5,
+      "price": 30,
+      "pi": 3,
+      "pct": 67,
+      "fit": 0.06,
+      "missing": 4,
+      "nice": 0,
+      "buyers": 126,
+      "profit": 3150
+     }
+    },
+    {
+     "letter": "C",
+     "size": 9000,
+     "key": "Minivan Families",
+     "bullets": [
+      "Parents with 2 or more cars in the household",
+      "Fights road salt every winter",
+      "Car is full of sports gear and snack crumbs"
+     ],
+     "quote": "Between soccer cleats and road salt, the van is a disaster.",
+     "wtp": [
+      86,
+      79,
+      61,
+      31,
+      8,
+      1
+     ],
+     "best": {
+      "feats": [
+       1,
+       2,
+       5
+      ],
+      "cost": 13,
+      "price": 22,
+      "pi": 2,
+      "pct": 61,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 5490,
+      "profit": 49410
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 32.5,
+      "price": 40,
+      "pi": 4,
+      "pct": 8,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 792,
+      "profit": 5940.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 5,
+      "price": 22,
+      "pi": 2,
+      "pct": 61,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 686,
+      "profit": 11662
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Unlimited washes",
+     "desc": "Wash as often as you want",
+     "cost": 6,
+     "tags": "NMN",
+     "pct": [
+      41,
+      69,
+      47
+     ]
+    },
+    {
+     "name": "Free vacuums",
+     "desc": "Self-serve vacuum stations",
+     "cost": 1,
+     "tags": "MMM",
+     "pct": [
+      76,
+      79,
+      63
+     ]
+    },
+    {
+     "name": "Underbody salt rinse",
+     "desc": "Blasts winter salt off the frame",
+     "cost": 2,
+     "tags": "XNM",
+     "pct": [
+      9,
+      40,
+      78
+     ]
+    },
+    {
+     "name": "Interior wipe-down by staff",
+     "desc": "Dash, cupholders, and windows cleaned",
+     "cost": 8,
+     "tags": "XMN",
+     "pct": [
+      21,
+      71,
+      51
+     ]
+    },
+    {
+     "name": "Tire shine and wax",
+     "desc": "Glossy finish on every wash",
+     "cost": 3,
+     "tags": "MNX",
+     "pct": [
+      78,
+      35,
+      13
+     ]
+    },
+    {
+     "name": "Family multi-car plan",
+     "desc": "Add a second car at a discount",
+     "cost": 5,
+     "tags": "XXM",
+     "pct": [
+      20,
+      22,
+      70
+     ]
+    },
+    {
+     "name": "24-hour access",
+     "desc": "Wash any time, day or night",
+     "cost": 2,
+     "tags": "NMX",
+     "pct": [
+      46,
+      88,
+      11
+     ]
+    },
+    {
+     "name": "Free air freshener",
+     "desc": "Pick a scent each visit",
+     "cost": 0.5,
+     "tags": "MNX",
+     "pct": [
+      71,
+      56,
+      23
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     1,
+     2,
+     5,
+     7
+    ],
+    "price": 22,
+    "cost": 13.5,
+    "profit": 55454.0,
+    "buyers": 6524
+   },
+   "lineup": 93405.0
+  },
+  {
+   "id": "stride",
+   "name": "Stride Watch",
+   "product": "smartwatches",
+   "unit": "per watch",
+   "blurb": "Stride Watch is a wearable-tech startup out of a Chicago incubator. Its first watch tried to do everything, and the reviews said it did nothing especially well.",
+   "base": 30,
+   "prices": [
+    60,
+    90,
+    130,
+    180,
+    250,
+    330
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 6000,
+     "key": "Mile Chasers",
+     "bullets": [
+      "Runners and cyclists ages 16 to 45",
+      "Trains for races and tracks every workout",
+      "Hates charging a watch every night"
+     ],
+     "quote": "GPS or it didn't happen.",
+     "wtp": [
+      89,
+      85,
+      75,
+      52,
+      17,
+      3
+     ],
+     "best": {
+      "feats": [
+       0,
+       1,
+       3,
+       5
+      ],
+      "cost": 64,
+      "price": 180,
+      "pi": 3,
+      "pct": 52,
+      "fit": 1.05,
+      "missing": 0,
+      "nice": 1,
+      "buyers": 3276,
+      "profit": 380016
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 107,
+      "price": 180,
+      "pi": 3,
+      "pct": 52,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 3432,
+      "profit": 250536
+     },
+     "bare": {
+      "feats": [],
+      "cost": 30,
+      "price": 180,
+      "pi": 3,
+      "pct": 52,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 390,
+      "profit": 58500
+     }
+    },
+    {
+     "letter": "B",
+     "size": 12000,
+     "key": "First-Watch Teens",
+     "bullets": [
+      "Ages 13 to 19, wants a first smartwatch",
+      "Mostly cares about texts and notifications",
+      "Changes bands to match outfits"
+     ],
+     "quote": "I want my texts without digging my phone out.",
+     "wtp": [
+      72,
+      41,
+      9,
+      1,
+      0,
+      0
+     ],
+     "best": {
+      "feats": [
+       1,
+       4
+      ],
+      "cost": 37,
+      "price": 90,
+      "pi": 1,
+      "pct": 41,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 4920,
+      "profit": 260760
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 107,
+      "price": 130,
+      "pi": 2,
+      "pct": 9,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 1188,
+      "profit": 27324
+     },
+     "bare": {
+      "feats": [],
+      "cost": 30,
+      "price": 90,
+      "pi": 1,
+      "pct": 41,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 1230,
+      "profit": 73800
+     }
+    },
+    {
+     "letter": "C",
+     "size": 5000,
+     "key": "Safety-First Seniors",
+     "bullets": [
+      "Ages 65 and up, often bought by an adult child",
+      "Lives alone or walks alone daily",
+      "Family wants to know they are safe"
+     ],
+     "quote": "My daughter wants to know I'm OK when I walk the dog.",
+     "wtp": [
+      88,
+      81,
+      61,
+      25,
+      3,
+      0
+     ],
+     "best": {
+      "feats": [
+       1,
+       2,
+       3
+      ],
+      "cost": 53,
+      "price": 130,
+      "pi": 2,
+      "pct": 61,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3050,
+      "profit": 234850
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 107,
+      "price": 180,
+      "pi": 3,
+      "pct": 25,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 1438,
+      "profit": 104974
+     },
+     "bare": {
+      "feats": [],
+      "cost": 30,
+      "price": 130,
+      "pi": 2,
+      "pct": 61,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 381,
+      "profit": 38100
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "Built-in GPS",
+     "desc": "Tracks routes and distance without a phone",
+     "cost": 12,
+     "tags": "MXN",
+     "pct": [
+      74,
+      13,
+      46
+     ]
+    },
+    {
+     "name": "Text and call alerts",
+     "desc": "See messages and calls on your wrist",
+     "cost": 4,
+     "tags": "NMM",
+     "pct": [
+      48,
+      84,
+      70
+     ]
+    },
+    {
+     "name": "Fall detection + emergency SOS",
+     "desc": "Calls for help after a hard fall",
+     "cost": 9,
+     "tags": "XXM",
+     "pct": [
+      23,
+      8,
+      79
+     ]
+    },
+    {
+     "name": "Heart-rate sensors",
+     "desc": "Heart rate and blood oxygen tracking",
+     "cost": 10,
+     "tags": "MNM",
+     "pct": [
+      75,
+      49,
+      72
+     ]
+    },
+    {
+     "name": "Swappable bands and faces",
+     "desc": "Dozens of bands and watch faces",
+     "cost": 3,
+     "tags": "XMX",
+     "pct": [
+      7,
+      65,
+      22
+     ]
+    },
+    {
+     "name": "2-week battery",
+     "desc": "Charge twice a month",
+     "cost": 8,
+     "tags": "MXN",
+     "pct": [
+      64,
+      10,
+      47
+     ]
+    },
+    {
+     "name": "Cellular connection",
+     "desc": "Works without a phone nearby",
+     "cost": 25,
+     "tags": "XXN",
+     "pct": [
+      6,
+      22,
+      46
+     ]
+    },
+    {
+     "name": "Music storage",
+     "desc": "Store playlists on the watch",
+     "cost": 6,
+     "tags": "NNX",
+     "pct": [
+      51,
+      54,
+      13
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     2,
+     3,
+     5
+    ],
+    "price": 180,
+    "cost": 73,
+    "profit": 504398,
+    "buyers": 4714
+   },
+   "lineup": 875626
+  },
+  {
+   "id": "bounce",
+   "name": "Bounce Zone Trampoline Park",
+   "product": "visit passes",
+   "unit": "per visit",
+   "blurb": "Bounce Zone is a trampoline park in an old warehouse in Wheeling. The same $20 pass is sold to toddlers, teenagers, and adult athletes, and nobody is completely happy.",
+   "base": 4,
+   "prices": [
+    10,
+    15,
+    20,
+    28,
+    38,
+    50
+   ],
+   "segs": [
+    {
+     "letter": "A",
+     "size": 14000,
+     "key": "Friday Night Crew",
+     "bullets": [
+      "Ages 13 to 18, comes with a group of friends",
+      "Visits on Friday and Saturday nights",
+      "Wants music, lights, and a place to hang out"
+     ],
+     "quote": "We need somewhere to go that isn't the mall.",
+     "wtp": [
+      83,
+      67,
+      40,
+      9,
+      1,
+      0
+     ],
+     "best": {
+      "feats": [
+       0,
+       1
+      ],
+      "cost": 9,
+      "price": 20,
+      "pi": 2,
+      "pct": 40,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 5600,
+      "profit": 61600
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 27.5,
+      "price": 38,
+      "pi": 4,
+      "pct": 1,
+      "fit": 1.15,
+      "missing": 0,
+      "nice": 3,
+      "buyers": 161,
+      "profit": 1690.5
+     },
+     "bare": {
+      "feats": [],
+      "cost": 4,
+      "price": 15,
+      "pi": 1,
+      "pct": 67,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 2345,
+      "profit": 25795
+     }
+    },
+    {
+     "letter": "B",
+     "size": 6000,
+     "key": "Toddler Time Parents",
+     "bullets": [
+      "Parents of kids ages 2 to 5",
+      "Visits weekday mornings",
+      "Worried about big kids landing on little ones"
+     ],
+     "quote": "If it's clean and the big kids aren't there, I'm in.",
+     "wtp": [
+      84,
+      74,
+      55,
+      21,
+      4,
+      0
+     ],
+     "best": {
+      "feats": [
+       2,
+       4,
+       6
+      ],
+      "cost": 10,
+      "price": 20,
+      "pi": 2,
+      "pct": 55,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 3300,
+      "profit": 33000
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 27.5,
+      "price": 38,
+      "pi": 4,
+      "pct": 4,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 240,
+      "profit": 2520.0
+     },
+     "bare": {
+      "feats": [],
+      "cost": 4,
+      "price": 20,
+      "pi": 2,
+      "pct": 55,
+      "fit": 0.12,
+      "missing": 3,
+      "nice": 0,
+      "buyers": 412,
+      "profit": 6592
+     }
+    },
+    {
+     "letter": "C",
+     "size": 3000,
+     "key": "Ninja Course Athletes",
+     "bullets": [
+      "Ages 16 to 35, trains for obstacle races",
+      "Wants a workout, not a party",
+      "Would come 2 or 3 times a week"
+     ],
+     "quote": "I want the obstacle course, not the foam pit.",
+     "wtp": [
+      88,
+      85,
+      78,
+      59,
+      27,
+      7
+     ],
+     "best": {
+      "feats": [
+       3,
+       7
+      ],
+      "cost": 14,
+      "price": 28,
+      "pi": 3,
+      "pct": 59,
+      "fit": 1.0,
+      "missing": 0,
+      "nice": 0,
+      "buyers": 1770,
+      "profit": 24780
+     },
+     "loaded": {
+      "feats": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5,
+       6,
+       7
+      ],
+      "cost": 27.5,
+      "price": 38,
+      "pi": 4,
+      "pct": 27,
+      "fit": 1.1,
+      "missing": 0,
+      "nice": 2,
+      "buyers": 891,
+      "profit": 9355.5
+     },
+     "bare": {
+      "feats": [],
+      "cost": 4,
+      "price": 28,
+      "pi": 3,
+      "pct": 59,
+      "fit": 0.25,
+      "missing": 2,
+      "nice": 0,
+      "buyers": 442,
+      "profit": 10608
+     }
+    }
+   ],
+   "feats": [
+    {
+     "name": "2-hour jump time",
+     "desc": "Two hours instead of one",
+     "cost": 3,
+     "tags": "MXN",
+     "pct": [
+      88,
+      12,
+      43
+     ]
+    },
+    {
+     "name": "Glow night DJ and lights",
+     "desc": "Music and blacklights on weekend nights",
+     "cost": 2,
+     "tags": "MXX",
+     "pct": [
+      77,
+      12,
+      18
+     ]
+    },
+    {
+     "name": "Toddler-only hours",
+     "desc": "Weekday mornings for ages 5 and under",
+     "cost": 3,
+     "tags": "XMX",
+     "pct": [
+      19,
+      81,
+      11
+     ]
+    },
+    {
+     "name": "Ninja obstacle course",
+     "desc": "Warped wall and ninja course access",
+     "cost": 4,
+     "tags": "NXM",
+     "pct": [
+      53,
+      12,
+      84
+     ]
+    },
+    {
+     "name": "Grip socks included",
+     "desc": "Required socks at no extra charge",
+     "cost": 1,
+     "tags": "NMN",
+     "pct": [
+      46,
+      79,
+      40
+     ]
+    },
+    {
+     "name": "Arcade credits",
+     "desc": "$5 in arcade play",
+     "cost": 2.5,
+     "tags": "NXX",
+     "pct": [
+      38,
+      20,
+      19
+     ]
+    },
+    {
+     "name": "Parent lounge",
+     "desc": "Coffee, WiFi, and seats with a view",
+     "cost": 2,
+     "tags": "XMX",
+     "pct": [
+      18,
+      84,
+      14
+     ]
+    },
+    {
+     "name": "Coach-led fitness class",
+     "desc": "45-minute class with a trainer",
+     "cost": 6,
+     "tags": "XXM",
+     "pct": [
+      18,
+      13,
+      87
+     ]
+    }
+   ],
+   "single": {
+    "feats": [
+     0,
+     1,
+     4
+    ],
+    "price": 20,
+    "cost": 10,
+    "profit": 73490,
+    "buyers": 7349
+   },
+   "lineup": 119380
+  }
+ ],
+ "maya": {
+  "id": "maya",
+  "name": "Maya's Sneaker Restoration",
+  "product": "restoration packages",
+  "unit": "per pair",
+  "blurb": "Maya restores sneakers out of her garage. She wants three service packages instead of quoting every job by hand.",
+  "base": 5,
+  "prices": [
+   20,
+   30,
+   45,
+   60,
+   80,
+   100
+  ],
+  "segs": [
+   {
+    "letter": "A",
+    "size": 600,
+    "key": "Weekend Wearers",
+    "bullets": [
+     "Students who wear the same pair every day",
+     "Wants them to look fresh again",
+     "Paying with their own money"
+    ],
+    "quote": "I just want them to look clean for homecoming.",
+    "wtp": [
+     79,
+     61,
+     25,
+     6,
+     1,
+     0
+    ],
+    "best": {
+     "feats": [
+      0,
+      1,
+      6
+     ],
+     "cost": 14,
+     "price": 30,
+     "pi": 1,
+     "pct": 61,
+     "fit": 1.0,
+     "missing": 0,
+     "nice": 0,
+     "buyers": 366,
+     "profit": 5856
+    },
+    "loaded": {
+     "feats": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "cost": 45,
+     "price": 60,
+     "pi": 3,
+     "pct": 6,
+     "fit": 1.1,
+     "missing": 0,
+     "nice": 2,
+     "buyers": 40,
+     "profit": 600
+    },
+    "bare": {
+     "feats": [],
+     "cost": 5,
+     "price": 30,
+     "pi": 1,
+     "pct": 61,
+     "fit": 0.12,
+     "missing": 3,
+     "nice": 0,
+     "buyers": 46,
+     "profit": 1150
+    }
+   },
+   {
+    "letter": "B",
+    "size": 150,
+    "key": "Collectors",
+    "bullets": [
+     "Owns 20 or more pairs",
+     "Buys rare pairs to resell or display",
+     "Condition decides resale price"
+    ],
+    "quote": "A crease costs me $50 on resale.",
+    "wtp": [
+     90,
+     88,
+     85,
+     79,
+     66,
+     46
+    ],
+    "best": {
+     "feats": [
+      0,
+      2,
+      3,
+      6
+     ],
+     "cost": 28,
+     "price": 80,
+     "pi": 4,
+     "pct": 66,
+     "fit": 1.05,
+     "missing": 0,
+     "nice": 1,
+     "buyers": 104,
+     "profit": 5408
+    },
+    "loaded": {
+     "feats": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "cost": 45,
+     "price": 100,
+     "pi": 5,
+     "pct": 46,
+     "fit": 1.2,
+     "missing": 0,
+     "nice": 4,
+     "buyers": 83,
+     "profit": 4565
+    },
+    "bare": {
+     "feats": [],
+     "cost": 5,
+     "price": 80,
+     "pi": 4,
+     "pct": 66,
+     "fit": 0.12,
+     "missing": 3,
+     "nice": 0,
+     "buyers": 12,
+     "profit": 900
+    }
+   },
+   {
+    "letter": "C",
+    "size": 300,
+    "key": "Team Athletes",
+    "bullets": [
+     "Plays a sport, shoes get trashed fast",
+     "Needs them back before the next game",
+     "Muddy and wet conditions"
+    ],
+    "quote": "I need them back by Friday's game.",
+    "wtp": [
+     85,
+     75,
+     46,
+     17,
+     3,
+     0
+    ],
+    "best": {
+     "feats": [
+      0,
+      4,
+      5
+     ],
+     "cost": 16,
+     "price": 45,
+     "pi": 2,
+     "pct": 46,
+     "fit": 1.0,
+     "missing": 0,
+     "nice": 0,
+     "buyers": 138,
+     "profit": 4002
+    },
+    "loaded": {
+     "feats": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+     ],
+     "cost": 45,
+     "price": 60,
+     "pi": 3,
+     "pct": 17,
+     "fit": 1.05,
+     "missing": 0,
+     "nice": 1,
+     "buyers": 54,
+     "profit": 810
+    },
+    "bare": {
+     "feats": [],
+     "cost": 5,
+     "price": 30,
+     "pi": 1,
+     "pct": 75,
+     "fit": 0.12,
+     "missing": 3,
+     "nice": 0,
+     "buyers": 28,
+     "profit": 700
+    }
+   }
+  ],
+  "feats": [
+   {
+    "name": "Deep clean",
+    "desc": "Uppers, laces, and insoles",
+    "cost": 3,
+    "tags": "MMM",
+    "pct": [
+     72,
+     66,
+     74
+    ]
+   },
+   {
+    "name": "Sole whitening",
+    "desc": "Removes yellowing",
+    "cost": 4,
+    "tags": "MNX",
+    "pct": [
+     82,
+     34,
+     8
+    ]
+   },
+   {
+    "name": "Crease removal",
+    "desc": "Steams out toe creases",
+    "cost": 6,
+    "tags": "NMX",
+    "pct": [
+     50,
+     65,
+     17
+    ]
+   },
+   {
+    "name": "Color repaint",
+    "desc": "Touches up faded color",
+    "cost": 12,
+    "tags": "XMX",
+    "pct": [
+     24,
+     63,
+     22
+    ]
+   },
+   {
+    "name": "Waterproof coating",
+    "desc": "Protects against rain and mud",
+    "cost": 3,
+    "tags": "XNM",
+    "pct": [
+     12,
+     34,
+     64
+    ]
+   },
+   {
+    "name": "48-hour rush",
+    "desc": "Back in two days",
+    "cost": 5,
+    "tags": "NXM",
+    "pct": [
+     46,
+     19,
+     64
+    ]
+   },
+   {
+    "name": "Fresh laces",
+    "desc": "New laces in any color",
+    "cost": 2,
+    "tags": "MNN",
+    "pct": [
+     69,
+     35,
+     50
+    ]
+   },
+   {
+    "name": "Display box",
+    "desc": "Clear box for shelf display",
+    "cost": 5,
+    "tags": "XNX",
+    "pct": [
+     19,
+     34,
+     24
+    ]
+   }
+  ],
+  "single": {
+   "feats": [
+    0,
+    1,
+    4,
+    5,
+    6
+   ],
+   "price": 45,
+   "cost": 22,
+   "profit": 7820,
+   "buyers": 340
+  },
+  "lineup": 15266
+ },
+ "rules": {
+  "must": 60,
+  "nice": 30,
+  "miss": 0.5,
+  "bonus": 0.05
+ }
+}
