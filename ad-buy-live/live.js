@@ -3,7 +3,7 @@
 "use strict";
 /* ============================================================ QUESTION BANK
    First option is always the correct one; options are shuffled when a game is built.
-   v:2 marks the "New questions" set. Data questions use the same audience numbers as Ad Buy Showdown. */
+   One pool: each game draws a fresh random mix. Data questions use the same audience numbers as Ad Buy Showdown. */
 const SKILLS={
  speak:{name:"Speak Ads Manager",short:"Ad terms",secs:20,desc:"The words on every ad report.",
    tip:"CPM = cost per 1,000 impressions. Click rate = clicks ÷ impressions. A conversion is a click that becomes a sale. Cost per sale = ad spend ÷ sales. ROAS = revenue ÷ ad spend. Frequency = how many times the same person saw the ad. Reach = how many different people saw it."},
@@ -23,12 +23,9 @@ const BANK=[
  // ---- ad terms
  {id:"s1",sk:"speak",p:"CPM is:",o:["The cost to show an ad 1,000 times","The cost of each click","The cost of each sale","The share of viewers who click"],x:"The M is the Roman numeral for 1,000. CPM means cost per thousand impressions."},
  {id:"s2",sk:"speak",p:"Click rate (CTR) is found by:",o:["Clicks ÷ impressions","Impressions ÷ clicks","Sales ÷ clicks","Revenue ÷ ad spend"],x:"It's the share of people who saw the ad and tapped it."},
- {id:"s3",sk:"speak",p:"ROAS stands for:",o:["Return on ad spend","Rate of ad sales","Reach on all screens","Revenue over audience size"],x:"ROAS = revenue ÷ ad spend. A 5x ROAS means every $1 of ads brought back $5 in sales."},
  {id:"s4",sk:"speak",p:"An ad report shows a frequency of 6. What does that mean?",o:["The average person saw the ad 6 times","6 people saw the ad","The ad ran for 6 days","6% of viewers clicked"],x:"Frequency is how many times the same person saw your ad. After about 3, extra views do less."},
- {id:"s5",v:2,sk:"speak",p:"In an ad campaign, a conversion is:",o:["A click that turns into a purchase","An ad that moves to a new platform","A viewer who scrolls past","Switching the budget to another platform"],x:"Conversions are the sales. They're what the client actually gets paid for."},
  {id:"s6",v:2,sk:"speak",p:"An ad had 1,000 impressions but a reach of 250. What happened?",o:["The same people saw it about 4 times each","1,000 different people saw it","250 people bought the product","The ad stopped running early"],x:"Reach counts different people. 1,000 ÷ 250 = a frequency of 4."},
  {id:"s7",v:2,sk:"speak",p:"Cost per sale is found by:",o:["Ad spend ÷ sales","Sales ÷ ad spend","Revenue − ad spend","Clicks ÷ impressions"],x:"It tells you what each sale cost in ads. Compare it to profit per sale."},
- {id:"s8",v:2,sk:"speak",p:"A target market is:",o:["The specific group of customers a business tries to reach","Everyone on social media","The store where the product is sold","The platform with the cheapest ads"],x:"Every targeting choice in the campaign builder narrows down the target market."},
  // ---- ad math
  {id:"m1",sk:"math",p:"A $2,000 budget at a $10 CPM buys how many impressions?",o:["200,000","20,000","2,000,000","200"],x:"$2,000 ÷ $10 × 1,000 = 200,000 impressions."},
  {id:"m2",sk:"math",p:"50,000 impressions with a 2% click rate gives how many clicks?",o:["1,000","100","2,500","10,000"],x:"50,000 × 0.02 = 1,000 clicks."},
@@ -37,7 +34,6 @@ const BANK=[
  {id:"m5",v:2,sk:"math",p:"800 people clicked and 5% of them bought. How many sales?",o:["40","160","400","4"],x:"800 × 0.05 = 40 sales."},
  {id:"m6",v:2,sk:"math",p:"You spent $1,200 on ads and made 30 sales. What was the cost per sale?",o:["$40","$30","$1,170","$4"],x:"$1,200 ÷ 30 = $40 per sale."},
  {id:"m7",v:2,sk:"math",p:"Each concert ticket earns $50 profit. The ad budget is $6,000. How many tickets must you sell just to break even?",o:["120","60","300","1,200"],x:"$6,000 ÷ $50 = 120 tickets. Every ticket after that is profit."},
- {id:"m8",v:2,sk:"math",p:"Campaign A: $5,000 of ads, $20,000 revenue. Campaign B: $1,000 of ads, $6,000 revenue. Which had the better ROAS?",o:["Campaign B, 6x vs 4x","Campaign A, because it made more revenue","They're tied","Campaign A, 4x vs 6x"],x:"A: 20,000 ÷ 5,000 = 4x. B: 6,000 ÷ 1,000 = 6x. B got more back for every dollar."},
  // ---- platform audiences (same numbers as the game's audience insights)
  {id:"w1",sk:"scroll",p:"Which of these platforms reaches the largest share of parents ages 35–54?",o:["Facebook","Snapchat","TikTok","Instagram"],x:"75% of parents use Facebook each week. Only 18% use Snapchat."},
  {id:"w2",sk:"scroll",p:"Which platform reaches about 90% of teens every week?",o:["YouTube","Facebook","Pinterest","Snapchat"],x:"YouTube reaches nearly every age group, teens included."},
@@ -45,35 +41,30 @@ const BANK=[
  {id:"w4",sk:"scroll",p:"Among these, which platform do the most 18–24 year-olds use each week?",o:["Instagram","TikTok","Snapchat","Pinterest"],x:"78% of 18–24 year-olds use Instagram, more than TikTok (62%) or Snapchat (60%)."},
  {id:"w5",v:2,sk:"scroll",p:"You need ONE platform that reaches both teens and their parents. Best pick?",o:["YouTube","Snapchat","Facebook","Pinterest"],x:"YouTube reaches about 90% of teens and 85% of parents."},
  {id:"w6",v:2,sk:"scroll",p:"About 20,000 people ages 16–17 live nearby, and 65% use TikTok. About how many is that?",o:["13,000","6,500","1,300","20,065"],x:"20,000 × 0.65 = 13,000 people."},
- {id:"w7",v:2,sk:"scroll",p:"25% of 16–17 year-olds use Facebook, but 75% of parents do. What should an advertiser take from that?",o:["Facebook is better for reaching parents than teens","Facebook is the best way to reach teens","Teens and parents use Facebook equally","Nobody uses Facebook anymore"],x:"Platforms skew toward different ages. Match the platform to who you're trying to reach."},
  {id:"w8",v:2,sk:"scroll",p:"Which of these platforms reaches the smallest share of 16–17 year-olds?",o:["Facebook","Instagram","TikTok","Snapchat"],x:"Only 25% of 16–17 year-olds use Facebook each week."},
  // ---- targeting
- {id:"t1",sk:"target",p:"A theme park season pass is fun for teens. Who usually pays for it?",o:["Parents ages 35–54","Ages 13–15","Adults 55+","The park"],x:"The user and the buyer aren't always the same person. Aim ads at the one paying."},
  {id:"t2",sk:"target",p:"Under platform rules, how can advertisers target users under 18?",o:["By age and location only","By any interest they want","By what they searched last week","They can't show ads to anyone under 18"],x:"Interest targeting only works on adults. That rule protects teens."},
- {id:"t3",sk:"target",p:"A bubble tea shop is opening in downtown Arlington Heights. Where should its ads run?",o:["Local, within 25 miles","The whole United States","The Midwest","Anywhere the ads are cheapest"],x:"Nobody drives from Iowa for a $6 drink. Ads far away reach people who can't buy."},
  {id:"t4",sk:"target",p:"Adding the interest \"EDM / dance music\" to a Calvin Harris concert campaign:",o:["Shrinks the adult audience but makes each viewer more likely to buy","Makes the audience bigger","Makes every ad cheaper","Adds teens who like EDM"],x:"A narrower, more interested audience sees the ad. Teens are not narrowed by interest."},
  {id:"t5",v:2,sk:"target",p:"Your audience is tiny and the frequency hits 12. What's the problem?",o:["Ad fatigue: the same people keep seeing it","Too many new people saw it","The ads were too cheap","Nothing. More views is always better"],x:"After about 3 views, each extra view does less. A bigger audience or less spend fixes it."},
- {id:"t6",v:2,sk:"target",p:"An ACT prep app is used by high school juniors. Who is the best buyer to aim at?",o:["Parents of teenagers","Adults 55+","Ages 25–34","Ages 13–15"],x:"The junior uses it, but the parent pays. That's why Facebook and YouTube win this round in the game."},
  {id:"t7",v:2,sk:"target",p:"A limited sneaker drop ships anywhere in the U.S. Best location setting?",o:["United States","Local, within 25 miles","Chicagoland","Arlington Heights only"],x:"Anyone in the country can buy it, so a bigger area means more buyers and less ad fatigue."},
  {id:"t8",v:2,sk:"target",p:"What's the biggest risk of targeting too broadly?",o:["Most impressions go to people who will never buy","Each impression costs much more","Frequency gets too high","The platform rejects the ad"],x:"Broad audiences are cheap to reach, but most of that money lands on non-buyers."},
  // ---- format and objective
  {id:"c1",sk:"feed",p:"A 15–30 second video that plays before other videos fits best on:",o:["YouTube","Snapchat","Pinterest","Instagram"],x:"That's pre-roll. It's built for YouTube."},
  {id:"c2",sk:"feed",p:"A full-screen story ad with a swipe-up link fits best on:",o:["Snapchat","YouTube","Pinterest","Facebook"],x:"Snapchat is built around full-screen stories you tap through."},
- {id:"c3",sk:"feed",p:"Your client only makes money when people buy. Which objective should you pick?",o:["Sales","Awareness","Traffic","Video views"],x:"Sales tells the platform to hunt for buyers. Impressions cost more, but the right people see them."},
  {id:"c4",sk:"feed",p:"Why does a creator partnership cost more than other formats in Ad Buy Showdown?",o:["The creator takes a 15% fee before the ads run","Creators only post on Facebook","Platforms charge double for video","It doesn't cost more"],x:"You pay the creator, so less of the budget buys ads. It's worth it when creators drive more clicks and sales."},
  {id:"c5",v:2,sk:"feed",p:"A single photo with a headline performs worst on which of these?",o:["TikTok","Pinterest","Facebook","Instagram"],x:"TikTok is a video feed. A still image gets scrolled past."},
- {id:"c6",v:2,sk:"feed",p:"The Awareness objective gives you:",o:["The cheapest impressions, but fewer buyers","The most buyers","The most clicks","Free ads"],x:"Awareness is great for getting seen. It isn't built to find buyers."},
- {id:"c7",v:2,sk:"feed",p:"Short-form video is strongest on which platform?",o:["TikTok","Facebook","Pinterest","None of them"],x:"TikTok is a short-form video feed, so that's where the format fits best."},
- {id:"c8",v:2,sk:"feed",p:"Why pick the creative format before you split the budget?",o:["One format runs on every platform you buy, so the platforms should fit it","Formats are cheaper on Mondays","The platform picks the format for you","Format doesn't affect results"],x:"A great platform with the wrong format still underperforms."},
  // ---- campaign decisions
- {id:"k1",sk:"call",p:"250 pairs of sneakers sell out on day 3, but the ads run for 7 days. What happens to the ad money after day 3?",o:["It's wasted. There's nothing left to sell","It sells more sneakers","The platform refunds it","It raises the price of the sneakers"],x:"Once you sell out, more ads can't earn anything. Smaller budgets can win limited drops."},
- {id:"k2",sk:"call",p:"It's Black Friday and every brand is buying ads. What happens to your CPM?",o:["It goes up because more advertisers compete","It goes down","It stays the same","Ads become free"],x:"Ad space is an auction. More bidders push the price up."},
  {id:"k3",sk:"call",p:"Two campaigns get about the same impressions. One sells 50 tickets, the other sells 2. Most likely reason?",o:["The second one reached people who didn't want the product","The second one had fewer impressions","The second one had a bigger budget","The second one ran on a weekend"],x:"Impressions aren't the goal. Who sees the ad decides whether it sells."},
- {id:"k4",sk:"call",p:"Team A got 20,000 clicks and lost money. Team B got 3,000 clicks and made $8,000. Who ran the better campaign?",o:["Team B, because profit is the goal","Team A, because it got more clicks","They tied","Team A, because clicks equal sales"],x:"Clicks cost money. Only sales pay it back."},
- {id:"k5",v:2,sk:"call",p:"A local boba shop has $1,500 for opening week. Which plan fits best?",o:["Snapchat and Instagram stories to local teens and young adults","YouTube pre-roll to the whole U.S.","Facebook ads to adults 55+ in the Midwest","Pinterest image ads to everyone"],x:"Local buyers, the apps they use, and a format that fits those apps."},
- {id:"k6",v:2,sk:"call",p:"One platform sold tickets at $15 each in ads, another at $90. Each ticket earns $50 profit. What's your move next round?",o:["Move money from the $90 platform to the $15 one","Spend more on the $90 platform","Split the budget evenly","Stop advertising"],x:"At $90 a sale you lose $40 on every ticket. At $15 you keep $35."},
  {id:"k7",v:2,sk:"call",p:"Leaving $1,000 of the budget unspent is:",o:["Sometimes smart, if the extra ads would have lost money","Always a mistake","Against the rules","The same as losing $1,000"],x:"Unspent budget isn't a cost. Ads that lose money are."},
- {id:"k8",v:2,sk:"call",p:"Analyst note: \"54% of impressions went to Ages 55+, a group with little interest.\" Best fix?",o:["Drop Ages 55+ from the audience","Add more age groups","Switch to the Awareness objective","Raise the budget"],x:"Cut the group that isn't buying so the money goes to people who will."}
+ // ---- harder additions (one pool: every question below can appear in any game)
+ {id:"s9",sk:"speak",p:"An ad's reach is 40,000 and its frequency is 3. How many impressions did it get?",o:["120,000","13,333","40,003","43,000"],x:"Impressions = reach × frequency. 40,000 people each saw it about 3 times."},
+ {id:"t9",sk:"target",p:"You pick ages 13–15 and 16–17, then add the interest \"Sneaker culture.\" What happens to the audience?",o:["Nothing changes. Interests only narrow adults","It shrinks to teens who like sneakers","It grows to add adult sneaker fans","The platform rejects the ad"],x:"Teens can only be targeted by age and location, so the interest has nothing to narrow."},
+ {id:"c9",sk:"feed",p:"A creator partnership takes a 15% fee. On a $2,000 buy, how much actually goes to ads?",o:["$1,700","$2,000","$1,850","$300"],x:"$2,000 × 0.85 = $1,700. The other $300 goes to the creator."},
+ {id:"c10",sk:"feed",p:"Which objective buys the cheapest impressions but finds the fewest buyers?",o:["Awareness","Sales","Traffic","They all cost the same"],x:"Awareness spreads the ad to as many people as possible, not to the people most likely to buy."},
+ {id:"k9",sk:"call",p:"A platform's ad cost per sale is $42, and each sale earns $50 profit. Should you keep spending there?",o:["Yes. Each sale still keeps $8 after ads","No. Anything over $40 per sale loses money","No. ROAS has to be above 10x","Yes, because $42 is less than the ticket price"],x:"Compare cost per sale to profit per sale, not to the price. $50 − $42 = $8 kept on every sale."},
+ {id:"k10",sk:"call",p:"Frequency is 11 on TikTok and 2 on Instagram, and both reach likely buyers. Best fix?",o:["Move some TikTok money to Instagram","Move Instagram money to TikTok","Raise the TikTok budget","Switch to the Awareness objective"],x:"TikTok viewers are worn out. Instagram still has fresh people to reach."},
+ {id:"k11",sk:"call",p:"A spends $6,000 for $20,000 in revenue. B spends $2,000 for $9,000. Profit before ads is 40% of revenue. Which made more profit?",o:["A: $2,000 vs. $1,600","B, because its ROAS is higher","B: $3,600 vs. $2,000","They tie"],x:"A: $8,000 − $6,000 = $2,000. B: $3,600 − $2,000 = $1,600. A better ROAS doesn't always mean more profit."},
+ {id:"k12",sk:"call",p:"Halfway through a 250-pair sneaker drop, 240 pairs have sold and $2,500 of budget is left. Best move?",o:["Cut spending way down. Only 10 pairs are left","Spend the full $2,500 to finish strong","Switch to the Awareness objective","Add more age groups"],x:"Ads can't sell pairs that don't exist. Spend just enough for the last 10."}
 ];
 BANK.forEach(q=>{q.ans=0});
 
@@ -314,9 +305,8 @@ function fitHost(){
 window.addEventListener("resize",()=>{clearTimeout(fitHost.t);fitHost.t=setTimeout(()=>{ZOOM?zoomApp():fitHost()},120)});
 async function hostSetup(){
   const N=await net().catch(()=>null);if(!N)return needSetup();
-  let per=3,mult=1,pen=1000,qset="new";
+  let per=3,mult=1,pen=1000,qset="mix";
   app.innerHTML=`${hdr()}<div class="panel" style="margin-top:0"><h2>Host a class game</h2>
-    <p>Question set:</p><div class="seg" id="qs"><button data-v="new" aria-pressed="true">New questions</button><button data-v="orig">Original questions</button><button data-v="mix">Mix of both</button></div>
     <p>Questions per round (6 rounds):</p><div class="seg" id="sp"><button data-v="2">2 (12 total)</button><button data-v="3" aria-pressed="true">3 (18 total)</button><button data-v="4">4 (24 total)</button></div>
     <p>Wrong answer:</p><div class="seg" id="pn"><button data-v="0">No penalty</button><button data-v="500">−500</button><button data-v="1000" aria-pressed="true">−1,000</button><button data-v="1500">−1,500</button></div>
     <p>Time:</p><div class="seg" id="st"><button data-v="1" aria-pressed="true">Standard</button><button data-v="1.5">Extra time (+50%)</button><button data-v="2">Double time</button></div>
@@ -324,7 +314,6 @@ async function hostSetup(){
     <div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
   const seg=(id,set)=>$(id).onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$(id).children].forEach(x=>x.setAttribute("aria-pressed",x===b));set(+b.dataset.v)};
   seg("#sp",v=>per=v);seg("#st",v=>mult=v);seg("#pn",v=>pen=v);
-  $("#qs").onclick=e=>{const b=e.target.closest("button");if(!b)return;[...$("#qs").children].forEach(x=>x.setAttribute("aria-pressed",x===b));qset=b.dataset.v};
   $("#go").onclick=async()=>{
     $("#go").disabled=true;
     try{
