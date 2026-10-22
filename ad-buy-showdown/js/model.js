@@ -328,3 +328,110 @@ export function totals(teamIds, results) {
   });
   return out;
 }
+
+/* ---------- teacher review: model answers and decision grading ---------- */
+const sp0 = o => Object.assign({ ig: 0, tt: 0, sc: 0, yt: 0, fb: 0, pin: 0 }, o);
+// One strong campaign per client (checked against a search of thousands of campaigns), with the reasons to talk through.
+export const KEYS = [
+  { camp: { obj: "sales", geo: "metro", segs: ["s2", "s3", "s4"], interest: 2, fmt: "short", spend: sp0({ tt: 3000, ig: 1500, sc: 1500 }) },
+    why: ["Fans who can get to a Saturday show in Chicago: ages 16–34 across Chicagoland. Parents and 55+ barely buy EDM tickets.",
+      "Pop music fans: a big enough interest group that the ads don't wear out. EDM fans are hotter but there are fewer of them.",
+      "Short-form video on TikTok, Instagram, and Snapchat, where these ages scroll every day."] },
+  { camp: { obj: "sales", geo: "national", segs: ["s3", "s4"], interest: 0, fmt: "creator", spend: sp0({ ig: 2000, tt: 1500 }) },
+    why: ["It ships anywhere, so go national. More buyers and almost no ad fatigue.",
+      "Adults 18–34 who follow sneaker culture have the money and the interest. Teens want it but can't always pay $180.",
+      "Only spend $3,500. There are just 250 pairs, and ads that run after a sell-out earn nothing."] },
+  { camp: { obj: "sales", geo: "metro", segs: ["s3", "s5"], interest: 1, fmt: "short", spend: sp0({ fb: 3000, ig: 2500, tt: 2000, sc: 500 }) },
+    why: ["Parents pay for most passes. Target ages 35–54 with the Family activities interest, plus young adults who buy their own.",
+      "Facebook carries the parents. Instagram and TikTok carry the young adults.",
+      "Chicagoland only. Families from other states rarely buy a season pass to Gurnee."] },
+  { camp: { obj: "sales", geo: "national", segs: ["s5"], interest: 0, fmt: "carousel", spend: sp0({ fb: 5000 }) },
+    why: ["The junior uses the app, but the parent pays. Aim only at parents of teenagers.",
+      "Facebook is where 75% of parents scroll, and a carousel can walk through what the app does.",
+      "Go national: any parent in the country can buy an app."] },
+  { camp: { obj: "sales", geo: "local", segs: ["s2", "s3", "s4"], interest: 1, fmt: "story", spend: sp0({ sc: 1000, ig: 300, tt: 200 }) },
+    why: ["Local only. Nobody drives across the state for a $6 drink.",
+      "Teens and young adults are the bubble tea crowd, and Foodies narrows the adults.",
+      "Story ads on Snapchat, the strongest story format, plus a little Instagram and TikTok."] },
+  { camp: { obj: "sales", geo: "national", segs: ["s3", "s4"], interest: 0, fmt: "creator", spend: sp0({ tt: 10000 }) },
+    why: ["Black Friday prices are up 35%, so every dollar has to go to likely buyers: adult gamers 18–34 with their own money.",
+      "A streamer partnership on TikTok. Gamers trust creators more than ads.",
+      "National: it ships anywhere."] }
+];
+export const keyResult = r => simulate(r, KEYS[r].camp, 4242 + r);
+
+const HOT = 0.55, WARM = 0.3;
+const segValue = (R, id) => R.intent[id] * R.power[id];
+const segWord = v => v >= HOT ? "likely buyers" : v >= WARM ? "some buyers" : "unlikely buyers";
+const list = a => a.length <= 2 ? a.join(" and ") : a.slice(0, -1).join(", ") + ", and " + a[a.length - 1];
+const short = n => n.replace("Ages ", "").replace(" (parents)", "");
+
+// Grades each campaign decision: v is "good" (correct), "ok" (partly), or "bad" (incorrect), with the reason.
+export function gradeCampaign(round, c, res) {
+  const R = ROUNDS[round], out = [];
+  // 1. Objective
+  out.push({ key: "obj", label: "Objective", pick: objById(c.obj).name,
+    ...(c.obj === "sales" ? { v: "good", why: "The client gets paid when people buy, so Sales tells the platform to hunt for buyers." }
+      : c.obj === "traffic" ? { v: "ok", why: "Clicks aren't sales. Traffic finds people who tap, not people who buy. Sales would have found more buyers." }
+      : { v: "bad", why: "Awareness buys the cheapest views, but it isn't built to find buyers, so few of them purchased." }) });
+  // 2. Location
+  const fit = R.geoFit[c.geo] ?? 1, best = GEOS.filter(g => (R.geoFit[g.id] ?? 1) >= 0.9).pop();
+  out.push({ key: "geo", label: "Location", pick: geoById(c.geo).name,
+    ...(fit < 0.5 ? { v: "bad", why: `Most of these people live too far away to buy. ${best.name} was the right area.` }
+      : c.geo === best.id ? { v: "good", why: best.id === "local" ? "Right call: only people nearby will actually come in." : `Right call: ${best.name} reaches everyone who can realistically buy.` }
+      : fit < 0.9 ? { v: "ok", why: `Some of these people are too far away to buy. ${best.name} fit better.` }
+      : { v: "ok", why: `Everyone here can buy, but ${best.name} reaches more buyers and keeps the same people from seeing the ad over and over.` }) });
+  // 3. Age groups
+  const chosen = c.segs.map(id => ({ id, v: segValue(R, id) }));
+  const cold = chosen.filter(x => x.v < WARM), missed = SEGMENTS.filter(s => !c.segs.includes(s.id) && segValue(R, s.id) >= HOT);
+  const hot = chosen.filter(x => x.v >= HOT);
+  let ageWhy = [];
+  if (hot.length) ageWhy.push(`${list(hot.map(x => short(segById(x.id).name)))}: likely buyers.`);
+  if (cold.length) ageWhy.push(`${list(cold.map(x => short(segById(x.id).name)))}: unlikely buyers. Little interest or no money for this product.`);
+  if (missed.length) ageWhy.push(`Missed ${list(missed.map(s => short(s.name)))}, ${missed.length > 1 ? "some of the best buyer groups" : "one of the best buyer groups"} here.`);
+  if (!ageWhy.length) ageWhy.push("These groups buy some, but none of them are the strongest buyers for this product.");
+  out.push({ key: "segs", label: "Age groups", pick: c.segs.map(id => short(segById(id).name)).join(", "),
+    v: cold.length ? "bad" : missed.length || !hot.length ? "ok" : "good", why: ageWhy.join(" ") });
+  // 4. Interest
+  const bestInt = KEYS[round].camp.interest >= 0 ? R.interests[KEYS[round].camp.interest].name : R.interests.slice().sort((a, b) => b.boost - a.boost)[0].name;
+  const adults = c.segs.some(id => !segById(id).teen);
+  const it = c.interest >= 0 ? R.interests[c.interest] : null;
+  out.push({ key: "interest", label: "Interest", pick: it ? it.name : "None (broad)",
+    ...(!it ? { v: "ok", why: `Broad works, but narrowing adults to an interest that fits (like ${bestInt}) finds likelier buyers.` }
+      : !adults ? { v: "ok", why: "This did nothing. Interests only narrow adults, and you only picked teen groups." }
+      : it.boost < 1 ? { v: "bad", why: `${it.name} fans aren't the buyers for this product, so it shrank the audience to the wrong people.` }
+      : { v: "good", why: `${it.name} narrows adults to people more likely to buy. Smaller audience, better buyers.` }) });
+  // 5. Creative format
+  const spent = PLATFORMS.filter(p => +c.spend[p.id] > 0), tot = totalSpend(c) || 1;
+  const platFit = spent.reduce((a, p) => a + FMT_FIT[c.fmt][p.id] * c.spend[p.id] / tot, 0);
+  const score = R.fmt[c.fmt] * platFit, weak = spent.filter(p => FMT_FIT[c.fmt][p.id] < 0.65).map(p => p.name);
+  const fmt = fmtById(c.fmt), bestFmt = FORMATS.slice().sort((a, b) => R.fmt[b.id] - R.fmt[a.id])[0];
+  out.push({ key: "fmt", label: "Creative format", pick: fmt.name,
+    v: score >= 1.15 ? "good" : score >= 0.85 ? "ok" : "bad",
+    why: score >= 1.15 ? `${fmt.name} fits this product and the platforms you bought.`
+      : weak.length ? `${fmt.name} is a weak fit for ${list(weak)}. People there scroll right past it.`
+      : `${fmt.name} works, but ${bestFmt.name} fits this product better.` });
+  // 6. Budget, judged platform by platform on what each sale actually cost
+  const rows = (res ? res.rows : []).map(w => {
+    const p = platformById(w.pid);
+    if (w.nodelivery) return { pid: w.pid, name: p.name, spend: 0, conv: 0, v: "bad", why: "None of the people you picked use it. That money was refunded." };
+    const cpa = w.conv ? w.spend / w.conv : Infinity;
+    return { pid: w.pid, name: p.name, spend: w.spend, conv: w.conv, cpa,
+      v: cpa <= R.margin * 0.6 ? "good" : cpa <= R.margin ? "ok" : "bad",
+      why: !w.conv ? "Spent money and made no sales." : cpa <= R.margin * 0.6 ? `Each sale cost ${fmt$(cpa)} in ads and earned ${fmt$(R.margin)}. Money well spent.`
+        : cpa <= R.margin ? `Each sale cost ${fmt$(cpa)} in ads against ${fmt$(R.margin)} profit. Barely worth it.`
+        : `Each sale cost ${fmt$(cpa)} in ads but only earned ${fmt$(R.margin)}. It lost ${fmt$(cpa - R.margin)} on every sale.` };
+  });
+  const lost = rows.filter(w => w.v === "bad").reduce((a, w) => a + w.spend, 0), spentTot = rows.reduce((a, w) => a + w.spend, 0) || 1;
+  const budgetNotes = [];
+  if (res && res.soldOut) budgetNotes.push(`Sold out, but about ${fmt$(res.wasted)} ran after there was nothing left to sell.`);
+  if (res && res.unspent > R.budget * 0.25) budgetNotes.push(`${fmt$(res.unspent)} was left unspent${res.profit > 0 ? ", which is fine if more ads would have lost money" : ""}.`);
+  if (lost) budgetNotes.push(`${fmt$(lost)} went to platforms that lost money on every sale.`);
+  const good = rows.filter(w => w.v === "good").sort((x, y) => x.cpa - y.cpa).map(w => `${w.name} at ${fmt$(w.cpa)} per sale`);
+  if (!lost && good.length) budgetNotes.push(`Every platform you bought paid for itself. Best: ${good[0]}.`);
+  out.push({ key: "budget", label: "Budget split", pick: rows.length ? rows.map(w => `${w.name} ${fmt$(w.spend)}`).join(", ") : "Nothing spent",
+    v: !rows.length ? "bad" : lost / spentTot > 0.4 || (res && res.wasted > R.budget * 0.25) ? "bad" : lost || (res && res.wasted > R.budget * 0.1) ? "ok" : "good",
+    why: budgetNotes.join(" ") || "Spent on platforms that paid for themselves.", rows });
+  return out;
+}
+const fmt$ = v => "$" + (Math.round(v * 100) / 100).toLocaleString(undefined, { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 });

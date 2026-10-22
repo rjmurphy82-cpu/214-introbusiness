@@ -206,6 +206,49 @@ input[type=text],select{font-family:var(--body);font-size:17px;padding:8px 10px;
 .client small{font-family:var(--data);letter-spacing:.1em;text-transform:uppercase;color:var(--orange);font-weight:600;font-size:13px}
 .client b{font-family:var(--display);text-transform:uppercase;color:var(--brown);font-size:19px;letter-spacing:.02em}
 
+/* teacher review: graded buys */
+.vp{display:inline-block;font-family:var(--data);font-weight:600;font-size:15px;letter-spacing:.04em;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.vp.good{background:var(--goodbg);color:var(--good)}
+.vp.ok{background:var(--warnbg);color:var(--warn)}
+.vp.bad{background:var(--badbg);color:var(--bad)}
+.grade th,.grade td{vertical-align:top;font-size:16px;padding:10px}
+.grade td.dl{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--brown);white-space:nowrap}
+.grade td.pk{font-weight:600;min-width:120px}
+.grade td.km{color:var(--muted);min-width:120px}
+.grade td.wy{min-width:260px}
+.grade:not(.plat) tr.bad td.pk{color:var(--bad)}
+.grade tr td:first-child{box-shadow:inset 4px 0 0 transparent}
+.grade tr.good td:first-child{box-shadow:inset 4px 0 0 var(--good)}
+.grade tr.ok td:first-child{box-shadow:inset 4px 0 0 #C98A12}
+.grade tr.bad td:first-child{box-shadow:inset 4px 0 0 var(--bad)}
+.rvtop{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.mist{display:flex;flex-direction:column;gap:8px}
+.mrow{display:grid;grid-template-columns:170px minmax(0,1fr);gap:12px;align-items:center}
+.ml{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--brown);font-size:15px}
+.mbar{display:flex;height:26px;border-radius:2px;overflow:hidden;background:var(--well)}
+.mbar i{display:grid;place-items:center;font-style:normal;font-family:var(--data);font-weight:600;color:#fff;font-size:15px;min-width:22px}
+.mbar i.good{background:var(--good)} .mbar i.ok{background:#C98A12} .mbar i.bad{background:var(--bad)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.sw.good{background:var(--good)} .sw.ok{background:#C98A12} .sw.bad{background:var(--bad)}
+.keycard{text-align:left;cursor:pointer;border-top:6px solid var(--orange);display:flex;flex-direction:column;gap:2px;font:inherit;color:inherit}
+.keycard:hover,.rvcard:not(.off):hover{box-shadow:0 8px 20px rgba(76,54,41,.14)}
+.keycard .go{margin-top:auto;padding-top:10px;font-family:var(--data);font-weight:600;color:var(--orange);letter-spacing:.06em;text-transform:uppercase}
+.kc-profit{font-family:var(--display);font-size:clamp(34px,5vw,48px);line-height:1.05}
+.rvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.rvcard{text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:8px;font:inherit;color:inherit;border-top:5px solid var(--brown)}
+.rvcard.off{cursor:default;opacity:.7;border-top-color:var(--line)}
+.rvh{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:baseline}
+.rvh .rank{font-family:var(--display);font-size:22px;color:var(--orange)}
+.rvh b{font-family:var(--display);text-transform:uppercase;color:var(--brown);font-size:19px;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rvh .num{font-size:21px}
+.rvlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.rvlist li{display:grid;grid-template-columns:12px 112px minmax(0,1fr);gap:8px;align-items:center;font-size:15px}
+.rvlist .dot{width:12px;height:12px;border-radius:50%}
+.rvlist .good .dot{background:var(--good)} .rvlist .ok .dot{background:#C98A12} .rvlist .bad .dot{background:var(--bad)}
+.rvlist .lab{color:var(--muted)}
+.rvlist .pk{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+@media (max-width:860px){.rvtop{grid-template-columns:1fr}.mrow{grid-template-columns:100px minmax(0,1fr)}}
+
 @media (max-width:1000px){
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   .brief,.builder,.dgrid{grid-template-columns:1fr}

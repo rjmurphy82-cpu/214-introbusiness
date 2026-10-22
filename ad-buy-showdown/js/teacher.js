@@ -2,11 +2,11 @@
 // The "Open Play" switch shows the always-on self-paced version and the reports teams send.
 import { api, poll } from "./api.js";
 import { teamName, setTeamNames } from "./teams.js";
-import { ROUNDS, NROUNDS, totals } from "./model.js";
-import { $, esc, money, roundBar, rulesHTML, briefHTML, eventHTML, barsHTML, growBars, reportTableHTML, standingsTableHTML, rankList, playLaunch, kpisHTML, detailHTML, toast } from "./ui.js";
+import { ROUNDS, NROUNDS, totals, KEYS, keyResult, gradeCampaign, platformById } from "./model.js";
+import { $, esc, money, roundBar, rulesHTML, briefHTML, eventHTML, barsHTML, growBars, reportTableHTML, standingsTableHTML, rankList, playLaunch, kpisHTML, detailHTML, toast, gradeTableHTML, pill, setupLine } from "./ui.js";
 
 const S = { which: "class", view: "control", game: null, games: [], buys: [], progress: {}, members: {}, max: 15, activeId: null,
-  confirm: false, removing: null, busy: false, briefRound: null, open: null, reportTeam: null, animated: {}, playing: false };
+  confirm: false, removing: null, busy: false, briefRound: null, open: null, reportTeam: null, animated: {}, playing: false, rv: null, focus: null };
 let poller = null;
 
 function start() { $("#tabs").hidden = false; $("#app").innerHTML = `<p class="muted">Connecting…</p>`; watch(); }
@@ -34,7 +34,8 @@ function render() {
   const bar = `<div class="row noprint" style="margin-bottom:16px;gap:8px"><span class="eyebrow" style="margin-right:4px">Viewing</span>
     <button class="btn small ${S.which === "class" ? "" : "ghost"}" data-which="class">Class game</button>
     <button class="btn small ${S.which === "open" ? "" : "ghost"}" data-which="open">Open Play</button></div>`;
-  if (S.view === "brief") app.innerHTML = teacherBriefHTML();
+  if (S.view === "review") app.innerHTML = reviewHTML();
+  else if (S.view === "brief") app.innerHTML = teacherBriefHTML();
   else if (S.view === "standings") app.innerHTML = !g ? `<p class="muted">No active game.</p>` : self ? reportsHTML() : standingsHTML();
   else if (S.view === "games" || !g) app.innerHTML = gamesHTML();
   else app.innerHTML = self ? selfControlHTML() : controlHTML();
@@ -111,7 +112,7 @@ function controlHTML() {
       ${eventHTML(r)}
       <section class="panel"><h3>Profit this round</h3>${barsHTML(rankList(list).map(o => ({ id: o.id, name: o.name, value: o.res ? o.res.profit : 0 })))}</section>
       <section class="panel"><h3>Ad report</h3>${reportTableHTML(r, list, { open: S.open })}</section>
-      <div class="row"><button class="btn ghost small" data-view="standings">Standings so far</button><button class="btn ghost small" data-replay>Replay launch</button></div>
+      <div class="row"><button class="btn dark small" data-review="${r}">Review every buy</button><button class="btn ghost small" data-view="standings">Standings so far</button><button class="btn ghost small" data-replay>Replay launch</button></div>
     </div>`;
   }
   return `<div class="stack">${standingsHTML()}<div class="row"><button class="btn ghost" data-view="games">Start a new game</button></div></div>`;
@@ -126,6 +127,84 @@ function standingsHTML() {
   return `<div class="stack"><div><span class="eyebrow">${esc(g.name)} · ${g.phase === "final" ? "Final results" : `After ${done} of ${NROUNDS} rounds`}</span><h2>${g.phase === "final" && sorted[0] ? esc(sorted[0].name) + " wins the account" : "Standings"}</h2><p class="muted" style="margin:0">Ranked by total profit earned for clients.</p></div>
     ${done ? `<section class="panel">${barsHTML(sorted.map(o => ({ id: o.id, name: o.name, value: o.sum })))}</section><section class="panel">${standingsTableHTML(rows)}</section>` : `<p class="muted">No rounds have been launched yet.</p>`}</div>`;
 }
+
+
+/* ---------- review: every agency's buy, graded decision by decision ---------- */
+const DKEYS = [["obj", "Objective"], ["geo", "Location"], ["segs", "Age groups"], ["interest", "Interest"], ["fmt", "Creative format"], ["budget", "Budget split"]];
+function reviewRounds() { const g = S.game; return ROUNDS.map((_, r) => !!(g && g.results && g.results[r])); }
+function reviewList(r) { return rankList(roundList(S.game, r)); }
+function reviewHTML() {
+  const g = S.game;
+  if (!g) return `<p class="muted">No active game.</p>`;
+  if (g.mode === "self") return `<div class="panel stack" style="gap:8px"><h3 style="margin:0">Open Play reviews live on the Reports tab</h3><p style="margin:0">Click <b>View</b> on any agency to see every client they ran, graded decision by decision.</p><div><button class="btn small" data-view="standings">Go to Reports</button></div></div>`;
+  const done = reviewRounds();
+  if (!done.some(Boolean)) return `<div class="stack"><div><span class="eyebrow">${esc(g.name)}</span><h2>Review every buy</h2></div><div class="banner wait">No rounds launched yet. After you launch a round, every agency's campaign shows up here, graded decision by decision.</div></div>`;
+  let r = S.rv != null && done[S.rv] ? S.rv : done.lastIndexOf(true);
+  S.rv = r;
+  const list = reviewList(r), live = list.filter(o => o.camp && o.res);
+  if (S.focus) return focusHTML(r, live);
+  const grades = Object.fromEntries(live.map(o => [o.id, gradeCampaign(r, o.camp, o.res)]));
+  const tally = DKEYS.map(([k, label]) => { const t = { good: 0, ok: 0, bad: 0 }; live.forEach(o => t[grades[o.id].find(x => x.key === k).v]++); return { k, label, t }; });
+  const n = live.length || 1;
+  const kres = keyResult(r);
+  return `<div class="stack">
+    <div class="row noprint" style="gap:6px">${ROUNDS.map((R, i) => `<button class="btn small ${i === r ? "" : "ghost"}" data-rv="${i}" ${done[i] ? "" : "disabled"}>R${i + 1}</button>`).join("")}</div>
+    <div><span class="eyebrow">${esc(g.name)} · Round ${r + 1} · ${esc(ROUNDS[r].client)}</span><h2 style="margin:0">Review: ${esc(ROUNDS[r].title)}</h2>
+      <p class="muted" style="margin:0">Click any agency to put its buy on the board and talk it through. Arrow keys move between agencies.</p></div>
+    <div class="rvtop">
+      <section class="panel"><h3>Where the class went wrong</h3>
+        <div class="mist">${tally.map(({ label, t }) => `<div class="mrow"><span class="ml">${label}</span><div class="mbar">${["good", "ok", "bad"].map(v => t[v] ? `<i class="${v}" style="width:${t[v] / n * 100}%">${t[v]}</i>` : "").join("")}</div></div>`).join("")}</div>
+        <div class="row small muted" style="gap:14px;margin-top:10px"><span><span class="sw good"></span>Correct</span><span><span class="sw ok"></span>Partly</span><span><span class="sw bad"></span>Incorrect</span></div>
+      </section>
+      <button class="panel keycard" data-focus="key">
+        <span class="eyebrow">Model answer</span>
+        <div class="kc-profit ${kres.profit >= 0 ? "pos" : "neg"}">${money(kres.profit)}</div>
+        <p class="small muted" style="margin:0 0 8px">profit from one strong campaign</p>
+        <p class="small" style="margin:0">${setupLine(r, KEYS[r].camp)}</p>
+        <span class="go">Talk it through →</span>
+      </button>
+    </div>
+    <div class="rvgrid">${list.map((o, k) => {
+      if (!o.camp || !o.res) return `<div class="panel rvcard off"><div class="rvh"><span class="rank">${k + 1}</span><b>${esc(o.name)}</b></div><p class="muted small" style="margin:0">Did not launch this round. $0.</p></div>`;
+      const gr = grades[o.id], right = gr.filter(x => x.v === "good").length;
+      return `<button class="panel rvcard" data-focus="${o.id}">
+        <div class="rvh"><span class="rank">${k + 1}</span><b>${esc(o.name)}</b><span class="num ${o.res.profit >= 0 ? "pos" : "neg"}">${money(o.res.profit)}</span></div>
+        <div class="rvscore small muted">${right} of 6 decisions correct · ROAS ${o.res.roas.toFixed(2)}x</div>
+        <ul class="rvlist">${gr.map(x => `<li class="${x.v}"><span class="dot"></span><span class="lab">${x.label}</span><span class="pk">${esc(x.key === "budget" ? x.rows.map(w => w.name).join(", ") || "None" : x.pick)}</span></li>`).join("")}</ul>
+      </button>`; }).join("")}</div>
+  </div>`;
+}
+function focusHTML(r, live) {
+  const R = ROUNDS[r], ids = live.map(o => o.id);
+  const nav = (label) => `<div class="row noprint" style="justify-content:space-between"><button class="btn ghost small" data-rvback>← All agencies</button><span class="muted small">${label}</span><div class="row" style="gap:6px"><button class="btn ghost small" data-step="-1" aria-label="Previous">‹ Prev</button><button class="btn ghost small" data-step="1" aria-label="Next">Next ›</button></div></div>`;
+  if (S.focus === "key") {
+    const k = KEYS[r], x = keyResult(r);
+    return `<div class="stack">${nav("Model answer")}
+      <div><span class="eyebrow">Round ${r + 1} · Model answer</span><h2 style="margin:0">${esc(R.title)}</h2><p class="muted" style="margin:0">${setupLine(r, k.camp)}</p></div>
+      <section class="panel"><h3>Why it works</h3><ol class="rules">${k.why.map(w => `<li><span>${esc(w)}</span></li>`).join("")}</ol></section>
+      ${kpisHTML(x)}
+      <section class="panel">${gradeTableHTML(r, k.camp, x, { compare: false })}</section>
+    </div>`;
+  }
+  const o = live.find(t => t.id === S.focus);
+  if (!o) { S.focus = null; return reviewHTML(); }
+  const pos = ids.indexOf(o.id) + 1;
+  return `<div class="stack">${nav(`Agency ${pos} of ${ids.length}`)}
+    <div class="row" style="justify-content:space-between;align-items:flex-end"><div><span class="eyebrow">Round ${r + 1} · ${esc(R.title)}</span><h2 style="margin:0">${esc(o.name)}</h2><p class="muted" style="margin:0">${setupLine(r, o.camp)}</p></div>
+      <div style="text-align:right"><span class="eyebrow">Profit</span><div class="kc-profit ${o.res.profit >= 0 ? "pos" : "neg"}">${money(o.res.profit)}</div></div></div>
+    <section class="panel">${gradeTableHTML(r, o.camp, o.res)}</section>
+    ${kpisHTML(o.res)}
+    <section class="panel"><span class="eyebrow">Analyst notes</span><ul class="notes" style="margin-top:6px">${(o.res.notes || []).map(nn => `<li class="${nn.t}">${esc(nn.m)}</li>`).join("") || `<li class="info">Clean campaign. No major issues found.</li>`}</ul></section>
+  </div>`;
+}
+function stepFocus(d) {
+  const live = reviewList(S.rv).filter(o => o.camp && o.res), ids = ["key", ...live.map(o => o.id)];
+  const i = ids.indexOf(S.focus); S.focus = ids[(i + d + ids.length) % ids.length]; render(); window.scrollTo(0, 0);
+}
+document.addEventListener("keydown", e => {
+  if (S.view !== "review" || !S.focus || e.target.closest("input,textarea,select")) return;
+  if (e.key === "ArrowRight") stepFocus(1); else if (e.key === "ArrowLeft") stepFocus(-1); else if (e.key === "Escape") { S.focus = null; render(); }
+});
 
 /* ---------- Open Play ---------- */
 function progressTable() {
@@ -153,7 +232,7 @@ function reportHTML(id) {
   const p = S.progress[id] || { rounds: {} }, sum = Object.values(p.rounds).reduce((a, x) => a + x.res.profit, 0);
   return `<div class="stack"><div><span class="eyebrow">Open Play report</span><h2 style="margin:0">${esc(teamName(id))}</h2>
     <p class="muted" style="margin:0">${esc((S.members[id] || []).join(", "))} · ${Object.keys(p.rounds).length} of ${NROUNDS} clients · total profit <b class="${sum >= 0 ? "pos" : "neg"}">${money(sum)}</b>${p.sentAt ? " · sent " + new Date(p.sentAt).toLocaleString() : ""}</p></div>
-    ${ROUNDS.map((R, r) => p.rounds[r] ? `<section class="panel stack" style="gap:12px"><div><span class="eyebrow">Client ${r + 1}</span><h3 style="margin:0">${esc(R.title)}</h3></div>${kpisHTML(p.rounds[r].res)}${detailHTML(r, p.rounds[r].camp, p.rounds[r].res)}</section>` : "").join("")}</div>`;
+    ${ROUNDS.map((R, r) => p.rounds[r] ? `<section class="panel stack" style="gap:12px"><div><span class="eyebrow">Client ${r + 1}</span><h3 style="margin:0">${esc(R.title)}</h3></div>${kpisHTML(p.rounds[r].res)}${gradeTableHTML(r, p.rounds[r].camp, p.rounds[r].res)}${detailHTML(r, p.rounds[r].camp, p.rounds[r].res)}</section>` : "").join("")}</div>`;
 }
 function reportsHTML() {
   if (S.reportTeam && S.game.teams.includes(S.reportTeam)) return `<div class="stack"><div class="row noprint"><button class="btn ghost small" data-allreports>← All reports</button><button class="btn small" data-print>Print this report</button></div>${reportHTML(S.reportTeam)}</div>`;
@@ -195,6 +274,11 @@ function bind() {
   document.querySelectorAll("[data-allreports]").forEach(b => b.onclick = () => { S.reportTeam = null; render(); });
   document.querySelectorAll("[data-print]").forEach(b => b.onclick = () => window.print());
   document.querySelectorAll("[data-replay]").forEach(b => b.onclick = () => launchShow(S.game.round));
+  document.querySelectorAll("[data-review]").forEach(b => b.onclick = () => { S.view = "review"; S.rv = +b.dataset.review; S.focus = null; render(); window.scrollTo(0, 0); });
+  document.querySelectorAll("[data-rv]").forEach(b => b.onclick = () => { S.rv = +b.dataset.rv; S.focus = null; render(); });
+  document.querySelectorAll("[data-focus]").forEach(b => b.onclick = () => { S.focus = b.dataset.focus; render(); window.scrollTo(0, 0); });
+  document.querySelectorAll("[data-rvback]").forEach(b => b.onclick = () => { S.focus = null; render(); window.scrollTo(0, 0); });
+  document.querySelectorAll("[data-step]").forEach(b => b.onclick = () => stepFocus(+b.dataset.step));
   document.querySelectorAll("[data-open]").forEach(tr => {
     const go = () => { S.open = S.open === tr.dataset.open ? null : tr.dataset.open; render(); };
     tr.onclick = go; tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };

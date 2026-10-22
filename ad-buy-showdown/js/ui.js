@@ -1,4 +1,5 @@
 // Ad Buy Showdown: screens shared by the student page and the teacher console.
+import { KEYS, keyResult, gradeCampaign } from "./model.js";
 import { PLATFORMS, SEGMENTS, GEOS, OBJECTIVES, FORMATS, FMT_FIT, ROUNDS, NROUNDS, platformById, segById, geoById, objById, fmtById, audienceFor, totalAudience, totalSpend } from "./model.js";
 
 export const $ = s => document.querySelector(s);
@@ -261,3 +262,24 @@ export function toast(text) {
   const el = document.createElement("div"); el.className = "banner wait toast"; el.textContent = text;
   document.body.appendChild(el); setTimeout(() => el.remove(), 4200);
 }
+
+/* ---------- teacher review ---------- */
+export const VERDICT = { good: "Correct", ok: "Partly", bad: "Incorrect" };
+export const pill = v => `<span class="vp ${v}">${v === "good" ? "✓" : v === "ok" ? "~" : "✕"} ${VERDICT[v]}</span>`;
+export function keyPick(r, key) {
+  const k = KEYS[r].camp;
+  return gradeCampaign(r, k, keyResult(r)).find(x => x.key === key).pick;
+}
+// Full decision-by-decision table: what they picked, the model answer, the verdict, and why.
+export function gradeTableHTML(r, c, x, { compare = true } = {}) {
+  const g = gradeCampaign(r, c, x), kg = compare ? gradeCampaign(r, KEYS[r].camp, keyResult(r)) : null;
+  const b = g.find(i => i.key === "budget");
+  return `<div class="tablewrap"><table class="grade"><thead><tr><th>Decision</th><th>They picked</th>${compare ? "<th>Model answer</th>" : ""}<th>Verdict</th><th>Why</th></tr></thead><tbody>
+    ${g.filter(i => i.key !== "budget").map((i, n) => `<tr class="${i.v}"><td class="dl">${i.label}</td><td class="pk">${esc(i.pick)}</td>${compare ? `<td class="km">${esc(kg[n].pick)}</td>` : ""}<td>${pill(i.v)}</td><td class="wy">${esc(i.why)}</td></tr>`).join("")}
+    <tr class="${b.v}"><td class="dl">Budget split</td><td class="pk">${money(x.spend)} on ${b.rows.length} platform${b.rows.length === 1 ? "" : "s"}</td>${compare ? `<td class="km">${esc(kg[5].pick)}</td>` : ""}<td>${pill(b.v)}</td><td class="wy">${esc(b.why)}</td></tr>
+  </tbody></table></div>
+  ${b.rows.length ? `<div class="tablewrap" style="margin-top:12px"><table class="grade plat"><thead><tr><th>Platform</th><th>Spend</th><th>Sales</th><th>Ad cost per sale</th><th>Verdict</th><th>Why</th></tr></thead><tbody>
+    ${b.rows.map(w => { const p = platformById(w.pid); return `<tr class="${w.v}"><td class="dl"><span class="pdot" style="background:${p.color}"></span>${p.name}</td><td class="pk">${money(w.spend)}</td><td class="pk">${int(w.conv)}</td><td class="pk">${w.conv ? money(w.cpa, 2) : "–"}</td><td>${pill(w.v)}</td><td class="wy">${esc(w.why)}</td></tr>`; }).join("")}
+  </tbody></table></div>` : ""}`;
+}
+export function gradeSummary(r, c, x) { return gradeCampaign(r, c, x); }
