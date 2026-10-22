@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Teacher | District 214 Intro to Business</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: teacher home for the Intro to Business site. Same top bar and cards as the student hub, one column of sections. */
+:root{
+  --brown:#4C3629; --brown-2:#6B5040; --orange:#E26F39; --orange-lt:#F2955F; --orange-ink:#B9511F;
+  --paper:#F6F3F1; --card:#FFFFFF; --ink:#24190F; --muted:#6E6159; --line:#E2DAD4; --tint:#FBF1EB;
+  --display:'Oswald','Arial Narrow',Impact,sans-serif;
+  --body:'Barlow','Segoe UI',Arial,sans-serif;
+  --data:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:var(--body);font-size:17px;line-height:1.45;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--orange-lt);outline-offset:2px}
+.top{background:var(--brown);color:#fff;border-bottom:5px solid var(--orange)}
+.top .in{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1140px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo .mark{font-family:var(--display);font-weight:700;background:var(--orange);color:#fff;padding:3px 8px;border-radius:2px;font-size:18px;letter-spacing:.02em}
+.logo .nm{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:19px}
+.top .tag{margin-left:auto;font-family:var(--data);text-transform:uppercase;letter-spacing:.12em;font-size:15px;color:var(--orange-lt)}
+main{flex:1;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1140px;margin:0 auto;display:flex;flex-direction:column;gap:34px}
+.eyebrow{font-family:var(--data);text-transform:uppercase;letter-spacing:.14em;color:var(--orange-ink);font-weight:600;font-size:15px}
+h1{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em;color:var(--brown);font-size:clamp(34px,5vw,52px);line-height:1.02;margin:4px 0 10px;text-wrap:balance}
+.lede{font-size:18px;max-width:66ch;margin:0;color:var(--ink)}
+section{display:flex;flex-direction:column;gap:14px}
+.sh{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;border-bottom:2px solid var(--line);padding-bottom:6px}
+.sh h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--brown);font-size:26px;margin:0}
+.sh p{margin:0;color:var(--muted);font-size:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--brown);border-radius:4px;padding:18px 20px;text-decoration:none;min-width:0;transition:transform .12s,box-shadow .12s}
+a.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(76,54,41,.12)}
+.card.new{border-top-color:var(--orange)}
+.tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{font-family:var(--data);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:var(--tint);color:var(--brown);padding:2px 8px;border-radius:2px;white-space:nowrap}
+.chip.hot{background:var(--orange);color:#fff}
+.topic{font-family:var(--data);font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.card h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.02em;color:var(--brown);font-size:24px;margin:0}
+.card p{margin:0;font-size:16px}
+.tools{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:15px;color:var(--muted)}
+.tools li::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--orange);margin-right:8px;vertical-align:2px}
+.tools b{color:var(--ink);font-weight:600}
+.foot{margin-top:auto;padding-top:10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px;align-items:flex-start;font-size:15px;color:var(--muted)}
+.foot b{color:var(--ink)}
+.go{font-family:var(--data);font-weight:600;color:var(--orange-ink);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;font-size:16px}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.fbox{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:16px 20px;min-width:0}
+.fbox h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;color:var(--brown);font-size:20px;margin:0 0 8px}
+.fbox ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.fbox li{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line)}
+.fbox li:last-child{border-bottom:0}
+.fbox li span{min-width:0}
+.fbox .fmt{display:flex;gap:6px;flex:none}
+.fbox .fmt a{font-family:var(--data);font-weight:600;font-size:14px;letter-spacing:.06em;text-decoration:none;color:var(--orange-ink);border:1.5px solid var(--line);border-radius:3px;padding:1px 8px}
+.fbox .fmt a:hover{border-color:var(--orange)}
+.fbox details summary{cursor:pointer;color:var(--muted);font-size:15px;padding:7px 0}
+.note{background:var(--tint);border-left:4px solid var(--orange);border-radius:0 4px 4px 0;padding:12px 16px;font-size:16px}
+footer{border-top:1px solid var(--line);background:var(--card);padding-block:14px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--muted);font-size:15px}
+footer .in{max-width:1140px;margin:0 auto;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="logo" href="/"><span class="mark">214</span><span class="nm">Intro to Business</span></a>
+  <span class="tag">Teacher</span>
+</div></header>
+
+<main><div class="wrap">
+  <div>
+    <span class="eyebrow">Teacher only</span>
+    <h1>Every console in one place</h1>
+    <p class="lede">Open a console on the projector computer. Students join from the student site on their own devices. This page isn't linked from the student pages, so bookmark it.</p>
+  </div>
+
+  <section>
+    <div class="sh"><h2>Unit 3 class games</h2><p>Each console runs live class games and shows Open Play reports.</p></div>
+    <div class="cards">
+      <a class="card new" href="/ad-buy-showdown/teacher">
+        <div class="tags"><span class="chip">Unit 3</span><span class="chip hot">New</span><span class="topic">Social media marketing</span></div>
+        <h3>Ad Buy Showdown</h3>
+        <p>Six clients, six rounds. Agencies build a real social ad buy on their own devices, and you launch every campaign at once.</p>
+        <ul class="tools"><li><b>Control:</b> open each round, see who's locked in, launch</li><li><b>Review:</b> every agency's buy graded decision by decision, with the model answer</li><li><b>Reports:</b> Open Play results, graded the same way</li></ul>
+        <div class="foot"><span>Students: <b>Ad Buy Showdown</b> → Live in Class</span><span class="go">Open console →</span></div>
+      </a>
+      <a class="card new" href="/ad-buy-live/teacher">
+        <div class="tags"><span class="chip">Unit 3</span><span class="chip hot">New</span><span class="topic">Social media marketing · Review</span></div>
+        <h3>Ad Buy Live</h3>
+        <p>Kahoot-style review: ad terms, the math, platform audiences, targeting, formats, and campaign calls. Speed earns points, wrong answers cost points.</p>
+        <ul class="tools"><li><b>Host:</b> pick questions per round, penalty, and time, then show the join code and QR</li><li><b>End of game:</b> class results by skill and what to reteach first</li></ul>
+        <div class="foot"><span>Students: <b>Ad Buy Live</b> → enter the code</span><span class="go">Host a game →</span></div>
+      </a>
+      <a class="card" href="/build-the-lineup/teacher">
+        <div class="tags"><span class="chip">Unit 3</span><span class="topic">Market segmentation · Pricing</span></div>
+        <h3>Build the Lineup</h3>
+        <p>One product, three kinds of customers. Teams build and price a version for each segment, then fix it for Launch 2.</p>
+        <ul class="tools"><li><b>Games:</b> live (one company) or self-paced (pick the companies)</li><li><b>Case files:</b> all twelve companies, with the answer key</li><li><b>Reports:</b> self-paced and Open Play reports, printable</li></ul>
+        <div class="foot"><span>Students: <b>Build the Lineup</b> → Live in Class</span><span class="go">Open console →</span></div>
+      </a>
+      <a class="card" href="/media-buy/teacher">
+        <div class="tags"><span class="chip">Unit 3</span><span class="topic">Target marketing</span></div>
+        <h3>Million Dollar Media Buy</h3>
+        <p>Teams split $1,000,000 across customer segments each year and see who spent it best.</p>
+        <ul class="tools"><li><b>Control:</b> run the years and reveal results</li><li><b>The Brief:</b> the company and its segments on the board</li></ul>
+        <div class="foot"><span>Students: <b>Media Buy</b> → Live in Class</span><span class="go">Open console →</span></div>
+      </a>
+      <a class="card" href="/windy-city/teacher">
+        <div class="tags"><span class="chip">Unit 3</span><span class="topic">Advertising channels · ROI</span></div>
+        <h3>Windy City Ad Buy</h3>
+        <p>Teams spend $1,000,000 on Chicago ad channels and compare returns as a class.</p>
+        <ul class="tools"><li><b>Control:</b> run the rounds and reveal results</li><li><b>The Brief:</b> the company and the nine channels on the board</li></ul>
+        <div class="foot"><span>Students: <b>Windy City</b> → Live in Class</span><span class="go">Open console →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><h2>Class files on this site</h2><p>Download to print or edit.</p></div>
+    <div class="files">
+      <div class="fbox">
+        <h3>Build the Lineup</h3>
+        <ul>
+          <li><span>Launch deck</span><span class="fmt"><a href="/1%20Presentations/Build_the_Lineup_Launch_Deck.pptx">PPTX</a></span></li>
+          <li><span>Student slide template</span><span class="fmt"><a href="/1%20Presentations/Build_the_Lineup_Student_Template.pptx">PPTX</a></span></li>
+          <li><span>Student guide</span><span class="fmt"><a href="/2%20Student%20Handouts/Student_Guide_Build_the_Lineup.pdf">PDF</a><a href="/2%20Student%20Handouts/Student_Guide_Build_the_Lineup.docx">Word</a></span></li>
+          <li><span>Teacher key</span><span class="fmt"><a href="/4%20Teacher%20Only/Teacher_Key_Build_the_Lineup.pdf">PDF</a><a href="/4%20Teacher%20Only/Teacher_Key_Build_the_Lineup.docx">Word</a></span></li>
+        </ul>
+        <details><summary>Case files (12 companies)</summary><ul id="cases"></ul></details>
+      </div>
+      <div class="fbox">
+        <h3>Ad Buy Showdown</h3>
+        <p style="margin:0 0 8px;font-size:16px">The launch deck and opener worksheet aren't stored on the site. Keep them in Schoology or Drive.</p>
+        <ul>
+          <li><span>Model answers and grading</span><span class="fmt"><a href="/ad-buy-showdown/teacher">Review tab</a></span></li>
+          <li><span>Client briefs for the board</span><span class="fmt"><a href="/ad-buy-showdown/teacher">Briefs tab</a></span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">This site is public. Anyone who has a file's address can open it, even though this page isn't linked from the student site. Answer keys are safest in Schoology or Drive.</p>
+  </section>
+</div></main>
+
+<footer><div class="in"><span>High School District 214 | Intro to Business</span><a href="/">Student site</a></div></footer>
+
+<script>
+const CASES = ["01_Driftwave_Audio", "02_Rally_Paddle_Co", "03_Northbound_Packs", "04_Frame_Fitness", "05_Polar_Pop_Cameras", "06_Grip_Gaming",
+  "07_Shellshock_Cases", "08_Pass_Lane_Driving_School", "09_Marquee_Cinemas", "10_Shine_Club_Car_Wash", "11_Stride_Watch", "12_Bounce_Zone_Trampoline_Park"];
+document.getElementById("cases").innerHTML = CASES.map(c => {
+  const name = c.slice(3).replace(/_/g, " "), f = "Case_File_" + c;
+  return `<li><span>${c.slice(0, 2)}. ${name}</span><span class="fmt"><a href="/3%20Case%20Files/PDF/${f}.pdf">PDF</a><a href="/3%20Case%20Files/Word/${f}.docx">Word</a></span></li>`;
+}).join("");
+</script>
+</body>
+</html>

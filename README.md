@@ -5,6 +5,7 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | Address | What it is |
 |---|---|
 | `/` | The hub: Live Class Games and Simulations, filter by unit |
+| `/teacher` | Teacher home: every console and the class files in one place (not linked from the student site) |
 | `/media-buy/` | Million Dollar Media Buy (students) |
 | `/media-buy/teacher` | Media Buy teacher console |
 | `/windy-city/` | Windy City Ad Buy (students) |
@@ -16,7 +17,7 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/ad-buy-live/` | Ad Buy Live review game (students join with a code) |
 | `/ad-buy-live/teacher` | Ad Buy Live host screen |
 
-Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub, so keep those addresses to yourself.
+Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub. Bookmark `/teacher`, which links to all of them, and keep that address to yourself.
 
 ## Folders
 
