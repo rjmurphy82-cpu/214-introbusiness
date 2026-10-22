@@ -11,6 +11,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/windy-city/teacher` | Windy City teacher console |
 | `/build-the-lineup/` | Build the Lineup (students) |
 | `/build-the-lineup/teacher` | Build the Lineup teacher console |
+| `/ad-buy-showdown/` | Ad Buy Showdown (students) |
+| `/ad-buy-showdown/teacher` | Ad Buy Showdown teacher console |
 
 Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub, so keep those addresses to yourself.
 
@@ -25,6 +27,8 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `api/mb/` | Media Buy server code (join, live state, buys, Open Play, teacher controls) |
 | `api/wc/` | Windy City server code |
 | `api/bl/` | Build the Lineup server code |
+| `ad-buy-showdown/` | Ad Buy Showdown pages, styles, and game logic (`js/model.js` holds the six clients and the market math) |
+| `api/ab/` | Ad Buy Showdown server code |
 
 Each game's server code runs through one file, `[route].js`, which hands each request to the matching `_` file. Vercel's free plan allows only 12 server functions per site, so this keeps every game at one. When you add a game, give it one `[route].js` the same way.
 | `vercel.json`, `package.json` | Vercel settings |
@@ -37,7 +41,7 @@ Each game's server code runs through one file, `[route].js`, which hands each re
 2. **Vercel:** Add New > Project, import `214-introbusiness`, Framework Preset **Other**, leave the build settings empty, and click Deploy. Vercel names the site from the repo, which gives you `214-introbusiness.vercel.app`. If that name is taken, rename it under Settings > Domains.
 3. **Storage:** Storage > **upstash-kv-lime-flask** > Connect Project > pick `214-introbusiness`. Then go to Deployments > ⋯ > **Redeploy**.
 
-Each game keeps its data under its own label (`mdmb:`, `wcab:`, `bltl:`), so they share the database with Bond Desk safely. If the old stand-alone Media Buy site used this same database, its saved games and Open Play reports show up here too.
+Each game keeps its data under its own label (`mdmb:`, `wcab:`, `bltl:`, `abs:`), so they share the database with Bond Desk safely. If the old stand-alone Media Buy site used this same database, its saved games and Open Play reports show up here too.
 
 ## Retiring the old sites
 
