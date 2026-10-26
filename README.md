@@ -18,6 +18,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/ad-buy-live/teacher` | Ad Buy Live host screen |
 | `/marketing-ladder/` | Marketing Ladder unit review (students join with a code) |
 | `/marketing-ladder/teacher` | Marketing Ladder host screen |
+| `/brand-crisis/` | Brand Crisis simulation (students join with a code) |
+| `/brand-crisis/teacher` | Brand Crisis host screen |
 
 Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub. Bookmark `/teacher`, which links to all of them, and keep that address to yourself.
 
@@ -37,6 +39,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `ad-buy-live/` | Ad Buy Live: same engine as the Accounting site's live games. Questions are in `live.js` under QUESTION BANK |
 | `api/live.js` | Ad Buy Live server code (game codes stored under `ibl:`) |
 | `marketing-ladder/` | Marketing Ladder: tables-of-3 unit review. Vocab terms and the six client buys are in `data.js`. Uses the same `api/live.js` as Ad Buy Live, so it adds no server function |
+| `brand-crisis/` | Brand Crisis: Strider Sneakers crisis simulation. The six crises, their 8 responses, and the twist cards are in `data.js`. Also runs on `api/live.js` |
 
 Each game's server code runs through one file, `[route].js`, which hands each request to the matching `_` file. Vercel's free plan allows only 12 server functions per site, so this keeps every game at one. When you add a game, give it one `[route].js` the same way.
 | `vercel.json`, `package.json` | Vercel settings |
