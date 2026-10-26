@@ -71,24 +71,57 @@ function fit() { if (ROLE !== "teacher") return; document.body.classList.add("wi
 window.addEventListener("resize", () => { if (ROLE === "teacher" && !document.body.classList.contains("finale-on")) { clearTimeout(fit.t); fit.t = setTimeout(zoomApp, 150); } });
 const hdr = () => `<h1 class="title">Brand <span>Crisis.</span></h1>
   <p class="lede">${ROLE === "teacher"
-    ? "Teacher screen for the projector. Every student runs Strider Sneakers. Each crisis gives them 8 ways to respond; they lock in on their iPads, you draw a random twist, and the reveal shows what each choice did. Trust, sales, and budget carry over, and the highest brand value wins."
-    : "You're the marketing director of Strider Sneakers. When a crisis hits, pick one of 8 responses and lock it in before time runs out. Trust multiplies everything, so protect it, and watch your crisis budget."}</p>`;
+    ? "Teacher screen for the projector. Students play in pairs, one iPad per team, and every team runs Strider Sneakers. Each crisis gives them 8 ways to respond; they lock in, you draw a random twist, and the reveal shows what each choice did. Trust, sales, and budget carry over, the highest brand value wins, and each game's top 3 teams can make the Hall of Fame."
+    : "You and your partner are the marketing team for Strider Sneakers. When a crisis hits, talk it over, pick one of 8 responses, and lock it in before time runs out. Trust multiplies everything, so protect it, and watch your crisis budget."}</p>`;
 function needSetup() {
   app.innerHTML = `${hdr()}<div class="panel"><h2>${ROLE === "teacher" ? "Class games need the database" : "The game isn't open yet"}</h2><p>${ROLE === "teacher" ? "Connect the Upstash for Redis database to this Vercel project, then redeploy (same setup as Ad Buy Live)." : "Wait for your teacher to start it, then reload."}</p><button class="btn main" id="b">Reload</button></div>`;
   $("#b").onclick = () => location.reload();
 }
-function home() { stopTick(); document.body.classList.remove("wide", "finale-on"); app.style.zoom = ""; $("#who").hidden = true; ROLE === "teacher" ? hostSetup() : joinForm(); }
+function home() { stopTick(); document.body.classList.remove("wide", "finale-on"); app.style.zoom = ""; $("#who").hidden = true; ROLE === "teacher" ? hostSetup() : ROLE === "board" ? boardPage() : joinForm(); }
+
+/* ============================================================ HALL OF FAME (all-time leaderboard of winning teams) */
+const MOCKB = "crisisBoardMock";
+const Board = {
+  async get() {
+    if (MOCK) { try { return JSON.parse(localStorage.getItem(MOCKB) || "[]"); } catch (e) { return []; } }
+    try { const r = await fetch("/api/crisis-board", { cache: "no-store" }); return (await r.json()).list || []; } catch (e) { return []; }
+  },
+  // The server re-scores the finished game itself from what's saved, so browsers can't send fake scores.
+  async post(code, label, localTop) {
+    if (MOCK) { const b = (await Board.get()).concat(localTop).sort((a, z) => z.value - a.value).slice(0, 100); localStorage.setItem(MOCKB, JSON.stringify(b)); return { list: b, added: localTop }; }
+    try { const r = await fetch("/api/crisis-board", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code, label }) }); return await r.json(); } catch (e) { return { error: "offline" }; }
+  }
+};
+function boardHTML(list, crises, mark) {
+  const counts = [...new Set(list.map(e => e.crises))].sort((a, b) => b - a);
+  if (!counts.includes(crises) && counts.length) crises = counts[0];
+  const rows = list.filter(e => e.crises === crises).slice(0, 20);
+  return `<div class="hof"><div class="hofhead"><div><div class="kick">All classes · all time</div><h2>Hall of Fame</h2></div>
+    ${counts.length > 1 ? `<div class="seg" id="hofc">${counts.map(n => `<button data-v="${n}" aria-pressed="${n === crises}">${n} crises</button>`).join("")}</div>` : ""}</div>
+    ${rows.length ? `<ol class="hofl">${rows.map((e, i) => { const me = mark && mark(e);
+      return `<li class="${i < 3 ? "m" + (i + 1) : ""} ${me ? "me" : ""}"><span class="rk">${i + 1}</span><span class="nm"><b>${esc(e.name)}</b><small>${esc([e.label, e.date].filter(Boolean).join(" · "))}${e.place === 1 ? " · won their game" : ""}</small></span><span class="v">${m$(e.value)}<small>Trust ${e.trust}</small></span>${me ? '<i class="new">NEW</i>' : ""}</li>`; }).join("")}</ol>`
+      : `<p class="note">No winners yet. The top 3 teams from every finished game land here.</p>`}</div>`;
+}
+function wireBoard(el, list, mark) { const g = el.querySelector("#hofc"); if (g) g.onclick = e => { const b = e.target.closest("button"); if (!b) return; el.innerHTML = boardHTML(list, +b.dataset.v, mark); wireBoard(el, list, mark); }; }
+async function boardPage() {
+  app.innerHTML = `<p class="lede">The best brand values ever posted in Brand Crisis. The top 3 teams from every class game make the list.</p><div id="bd"><p class="note">Loading…</p></div>
+    <p class="links"><a href="/brand-crisis/">Join a game</a> · <a href="/">All games</a></p>`;
+  const list = await Board.get(), el = $("#bd"); el.innerHTML = boardHTML(list, 6); wireBoard(el, list);
+}
 
 /* ============================================================ HOST */
 let H = null;
 async function hostSetup() {
   const N = await net().catch(() => null); if (!N) return needSetup();
-  const cfg = { ids: K.CRISES.map(c => c.id), secs: 60 };
+  const cfg = { ids: K.CRISES.map(c => c.id), secs: 60, label: "" };
   app.innerHTML = `${hdr()}<div class="panel wide-panel"><h2>Host a game</h2>
     <p>Crises (one per round, in this order). Tap to turn one off.</p>
     <div class="seg multi" id="cr">${K.CRISES.map(c => `<button data-v="${c.id}" aria-pressed="true"><b>${esc(c.title)}</b><small>${esc(c.story.split(". ")[0])}.</small></button>`).join("")}</div>
     <p>Time to decide:</p><div class="seg" id="sc"><button data-v="45">45 sec</button><button data-v="60" aria-pressed="true">60 sec</button><button data-v="90">90 sec</button></div>
-    <p class="note" id="rc"></p><div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
+    <p class="note" id="rc"></p>
+    <p>Class name for the Hall of Fame (optional):</p><input class="field small" id="lb" maxlength="30" placeholder="Period 3">
+    <div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
+  $("#lb").oninput = e => cfg.label = e.target.value.trim();
   const note = () => { const n = cfg.ids.length; $("#rc").textContent = n ? `${n} crises, about ${n * 3} to ${n * 4} minutes.` : "Pick at least one crisis."; $("#go").disabled = !n; };
   $("#cr").onclick = e => { const b = e.target.closest("button"); if (!b) return; b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
     cfg.ids = K.CRISES.map(c => c.id).filter(id => $(`#cr [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); note(); };
@@ -124,7 +157,7 @@ function hostLobby() {
   if (!H.qr) H.qr = qrSvg(url);
   app.innerHTML = `<div class="lobby"><div class="lobtop"><div class="lobleft"><div class="join">Scan the code, or open <b>Brand Crisis</b> on the Intro to Business site and enter</div>
     <div class="code">${H.code}</div><div class="url">${esc(url.replace(/^https?:\/\//, ""))}</div></div>${H.qr ? `<div class="qr">${H.qr}<span>Scan to join</span></div>` : ""}</div>
-    <div class="count">${ps.length} marketing director${ps.length === 1 ? "" : "s"} joined</div>
+    <div class="count">${ps.length} team${ps.length === 1 ? "" : "s"} joined · one iPad per pair</div>
     <div class="names">${ps.map(id => `<span>${esc(nameOf(id))}</span>`).join("") || '<span style="opacity:.5">Waiting for players…</span>'}</div>
     <div class="row" style="justify-content:center"><button class="btn main" id="start" ${ps.length ? "" : "disabled"}>Start: first crisis</button><button class="btn" id="end">Cancel</button></div></div>`;
   $("#start").onclick = () => hostSet({ phase: "crisis", r: 0, tw: [] }); $("#end").onclick = hostErase;
@@ -179,7 +212,7 @@ function hostReveal() {
       <div class="ropts">${c.opts.map((o, i) => { const out = K.outcome(c, i, tw);
         return `<div class="ropt ${i === best ? "best" : ""}"><span class="lt">${LET[i]}</span><div class="mid"><span class="tx">${esc(o.t)}</span>${effects(out)}</div>
           <div class="votes"><div class="vb"><i style="width:${counts[i] / mx * 100}%"></i></div><b>${counts[i]}</b></div>${i === best ? '<span class="star">Best move</span>' : ""}</div>`; }).join("")}</div></div>
-    <aside class="sb"><div class="sbh"><span>Brand value</span><small>${ps.length} directors</small></div>
+    <aside class="sb"><div class="sbh"><span>Brand value</span><small>${ps.length} teams</small></div>
       <div class="sbrows">${list.slice(0, 10).map((x, i) => { const mv = before[x.p] - (i + 1);
         return `<div class="sbr r${i + 1}"><span class="rk">${i + 1}</span><span class="nm"><b>${esc(nameOf(x.p))}</b>${mv > 0 ? `<i class="mv up">▲ ${mv}</i>` : mv < 0 ? `<i class="mv dn">▼ ${-mv}</i>` : ""}</span>
           <span class="sc"><b>${m$(x.v)}</b><em class="${x.v - x.prev >= 0 ? "" : "neg"}">${x.v - x.prev >= 0 ? "+" : ""}${m$(x.v - x.prev)}</em></span></div>`; }).join("")}</div>
@@ -195,9 +228,22 @@ function hostEnd() {
   app.innerHTML = `<div class="finale"><div class="rays"></div><div class="fhead"><div class="kick">Brand Crisis · Final brand value</div><h2>Top 5</h2></div>
     <div class="podium">${slot(top[1], 1, "p2")}${slot(top[0], 0, "p1")}${slot(top[2], 2, "p3")}</div>
     <div class="rest">${top.slice(3).map((x, k) => `<div class="row45" data-i="${k + 3}"><span class="r">${k + 4}</span><span class="n">${esc(nameOf(x.p))}</span><span class="s">${m$(x.v)}</span></div>`).join("")}</div>
-    <div class="fbar"><button class="btn" id="cr">Class results</button><button class="btn" id="erase">Erase game</button><button class="btn" id="done">Done</button></div></div>`;
+    <div class="fbar"><button class="btn" id="cr">Class results</button><button class="btn" id="hf">Hall of Fame</button><button class="btn" id="erase">Erase game</button><button class="btn" id="done">Done</button></div></div>`;
   [4, 3, 2, 1, 0].filter(i => top[i]).forEach((i, n) => setTimeout(() => { const el = app.querySelector(`.finale [data-i="${i}"]`); if (el) el.classList.add("in"); beep(i === 0 ? 1047 : 600, .2); }, 600 + n * 1000));
-  $("#cr").onclick = classResults; $("#erase").onclick = hostErase; $("#done").onclick = () => { cleanupHost(); home(); };
+  $("#cr").onclick = classResults; $("#hf").onclick = hostBoard; $("#erase").onclick = hostErase; $("#done").onclick = () => { cleanupHost(); home(); };
+  if (!H.posted) { // send this game's results to the Hall of Fame once
+    H.posted = Board.post(H.code, H.meta.label, list.slice(0, 3).map((x, i) => ({ name: nameOf(x.p), value: Math.round(x.v), trust: Math.round(K.run(H.meta.ids, Object.fromEntries(H.meta.ids.map((_, r) => [r, pickOf(x.p, r)])), H.state.tw, H.meta.ids.length - 1).b.trust),
+      crises: H.meta.ids.length, label: H.meta.label || "", date: new Date().toISOString().slice(0, 10), code: H.code, place: i + 1, of: list.length })));
+  }
+}
+async function hostBoard() {
+  document.body.classList.remove("finale-on");
+  app.innerHTML = `<div id="bd"><p class="note">Loading the Hall of Fame…</p></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="cr2">Class results</button></div>`;
+  $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#cr2").onclick = classResults;
+  const res = await (H.posted || Promise.resolve({})), list = (res && res.list) || await Board.get(), el = $("#bd"); if (!el) return;
+  const mark = e => e.code === H.code && String(e.date) === new Date().toISOString().slice(0, 10);
+  el.innerHTML = boardHTML(list, H.meta.ids.length, mark) + (res && res.error ? `<p class="note">Couldn't post this game: ${esc(res.error)}</p>` : "");
+  wireBoard(el, list, mark); fit();
 }
 function classResults() {
   document.body.classList.remove("finale-on");
@@ -209,8 +255,8 @@ function classResults() {
     <div class="skills"><div class="skh">Crisis by crisis</div>${rows}
       <p class="note">Talk about it: which responses cost little but kept trust? When did saying nothing work, and when did it blow up?</p></div>
     <div class="skills"><div class="skh">Final brand value</div><ol class="stand">${list.map(x => `<li><span>${esc(nameOf(x.p))}</span><em>${m$(x.v)}</em></li>`).join("")}</ol></div></div>
-    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="erase">Erase game</button></div></div>`;
-  $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#erase").onclick = hostErase;
+    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="hf2">Hall of Fame</button><button class="btn" id="erase">Erase game</button></div></div>`;
+  $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#hf2").onclick = hostBoard; $("#erase").onclick = hostErase;
   fit();
 }
 function cleanupHost() { stopTick(); if (H && H.off) H.off(); }
@@ -233,27 +279,32 @@ function cleanName(v) {
 async function joinForm() {
   const N = await net().catch(() => null); if (!N) return needSetup();
   const sv = loadSess(), qcode = (location.search.match(/[?&]code=(\d{4})/) || [])[1];
-  app.innerHTML = `${hdr()}<div class="panel"><h2>Join the game</h2><p>${qcode ? "Code filled in. Type your first name." : "Type the code on the board and your first name."} Closed the page? Join again with the same name and you keep your brand.</p>
+  const old = sv && (!qcode || sv.code === qcode) ? String(sv.name).split(" & ") : [];
+  app.innerHTML = `${hdr()}<div class="panel"><h2>Join with your partner</h2><p>${qcode ? "Code filled in." : "Type the code on the board."} One iPad per team. Closed the page? Join again with the same two names and you keep your brand.</p>
     <input class="field code" id="cd" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off" value="${qcode || (sv ? esc(sv.code) : "")}">
-    <input class="field" id="nm" maxlength="20" placeholder="First name" autocomplete="given-name" autocapitalize="words" value="${sv && (!qcode || sv.code === qcode) ? esc(sv.name) : ""}">
-    <div class="err" id="er"></div><div class="row" id="dup" hidden></div><button class="btn main" id="go">Join</button></div>`;
-  (qcode && !$("#nm").value) ? $("#nm").focus() : $("#cd").focus();
+    <label class="lab">Your first name</label><input class="field" id="n1" maxlength="20" placeholder="First name" autocomplete="off" autocapitalize="words" value="${esc(old[0] || "")}">
+    <label class="lab">Your partner's first name</label><input class="field" id="n2" maxlength="20" placeholder="Partner's first name" autocomplete="off" autocapitalize="words" value="${esc(old[1] || "")}">
+    <div class="err" id="er"></div><div class="row" id="dup" hidden></div><button class="btn main" id="go">Join as a team</button>
+    <p class="links"><a href="/brand-crisis/winners">See the Hall of Fame</a></p></div>`;
+  (qcode && !$("#n1").value) ? $("#n1").focus() : $("#cd").focus();
   const go = async () => {
-    const code = $("#cd").value.trim(), name = cleanName($("#nm").value);
+    const code = $("#cd").value.trim(), a = cleanName($("#n1").value), b = cleanName($("#n2").value);
     if (!/^\d{4}$/.test(code)) { $("#er").textContent = "The code is 4 numbers."; return; }
-    if (!name) { $("#er").textContent = "Type your first name."; return; }
+    if (!a) { $("#er").textContent = "Type your first name."; return; }
+    if (!b && !$("#go").dataset.solo) { $("#er").textContent = "Type your partner's first name. Working alone? Tap Join again."; $("#go").dataset.solo = "1"; return; }
+    const name = b ? `${a} & ${b}` : a;
     $("#go").disabled = true; $("#dup").hidden = true;
     const r = await enterGame(N, code, name);
     if (r && r.dup) {
       $("#er").textContent = `${r.name} is already in this game.`; $("#dup").hidden = false; $("#go").hidden = true;
-      $("#dup").innerHTML = `<button class="btn main" id="me">That's me</button><button class="btn" id="other">I'm a different ${esc(r.name)}</button>`;
+      $("#dup").innerHTML = `<button class="btn main" id="me">That's us</button><button class="btn" id="other">We're a different team</button>`;
       $("#me").onclick = async () => { const e = await enterGame(N, code, r.name, r.pid); if (e) $("#er").textContent = e; };
-      $("#other").onclick = () => { $("#dup").hidden = true; $("#go").hidden = false; $("#go").disabled = false; $("#nm").value = r.name + " "; $("#nm").focus(); $("#er").textContent = `Add your last initial, like "${r.name} M."`; };
+      $("#other").onclick = () => { $("#dup").hidden = true; $("#go").hidden = false; $("#go").disabled = false; $("#n1").focus(); $("#er").textContent = `Add a last initial to one name, like "${a} M."`; };
       return;
     }
     if (r) { $("#er").textContent = r; $("#go").disabled = false; }
   };
-  $("#go").onclick = go; $("#nm").onkeydown = e => { if (e.key === "Enter") go(); };
+  $("#go").onclick = go; $("#n2").onkeydown = e => { if (e.key === "Enter") go(); };
 }
 async function enterGame(N, code, name, forcePid) {
   try {
@@ -282,7 +333,7 @@ function stuRender() {
   const M = ME, st = M.st; if (!st) return;
   const key = st.phase + "|" + st.r + "|" + (st.phase === "reveal" ? JSON.stringify(st.ranks && st.ranks[M.pid]) : "");
   if (key === M.rq) return; M.rq = key;
-  if (st.phase === "lobby") { app.innerHTML = `<div class="wait"><h2>You're in, ${esc(M.name)}!</h2><p>You're the new marketing director of <b>${esc(K.BRAND.name)}</b>.</p><p>${esc(K.BRAND.about)}</p>${meters(K.BRAND.start)}<p>Watch the board. The first crisis is coming.</p></div>`; return; }
+  if (st.phase === "lobby") { app.innerHTML = `<div class="wait"><h2>You're in, ${esc(M.name)}!</h2><p>You're the new marketing team for <b>${esc(K.BRAND.name)}</b>.</p><p>${esc(K.BRAND.about)}</p>${meters(K.BRAND.start)}<p>Watch the board. The first crisis is coming.</p></div>`; return; }
   if (st.phase === "crisis") return stuCrisis();
   if (st.phase === "twist") { stopTick(); const c = K.byId[M.meta.ids[st.r]], T = c.twists[st.tw[st.r]];
     app.innerHTML = `<div class="wait"><div class="kick">What happened next…</div><div class="tcardx flip small"><div class="back"><b>${esc(T.t)}</b><span>${esc(T.note)}</span></div></div><p>Watch the board for the results.</p></div>`; return; }
@@ -317,8 +368,17 @@ function stuReveal() {
 function stuEnd() {
   stopTick(); const M = ME, st = M.st, R = myRun(st, M.meta.ids.length - 1);
   app.innerHTML = `<div class="wait"><div class="kick">Brand Crisis · Final</div><h2>Your brand is worth ${m$(R.value)}</h2>${meters(R.b, K.BRAND.start)}
-    <p>You started at ${m$(K.value(K.BRAND.start))}. Watch the board for the Top 5.</p></div>`;
+    <p>You started at ${m$(K.value(K.BRAND.start))}. Watch the board for the Top 5.</p><div id="hofme"></div>
+    <p class="links"><a href="/brand-crisis/winners">See the Hall of Fame</a></p></div>`;
   try { localStorage.removeItem(SKEY); } catch (e) {}
+  // did we make the Hall of Fame? (the teacher screen posts it a moment after the game ends)
+  const code = M.code, name = M.name;
+  [3000, 8000, 15000].forEach(ms => setTimeout(async () => {
+    const el = $("#hofme"); if (!el || el.dataset.done) return;
+    const list = await Board.get(), crises = M.meta.ids.length, same = list.filter(e => e.crises === crises);
+    const i = same.findIndex(e => e.code === code && e.name === name);
+    if (i >= 0 && i < 20) { el.dataset.done = 1; el.innerHTML = `<div class="place podium-1"><span>Hall of Fame</span><b>#${i + 1}</b><span>all time</span></div>`; beep(1047, .3); }
+  }, ms));
 }
 
 home();
