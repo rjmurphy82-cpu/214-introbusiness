@@ -131,3 +131,7 @@
 .finale .champ{color:#FFC93C;font-weight:700;font-size:clamp(16px,2.4vh,28px);margin-top:.6vh}
 .finale .champ b{color:#fff}
 @media (max-width:760px){.bhead{flex-direction:column}.dt{font-size:16px}.stand{columns:1}}
+.seg.multi{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.seg.multi button{text-align:left;display:flex;flex-direction:column;gap:1px}
+.seg.multi button small{font-weight:500;font-size:13px;opacity:.8}
+.seg.multi button[aria-pressed="false"]{opacity:.55;text-decoration:line-through}

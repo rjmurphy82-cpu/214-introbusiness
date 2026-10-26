@@ -152,8 +152,8 @@ window.addEventListener("resize", () => { if (ROLE === "teacher") { clearTimeout
 /* ============================================================ HOME */
 const hdr = () => `<h1 class="title">Marketing <span>Ladder.</span></h1>
   <p class="lede">${ROLE === "teacher"
-    ? "Teacher screen for the projector. Students join on their own devices and sit at tables of 3. Each round: vocabulary, then a $100,000 ad buy, then results. 1st places move together, 2nds together, 3rds together, and points add up all game."
-    : "Each round you answer a few vocab questions, make a $100,000 ad buy, and see how you did against the two people at your table. Win your table and you move up. Every point counts toward your total."}</p>`;
+    ? "Teacher screen for the projector. Students join on their own devices and sit at tables of 3. Each round: vocabulary, then a $100,000 buy, then results. 1st places move together, 2nds together, 3rds together, and points add up all game."
+    : "Join with your first name. Each round you answer a few vocab questions, make a $100,000 buy, and see how you did against the two people at your table. Win your table and you move up. Every point counts toward your total."}</p>`;
 function needSetup() {
   app.innerHTML = `${hdr()}<div class="panel"><h2>${ROLE === "teacher" ? "Class games need the database" : "The game isn't open yet"}</h2>
     <p>${ROLE === "teacher" ? "In Vercel, connect the Upstash for Redis database to this project, then redeploy. It's the same setup Ad Buy Live uses." : "Wait for your teacher to start it, then reload this page."}</p>
@@ -166,28 +166,33 @@ function home() { stopTick(); document.body.classList.remove("wide", "finale-on"
 let H = null;
 async function hostSetup() {
   const N = await net().catch(() => null); if (!N) return needSetup();
-  const cfg = { rounds: 5, per: 3, qsecs: 20, bsecs: 150, rule: "place" };
+  const cfg = { buys: L.ORDER.filter(b => b !== "fest"), per: 3, qsecs: 20, bsecs: 150, rule: "place" };
   app.innerHTML = `${hdr()}<div class="panel wide-panel"><h2>Host a game</h2>
-    <p>Rounds:</p><div class="seg" data-k="rounds"><button data-v="3">3</button><button data-v="4">4</button><button data-v="5" aria-pressed="true">5</button><button data-v="6">6</button></div>
+    <p>Rounds: each client buy is one round, played in this order. Tap to turn one off.</p>
+    <div class="seg multi" id="buys">${L.ORDER.map(id => { const b = L.buyById[id]; return `<button data-v="${id}" aria-pressed="${cfg.buys.includes(id)}"><b>${esc(b.client)}</b><small>${esc(L.TOPICS[b.tp].short === b.kind ? b.kind : L.TOPICS[b.tp].short + " · " + b.kind)}</small></button>`; }).join("")}</div>
+    <p class="note" id="rc"></p>
     <p>Vocab questions each round:</p><div class="seg" data-k="per"><button data-v="2">2</button><button data-v="3" aria-pressed="true">3</button><button data-v="4">4</button></div>
     <p>Time per vocab question:</p><div class="seg" data-k="qsecs"><button data-v="15">15 sec</button><button data-v="20" aria-pressed="true">20 sec</button><button data-v="30">30 sec</button></div>
     <p>Time to make the buy:</p><div class="seg" data-k="bsecs"><button data-v="120">2 min</button><button data-v="150" aria-pressed="true">2½ min</button><button data-v="180">3 min</button><button data-v="240">4 min</button></div>
     <p>How students move after each round:</p><div class="seg" data-k="rule"><button data-v="place" aria-pressed="true">Regroup by place</button><button data-v="ladder">Ladder</button></div>
     <p class="note" id="rn"></p>
-    <p class="note">About 7 to 9 minutes a round with 30 students. Six buys rotate in order: Rink Rats (segments), Hearthside Bakery (ad emotions), Lakefront Kayak (Chicago channels), Lakeview Soccer Camp (social platforms), Cornerstone Pizza (segments + news), Frontier Fest (channels).</p>
     <div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
+  const roundNote = () => { const n = cfg.buys.length; $("#rc").textContent = n ? `${n} round${n === 1 ? "" : "s"}, about ${n * 7} to ${n * 9} minutes with 30 students.` : "Pick at least one round."; $("#go").disabled = !n; };
+  $("#buys").onclick = e => { const b = e.target.closest("button"); if (!b) return; const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on);
+    cfg.buys = L.ORDER.filter(id => document.querySelector(`#buys [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); roundNote(); };
+  roundNote();
   const ruleNote = () => $("#rn").textContent = cfg.rule === "place"
     ? "Regroup by place: all 1st-place finishers sit together at the top tables, then all 2nds, then all 3rds. Table 1 is always the Top Table."
     : "Ladder: the winner moves up one table, last place moves down one table, and 2nd place stays put.";
   ruleNote();
-  app.querySelectorAll(".seg").forEach(sg => sg.onclick = e => { const b = e.target.closest("button"); if (!b) return;
+  app.querySelectorAll(".seg[data-k]").forEach(sg => sg.onclick = e => { const b = e.target.closest("button"); if (!b) return;
     [...sg.children].forEach(x => x.setAttribute("aria-pressed", x === b)); const k = sg.dataset.k; cfg[k] = k === "rule" ? b.dataset.v : +b.dataset.v; ruleNote(); });
   $("#go").onclick = async () => {
     $("#go").disabled = true;
     try {
       let code; for (let t = 0; t < 20; t++) { code = String(Math.floor(1000 + Math.random() * 9000)); if (!(await N.get("games/" + code))) break; }
-      const seed = Math.floor(Math.random() * 1e9), plan = L.plan(cfg.rounds, cfg.per, seed);
-      const meta = { created: Date.now(), game: GAME, seed, plan, ...cfg };
+      const seed = Math.floor(Math.random() * 1e9), plan = L.plan(cfg.buys, cfg.per, seed);
+      const meta = { created: Date.now(), game: GAME, seed, plan, rounds: cfg.buys.length, ...cfg };
       const state = { phase: "lobby", rule: cfg.rule, tot: {} };
       await N.set("games/" + code, { ...meta, state });
       H = { N, code, meta, state, players: {} };
@@ -412,26 +417,42 @@ const loadSess = () => { try { return JSON.parse(localStorage.getItem(SKEY) || "
 async function joinForm() {
   const N = await net().catch(() => null); if (!N) return needSetup();
   const sv = loadSess(), qcode = (location.search.match(/[?&]code=(\d{4})/) || [])[1];
-  app.innerHTML = `${hdr()}<div class="panel"><h2>Join the game</h2><p>${qcode ? "Code filled in. Type your first name and last initial." : "Type the code on the board and your first name and last initial."} Closed the page? Join again with the same name and you keep your points.</p>
+  app.innerHTML = `${hdr()}<div class="panel"><h2>Join the game</h2><p>${qcode ? "Code filled in. Type your first name." : "Type the code on the board and your first name."} Closed the page? Join again with the same name and you keep your points.</p>
     <input class="field code" id="cd" inputmode="numeric" maxlength="4" placeholder="0000" autocomplete="off" value="${qcode || (sv ? esc(sv.code) : "")}">
-    <input class="field" id="nm" maxlength="24" placeholder="Jordan M." autocomplete="off" value="${sv && (!qcode || sv.code === qcode) ? esc(sv.name) : ""}">
-    <div class="err" id="er"></div><button class="btn main" id="go">Join</button></div>`;
+    <input class="field" id="nm" maxlength="20" placeholder="First name" autocomplete="given-name" autocapitalize="words" value="${sv && (!qcode || sv.code === qcode) ? esc(sv.name) : ""}">
+    <div class="err" id="er"></div><div class="row" id="dup" hidden></div><button class="btn main" id="go">Join</button></div>`;
   (qcode && !$("#nm").value) ? $("#nm").focus() : $("#cd").focus();
   const go = async () => {
-    const code = $("#cd").value.trim(), name = $("#nm").value.trim();
+    const code = $("#cd").value.trim(), name = cleanName($("#nm").value);
     if (!/^\d{4}$/.test(code)) { $("#er").textContent = "The code is 4 numbers."; return; }
-    if (!name) { $("#er").textContent = "Type your name."; return; }
-    $("#go").disabled = true; const err = await enterGame(N, code, name); if (err) { $("#er").textContent = err; $("#go").disabled = false; }
+    if (!name) { $("#er").textContent = "Type your first name."; return; }
+    $("#go").disabled = true; $("#dup").hidden = true; $("#go").hidden = false;
+    const r = await enterGame(N, code, name);
+    if (r && r.dup) { // someone with this name is already in: same person coming back, or a second Ava?
+      $("#er").textContent = `${r.name} is already in this game.`;
+      $("#dup").hidden = false; $("#go").hidden = true;
+      $("#dup").innerHTML = `<button class="btn main" id="me">That's me</button><button class="btn" id="other">I'm a different ${esc(r.name)}</button>`;
+      $("#me").onclick = async () => { const e = await enterGame(N, code, r.name, r.pid); if (e) { $("#er").textContent = e; } };
+      $("#other").onclick = () => { $("#dup").hidden = true; $("#go").hidden = false; $("#nm").value = r.name + " "; $("#nm").focus();
+        $("#er").textContent = `Add your last initial so you two show up separately, like "${r.name} M."`; $("#go").disabled = false; };
+      return;
+    }
+    if (r) { $("#er").textContent = r; $("#go").disabled = false; }
   };
   $("#go").onclick = go; $("#nm").onkeydown = e => { if (e.key === "Enter") go(); };
+}
+// "ava" -> "Ava", "ava m" -> "Ava M."
+function cleanName(v) {
+  const parts = String(v || "").trim().replace(/\s+/g, " ").split(" ").filter(Boolean).slice(0, 2);
+  return parts.map((w, i) => { w = w.charAt(0).toUpperCase() + w.slice(1); return i === 1 && /^[A-Za-z]\.?$/.test(w) ? w.charAt(0) + "." : w; }).join(" ");
 }
 async function enterGame(N, code, name, forcePid) {
   try {
     const g = await N.get("games/" + code);
     if (!g || g.game !== GAME) return "No Marketing Ladder game with that code. Check the board.";
-    const norm = x => String(x || "").trim().toLowerCase().replace(/\s+/g, " "), sv = loadSess();
-    let pid = forcePid || (sv && sv.code === code && norm(sv.name) === norm(name) ? sv.pid : null);
-    if (!pid && g.players) { const hit = Object.entries(g.players).find(([, p]) => norm(p.name) === norm(name)); if (hit) pid = hit[0]; }
+    const norm = x => String(x || "").trim().toLowerCase().replace(/[.\s]+/g, " ").trim(), sv = loadSess();
+    let pid = forcePid || (sv && sv.code === code && norm(sv.name) === norm(name) ? sv.pid : null); // this device was already this player
+    if (!pid && g.players) { const hit = Object.entries(g.players).find(([, p]) => norm(p.name) === norm(name)); if (hit) return { dup: true, pid: hit[0], name: hit[1].name }; }
     const rec = pid && g.players && g.players[pid];
     if (rec) { name = rec.name || name; await N.update(`games/${code}/players/${pid}`, { out: false }); }
     else { pid = "p" + Math.random().toString(36).slice(2, 10); await N.set(`games/${code}/players/${pid}`, { name, joined: Date.now() }); }

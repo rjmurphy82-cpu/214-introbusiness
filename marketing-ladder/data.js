@@ -10,7 +10,8 @@ var LADDER = (function () {
     feel:    { name: "Emotional Marketing", short: "Emotional marketing" },
     media:   { name: "The Media Buy", short: "Media buy" },
     channel: { name: "Ad Channels", short: "Ad channels" },
-    social:  { name: "Social Media Ads", short: "Social media ads" }
+    social:  { name: "Social Media Ads", short: "Social media ads" },
+    lineup:  { name: "Market Segmentation", short: "Segmentation" }
   };
 
   /* ---------------------------------------------------------------- TERMS
@@ -62,7 +63,17 @@ var LADDER = (function () {
     { id: "roas", tp: "social", t: "ROAS", d: "Revenue divided by ad spend", ex: "$12,000 in sales from $3,000 of ads = 4x." },
     { id: "freq", tp: "social", t: "Frequency", d: "How many times the same person saw an ad", ex: "1,000 impressions with a reach of 250 = frequency of 4." },
     { id: "fatigue", tp: "social", t: "Ad fatigue", d: "When people see an ad so many times they stop paying attention", ex: "Frequency hits 12 and clicks fall off." },
-    { id: "creator", tp: "social", t: "Creator partnership", d: "Paying an influencer to post about your product", ex: "Costs a 15% creator fee before any ads run." }
+    { id: "creator", tp: "social", t: "Creator partnership", d: "Paying an influencer to post about your product", ex: "Costs a 15% creator fee before any ads run." },
+
+    // market segmentation (Build the Lineup)
+    { id: "mseg", tp: "lineup", t: "Market segment", d: "One group inside a market whose people want the same things and differ from other groups", ex: "Maya's Weekend Wearers vs. her Collectors." },
+    { id: "pline", tp: "lineup", t: "Product line", d: "A group of related versions of one product, such as basic, mid, and premium", ex: "Streaming with ads, no ads, and 4K." },
+    { id: "ucost", tp: "lineup", t: "Unit cost", d: "What it costs to make one unit: the base cost plus every feature added", ex: "$5 base + $3 + $4 + $2 = $14 a pair." },
+    { id: "wtp", tp: "lineup", t: "Willingness to pay", d: "The highest price a customer would pay; as price rises, fewer people buy", ex: "61% of Weekend Wearers would pay $30; 6% would pay $60." },
+    { id: "must", tp: "lineup", t: "Must-have feature", d: "A feature 60% or more of a segment requires before they will buy", ex: "Leave one out and buyers are cut in half." },
+    { id: "nice", tp: "lineup", t: "Nice-to-have feature", d: "A feature 30% to 59% of a segment wants that helps but isn't a deal-breaker", ex: "Each one adds 5% to Fit." },
+    { id: "ppu", tp: "lineup", t: "Profit per unit", d: "Price minus unit cost: what the company keeps from each sale", ex: "$30 price − $14 cost = $16 a pair." },
+    { id: "cannib", tp: "lineup", t: "Cannibalization", d: "When a company's cheaper version steals customers who would have paid for its pricier version", ex: "Collectors buying the basic package instead of the premium one." }
   ];
   const termById = Object.fromEntries(TERMS.map(t => [t.id, t]));
 
@@ -165,6 +176,22 @@ var LADDER = (function () {
       ],
       lesson: "The buyers are 16 to 24, so the money belongs where they scroll and listen: TikTok, Instagram, and Spotify. Spreading across three channels beats piling everything into one. Facebook and billboards mostly reach parents, who aren't buying passes.",
       math: "TikTok: 85% of $300K + 22% of $50K = about $266K of customers in reach. Billboards: 25% of $300K + 55% of $50K = about $102K, and one glance converts poorly."
+    },
+    {
+      id: "cleats", tp: "lineup", kind: "Product lineup",
+      client: "Kicklab Soccer", what: "Soccer cleat brand building a lineup for Chicagoland",
+      about: "Kicklab can launch five versions of its cleat, each aimed at a different segment. Every $10,000 block pays to make and market more pairs of that version. Missing a must-have feature cuts a version's buyers in half.",
+      ask: "Spend $100,000 launching the versions that will make the most profit.",
+      cols: ["Segment size", "Price / unit cost", "Would buy at this price", "Must-haves"],
+      opts: [
+        { name: "Youth Rec (ages 6–12)", cells: ["15,000 families", "$45 / $20", "40%", "All included"], note: "Parents buy. Kids outgrow them every season.", V: 150000, k: 3 },
+        { name: "Varsity Pro (high school)", cells: ["6,000 players", "$110 / $55", "48%", "All included"], note: "Ankle support and studs for turf and grass.", V: 158400, k: 2.5 },
+        { name: "Varsity Lite (high school)", cells: ["6,000 players", "$80 / $35", "62%", "No ankle support"], note: "Cheaper, but missing a must-have.", V: 83700, k: 2.5 },
+        { name: "Adult Rec League", cells: ["10,000 players", "$70 / $30", "38%", "All included"], note: "Weekend leagues. Comfort over speed.", V: 152000, k: 3 },
+        { name: "Elite Loaded (every feature)", cells: ["6,000 players", "$260 / $140", "3%", "All included"], note: "Carbon plate, custom fit, every upgrade.", V: 21600, k: 1.5 }
+      ],
+      lesson: "A good lineup gives each segment the features it requires at a price it will pay. Elite Loaded has everything, but almost nobody pays $260. Varsity Lite is cheaper, but leaving out a must-have cut its buyers in half, and every Lite pair sold to a varsity player is a Pro sale lost (cannibalization). It's worth one block at most.",
+      math: "Profit a version can make = segment size x % who'd buy x (price − unit cost). Varsity Pro: 6,000 x 48% = 2,880 x $55 = $158,400. Lite: 6,000 x 62% = 3,720, halved to 1,860, x $45 = $83,700. Elite: 6,000 x 3% = 180 x $120 = $21,600."
     }
   ];
   const buyById = Object.fromEntries(BUYS.map(b => [b.id, b]));
@@ -216,16 +243,17 @@ var LADDER = (function () {
 
   /* ---------------------------------------------------------------- GAME PLAN
      Round r uses BUYS in this order (a round's vocab comes from its buy's topic). */
-  const ORDER = ["rink", "pie", "kayak", "camp", "pizza", "fest"];
-  function plan(rounds, perRound, seed) {
+  const ORDER = ["rink", "pie", "pizza", "kayak", "camp", "cleats", "fest"];
+  // buys = the client briefs to play, in order (one round each). A round's vocab comes from its buy's topic.
+  function plan(buys, perRound, seed) {
     const r = rng(seed), used = new Set(), out = [];
-    for (let i = 0; i < rounds; i++) {
-      const buy = ORDER[i % ORDER.length], tp = buyById[buy].tp;
+    buys.forEach((buy, i) => {
+      const tp = buyById[buy].tp;
       const pick = shuffle(TERMS.filter(t => t.tp === tp && !used.has(t.id)), r).slice(0, perRound);
       if (pick.length < perRound) shuffle(TERMS.filter(t => !used.has(t.id) && !pick.includes(t)), r).slice(0, perRound - pick.length).forEach(t => pick.push(t));
       pick.forEach(t => used.add(t.id));
       out.push({ buy, defs: pick.map((t, j) => t.id + ((j + i) % 2 ? "t" : "d")) });
-    }
+    });
     return out;
   }
   const question = (code, seed) => defQuestion(code.slice(0, -1), code.slice(-1), seed);
