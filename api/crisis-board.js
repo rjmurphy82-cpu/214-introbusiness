@@ -1,4 +1,4 @@
-// Brand Crisis Hall of Fame: the all-time leaderboard of the best brand values across every class.
+// Brand Crisis Hall of Fame: the all-time leaderboard of the best scores across every class, kept per round (pack).
 // GET  -> { list: [...top entries], periods: {...} }
 // POST { code, label } -> the teacher screen sends this when a game ends. The server does NOT trust any scores from
 //   the browser: it reads that game's teams, picks, and twists from Redis, loads the game's own rules from
@@ -6,7 +6,7 @@
 import vm from "node:vm";
 const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-const BOARD = "bcrisis:board", KEEP = 100;
+const BOARD = "bcrisis:board", KEEP = 200;
 
 async function r(cmd) {
   const res = await fetch(URL_, { method: "POST", headers: { Authorization: "Bearer " + TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(cmd) });
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
       const p = J(arr[i + 1]); if (!p || p.out || !p.name) continue;
       if (!ids.every(id => K.byId[id])) break;
       const run = K.run(ids, p.p || {}, state.tw || [], last);
-      entries.push({ name: clean(p.name), value: Math.round(run.value), trust: Math.round(run.b.trust), crises: ids.length, label: clean(b.label || meta.label || ""), date: new Date().toISOString().slice(0, 10), code });
+      entries.push({ name: clean(p.name), value: Math.round(run.value), trust: Math.round(run.b.trust), crises: ids.length, pack: K.packOf ? K.packOf(ids).id : "strider", label: clean(b.label || meta.label || ""), date: new Date().toISOString().slice(0, 10), code });
     }
     entries.sort((a, z) => z.value - a.value);
     entries.forEach((e, i) => { e.place = i + 1; e.of = entries.length; });

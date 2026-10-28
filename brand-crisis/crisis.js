@@ -54,16 +54,21 @@ function startTimer(el, secs, t0, onEnd) {
     if (left <= 0) { stopTick(); onEnd && onEnd(); } }, 100);
 }
 const timerHTML = secs => `<div class="row tline"><div class="timer" style="flex:1"><i></i></div><span class="secs">${secs}</span></div>`;
+// the scenario pack this game uses (Round 1 Strider, Round 2 Lakeshore Crisis Group); set when a game is created or joined
+let CUR = K.PACKS[0];
+const setPack = ids => { CUR = K.packOf(ids); document.body.dataset.pack = CUR.id; };
+const packOfEntry = e => e.pack || "strider";
 function meters(b, prev) {
+  const Lb = CUR.labels;
   const v = K.value(b), pv = prev ? K.value(prev) : null;
   const d = (a, c, f) => (prev ? `<em class="${a > c ? "up" : a < c ? "dn" : ""}">${f(a - c)}</em>` : "");
   return `<div class="meters">
-    <div class="mt trust"><span>Trust</span><b>${Math.round(b.trust)}</b>${d(b.trust, prev && prev.trust, x => sgn(Math.round(x)))}<div class="tbar"><i style="width:${b.trust}%"></i></div></div>
-    <div class="mt"><span>Weekly sales</span><b>${m$(b.sales)}</b>${d(b.sales, prev && prev.sales, x => (x >= 0 ? "+" : "") + m$(x))}</div>
-    <div class="mt"><span>Crisis budget</span><b>${m$(b.cash)}</b>${d(b.cash, prev && prev.cash, x => (x >= 0 ? "+" : "") + m$(x))}</div>
-    <div class="mt big"><span>Brand value</span><b>${m$(v)}</b>${d(v, pv, x => (x >= 0 ? "+" : "") + m$(x))}</div></div>`;
+    <div class="mt trust"><span>${Lb.trust}</span><b>${Math.round(b.trust)}</b>${d(b.trust, prev && prev.trust, x => sgn(Math.round(x)))}<div class="tbar"><i style="width:${b.trust}%"></i></div></div>
+    <div class="mt"><span>${Lb.sales}</span><b>${m$(b.sales)}</b>${d(b.sales, prev && prev.sales, x => (x >= 0 ? "+" : "") + m$(x))}</div>
+    <div class="mt"><span>${Lb.cash}</span><b>${m$(b.cash)}</b>${d(b.cash, prev && prev.cash, x => (x >= 0 ? "+" : "") + m$(x))}</div>
+    <div class="mt big"><span>${Lb.value}</span><b>${m$(v)}</b>${d(v, pv, x => (x >= 0 ? "+" : "") + m$(x))}</div></div>`;
 }
-const effects = o => `<span class="fx"><i class="${o.tr > 0 ? "up" : o.tr < 0 ? "dn" : ""}">Trust ${sgn(o.tr)}</i><i class="${o.sa > 0 ? "up" : o.sa < 0 ? "dn" : ""}">Sales ${sgn(o.sa, "%")}</i><i>${o.cost ? "Costs " + m$(o.cost) : "Free"}</i></span>`;
+const effects = o => `<span class="fx"><i class="${o.tr > 0 ? "up" : o.tr < 0 ? "dn" : ""}">${CUR.labels.trust} ${sgn(o.tr)}</i><i class="${o.sa > 0 ? "up" : o.sa < 0 ? "dn" : ""}">${CUR.labels.salesShort} ${sgn(o.sa, "%")}</i><i>${o.cost ? "Costs " + m$(o.cost) : "Free"}</i></span>`;
 function zoomApp() { app.style.zoom = ""; const R = document.documentElement; let lo = .5, hi = 2.2;
   for (let i = 0; i < 12; i++) { const m = (lo + hi) / 2; app.style.zoom = m.toFixed(3); (R.scrollHeight <= innerHeight + 1 && R.scrollWidth <= innerWidth + 1) ? lo = m : hi = m; }
   app.style.zoom = lo.toFixed(3); }
@@ -71,8 +76,8 @@ function fit() { if (ROLE !== "teacher") return; document.body.classList.add("wi
 window.addEventListener("resize", () => { if (ROLE === "teacher" && !document.body.classList.contains("finale-on")) { clearTimeout(fit.t); fit.t = setTimeout(zoomApp, 150); } });
 const hdr = () => `<h1 class="title">Brand <span>Crisis.</span></h1>
   <p class="lede">${ROLE === "teacher"
-    ? "Teacher screen for the projector. Students play in pairs, one iPad per team, and every team runs Strider Sneakers. Each crisis gives them 8 ways to respond; they lock in, you draw a random twist, and the reveal shows what each choice did. Trust, sales, and budget carry over, the highest brand value wins, and each game's top 3 teams can make the Hall of Fame."
-    : "You and your partner are the marketing team for Strider Sneakers. When a crisis hits, talk it over, pick one of 8 responses, and lock it in before time runs out. Trust multiplies everything, so protect it, and watch your crisis budget."}</p>`;
+    ? "Teacher screen for the projector. Students play in pairs, one iPad per team. Round 1: every team runs Strider Sneakers. Round 2: every team runs a crisis PR agency with a different client each crisis. Each crisis gives them 8 ways to respond; they lock in, you draw a random twist, and the reveal shows what each choice did. Trust (or reputation), sales, and budget carry over, the highest value wins, and each game's top 3 teams can make that round's Hall of Fame."
+    : "You and your partner handle the crisis. When it hits, talk it over, pick one of 8 responses, and lock it in before time runs out. Trust multiplies everything, so protect it, and watch your crisis budget."}</p>`;
 function needSetup() {
   app.innerHTML = `${hdr()}<div class="panel"><h2>${ROLE === "teacher" ? "Class games need the database" : "The game isn't open yet"}</h2><p>${ROLE === "teacher" ? "Connect the Upstash for Redis database to this Vercel project, then redeploy (same setup as Ad Buy Live)." : "Wait for your teacher to start it, then reload."}</p><button class="btn main" id="b">Reload</button></div>`;
   $("#b").onclick = () => location.reload();
@@ -88,50 +93,64 @@ const Board = {
   },
   // The server re-scores the finished game itself from what's saved, so browsers can't send fake scores.
   async post(code, label, localTop) {
-    if (MOCK) { const b = (await Board.get()).concat(localTop).sort((a, z) => z.value - a.value).slice(0, 100); localStorage.setItem(MOCKB, JSON.stringify(b)); return { list: b, added: localTop }; }
+    if (MOCK) { const b = (await Board.get()).concat(localTop).sort((a, z) => z.value - a.value).slice(0, 200); localStorage.setItem(MOCKB, JSON.stringify(b)); return { list: b, added: localTop }; }
     try { const r = await fetch("/api/crisis-board", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code, label }) }); return await r.json(); } catch (e) { return { error: "offline" }; }
   }
 };
-function boardHTML(list, crises, mark) {
-  const counts = [...new Set(list.map(e => e.crises))].sort((a, b) => b - a);
+function boardHTML(list, crises, mark, pack) {
+  pack = pack || CUR.id;
+  const mine = list.filter(e => packOfEntry(e) === pack);
+  const counts = [...new Set(mine.map(e => e.crises))].sort((a, b) => b - a);
   if (!counts.includes(crises) && counts.length) crises = counts[0];
-  const rows = list.filter(e => e.crises === crises).slice(0, 20);
-  return `<div class="hof"><div class="hofhead"><div><div class="kick">All classes · all time</div><h2>Hall of Fame</h2></div>
-    ${counts.length > 1 ? `<div class="seg" id="hofc">${counts.map(n => `<button data-v="${n}" aria-pressed="${n === crises}">${n} crises</button>`).join("")}</div>` : ""}</div>
+  const rows = mine.filter(e => e.crises === crises).slice(0, 20), P = K.packById[pack];
+  return `<div class="hof" data-pack="${pack}" data-crises="${crises}"><div class="hofhead"><div><div class="kick">All classes · all time · ${esc(P.round)}: ${esc(P.title)}</div><h2>Hall of Fame</h2></div>
+    <div class="hofsegs"><div class="seg" id="hofp">${K.PACKS.map(x => `<button data-v="${x.id}" aria-pressed="${x.id === pack}">${esc(x.round)}</button>`).join("")}</div>
+    ${counts.length > 1 ? `<div class="seg" id="hofc">${counts.map(n => `<button data-v="${n}" aria-pressed="${n === crises}">${n} crises</button>`).join("")}</div>` : ""}</div></div>
     ${rows.length ? `<ol class="hofl">${rows.map((e, i) => { const me = mark && mark(e);
-      return `<li class="${i < 3 ? "m" + (i + 1) : ""} ${me ? "me" : ""}"><span class="rk">${i + 1}</span><span class="nm"><b>${esc(e.name)}</b><small>${esc([e.label, e.date].filter(Boolean).join(" · "))}${e.place === 1 ? " · won their game" : ""}</small></span><span class="v">${m$(e.value)}<small>Trust ${e.trust}</small></span>${me ? '<i class="new">NEW</i>' : ""}</li>`; }).join("")}</ol>`
+      return `<li class="${i < 3 ? "m" + (i + 1) : ""} ${me ? "me" : ""}"><span class="rk">${i + 1}</span><span class="nm"><b>${esc(e.name)}</b><small>${esc([e.label, e.date].filter(Boolean).join(" · "))}${e.place === 1 ? " · won their game" : ""}</small></span><span class="v">${m$(e.value)}<small>${esc(K.packById[packOfEntry(e)].labels.trust)} ${e.trust}</small></span>${me ? '<i class="new">NEW</i>' : ""}</li>`; }).join("")}</ol>`
       : `<p class="note">No winners yet. The top 3 teams from every finished game land here.</p>`}</div>`;
 }
-function wireBoard(el, list, mark) { const g = el.querySelector("#hofc"); if (g) g.onclick = e => { const b = e.target.closest("button"); if (!b) return; el.innerHTML = boardHTML(list, +b.dataset.v, mark); wireBoard(el, list, mark); }; }
+function wireBoard(el, list, mark) {
+  const box = el.querySelector(".hof"), pack = box.dataset.pack, crises = +box.dataset.crises;
+  const redo = (c, p) => { el.innerHTML = boardHTML(list, c, mark, p); wireBoard(el, list, mark); };
+  const g = el.querySelector("#hofc"); if (g) g.onclick = e => { const b = e.target.closest("button"); if (b) redo(+b.dataset.v, pack); };
+  const q = el.querySelector("#hofp"); if (q) q.onclick = e => { const b = e.target.closest("button"); if (b) redo(6, b.dataset.v); };
+}
 async function boardPage() {
-  app.innerHTML = `<p class="lede">The best brand values ever posted in Brand Crisis. The top 3 teams from every class game make the list.</p><div id="bd"><p class="note">Loading…</p></div>
+  app.innerHTML = `<p class="lede">The best scores ever posted in Brand Crisis, for each round. The top 3 teams from every class game make the list.</p><div id="bd"><p class="note">Loading…</p></div>
     <p class="links"><a href="/brand-crisis/">Join a game</a> · <a href="/">All games</a></p>`;
-  const list = await Board.get(), el = $("#bd"); el.innerHTML = boardHTML(list, 6); wireBoard(el, list);
+  const list = await Board.get(), el = $("#bd"); el.innerHTML = boardHTML(list, 6, null, (location.search.match(/[?&]round=2/) ? "agency" : "strider")); wireBoard(el, list);
 }
 
 /* ============================================================ HOST */
 let H = null;
 async function hostSetup() {
   const N = await net().catch(() => null); if (!N) return needSetup();
-  const cfg = { ids: K.CRISES.map(c => c.id), secs: 60, label: "" };
+  const cfg = { pack: "strider", ids: K.PACKS[0].crises.map(c => c.id), secs: 60, label: "" };
   app.innerHTML = `${hdr()}<div class="panel wide-panel"><h2>Host a game</h2>
+    <p>Scenario:</p><div class="seg multi packs" id="pk">${K.PACKS.map(P => `<button data-v="${P.id}" aria-pressed="${P.id === cfg.pack}"><b>${esc(P.round)}: ${esc(P.title)}</b><small>${esc(P.sub)}</small></button>`).join("")}</div>
     <p>Crises (one per round, in this order). Tap to turn one off.</p>
-    <div class="seg multi" id="cr">${K.CRISES.map(c => `<button data-v="${c.id}" aria-pressed="true"><b>${esc(c.title)}</b><small>${esc(c.story.split(". ")[0])}.</small></button>`).join("")}</div>
+    <div class="seg multi" id="cr"></div>
     <p>Time to decide:</p><div class="seg" id="sc"><button data-v="45">45 sec</button><button data-v="60" aria-pressed="true">60 sec</button><button data-v="90">90 sec</button></div>
     <p class="note" id="rc"></p>
     <p>Class name for the Hall of Fame (optional):</p><input class="field small" id="lb" maxlength="30" placeholder="Period 3">
     <div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
   $("#lb").oninput = e => cfg.label = e.target.value.trim();
   const note = () => { const n = cfg.ids.length; $("#rc").textContent = n ? `${n} crises, about ${n * 3} to ${n * 4} minutes.` : "Pick at least one crisis."; $("#go").disabled = !n; };
+  const list = () => { const P = K.packById[cfg.pack];
+    $("#cr").innerHTML = P.crises.map(c => `<button data-v="${c.id}" aria-pressed="true"><b>${esc(c.client ? c.client + ": " + c.title : c.title)}</b><small>${esc(c.story.split(". ")[0])}.</small></button>`).join("");
+    cfg.ids = P.crises.map(c => c.id); note(); };
+  $("#pk").onclick = e => { const b = e.target.closest("button"); if (!b) return; [...$("#pk").children].forEach(x => x.setAttribute("aria-pressed", x === b)); cfg.pack = b.dataset.v; list(); };
   $("#cr").onclick = e => { const b = e.target.closest("button"); if (!b) return; b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
-    cfg.ids = K.CRISES.map(c => c.id).filter(id => $(`#cr [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); note(); };
+    cfg.ids = K.packById[cfg.pack].crises.map(c => c.id).filter(id => $(`#cr [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); note(); };
   $("#sc").onclick = e => { const b = e.target.closest("button"); if (!b) return; [...$("#sc").children].forEach(x => x.setAttribute("aria-pressed", x === b)); cfg.secs = +b.dataset.v; };
-  note();
+  list();
   $("#go").onclick = async () => {
     $("#go").disabled = true;
     try {
       let code; for (let t = 0; t < 20; t++) { code = String(Math.floor(1000 + Math.random() * 9000)); if (!(await N.get("games/" + code))) break; }
       const meta = { created: Date.now(), game: GAME, ...cfg }, state = { phase: "lobby", tw: [] };
+      setPack(meta.ids);
       await N.set("games/" + code, { ...meta, state });
       H = { N, code, meta, state, players: {} };
       H.off = N.on("games/" + code + "/players", v => { H.players = v || {}; hostRender(true); });
@@ -167,7 +186,7 @@ function hostCrisis() {
   const st = H.state, c = K.byId[H.meta.ids[st.r]], secs = H.meta.secs, ps = active(), locked = ps.filter(p => pickOf(p, st.r) != null).length;
   if (H.rq !== "c" + st.r) {
     H.rq = "c" + st.r; H.t0 = performance.now(); beep(220, .4);
-    app.innerHTML = `<div class="alert"><span class="siren">⚠</span><div><div class="kick">Crisis ${st.r + 1} of ${H.meta.ids.length} · ${esc(K.BRAND.name)}</div><h2>${esc(c.title)}</h2></div><div class="clock"><div class="secs">${secs}</div><div class="count" id="cnt"></div></div></div>
+    app.innerHTML = `<div class="alert"><span class="siren">⚠</span><div><div class="kick">Crisis ${st.r + 1} of ${H.meta.ids.length} · ${esc(c.client ? "New client: " + c.client : CUR.brand.name)}</div><h2>${esc(c.title)}</h2>${c.client ? `<div class="cline">${esc(c.clientLine)}</div>` : ""}</div><div class="clock"><div class="secs">${secs}</div><div class="count" id="cnt"></div></div></div>
       <p class="story">${esc(c.story)}</p>
       <div class="hopts">${c.opts.map((o, i) => `<div class="hopt"><span class="lt">${LET[i]}</span><span class="tx">${esc(o.t)}</span><span class="cost">${o.cost ? m$(o.cost) : "Free"}</span></div>`).join("")}</div>
       <div class="row" style="justify-content:space-between;margin-top:10px"><span class="note">No answer = you stayed quiet.</span><button class="btn" id="close">Close voting now</button></div>`;
@@ -196,23 +215,23 @@ function hostTwist() {
 }
 function standings(r) {
   return active().map(p => { const picks = {}; for (let k = 0; k <= r; k++) picks[k] = pickOf(p, k);
-    const now = K.run(H.meta.ids, picks, H.state.tw, r), prev = r > 0 ? K.run(H.meta.ids, picks, H.state.tw, r - 1).value : K.value(K.BRAND.start);
+    const now = K.run(H.meta.ids, picks, H.state.tw, r), prev = r > 0 ? K.run(H.meta.ids, picks, H.state.tw, r - 1).value : K.value(CUR.brand.start);
     return { p, v: now.value, prev, last: now.log[r] }; }).sort((a, b) => b.v - a.v);
 }
 function hostReveal() {
   const st = H.state, c = K.byId[H.meta.ids[st.r]], tw = st.tw[st.r], ps = active(), last = st.r >= H.meta.ids.length - 1;
   const counts = new Array(8).fill(0); ps.forEach(p => { const x = pickOf(p, st.r); counts[x == null ? K.SILENT(c) : x]++; });
-  const best = K.bestFor(c, tw, K.BRAND.start), list = standings(st.r);
+  const best = K.bestFor(c, tw, CUR.brand.start), list = standings(st.r);
   const before = {}; [...list].sort((a, b) => b.prev - a.prev).forEach((x, i) => before[x.p] = i + 1);
   const ranks = {}; list.forEach((x, i) => ranks[x.p] = [i + 1, before[x.p]]);
   if (H.rk !== st.r) { H.rk = st.r; H.state = { ...st, ranks, n: list.length }; H.N.set("games/" + H.code + "/state", H.state).catch(() => {}); }
   const mx = Math.max(1, ...counts);
   app.innerHTML = `<div class="revgrid"><div>
-      <div class="kick">Crisis ${st.r + 1} · ${esc(c.title)}</div><div class="twline"><b>Twist:</b> ${esc(c.twists[tw].t)}</div>
+      <div class="kick">Crisis ${st.r + 1} · ${esc(c.client ? c.client + ": " + c.title : c.title)}</div><div class="twline"><b>Twist:</b> ${esc(c.twists[tw].t)}</div>
       <div class="ropts">${c.opts.map((o, i) => { const out = K.outcome(c, i, tw);
         return `<div class="ropt ${i === best ? "best" : ""}"><span class="lt">${LET[i]}</span><div class="mid"><span class="tx">${esc(o.t)}</span>${effects(out)}</div>
           <div class="votes"><div class="vb"><i style="width:${counts[i] / mx * 100}%"></i></div><b>${counts[i]}</b></div>${i === best ? '<span class="star">Best move</span>' : ""}</div>`; }).join("")}</div></div>
-    <aside class="sb"><div class="sbh"><span>Brand value</span><small>${ps.length} teams</small></div>
+    <aside class="sb"><div class="sbh"><span>${esc(CUR.labels.value)}</span><small>${ps.length} teams</small></div>
       <div class="sbrows">${list.slice(0, 10).map((x, i) => { const mv = before[x.p] - (i + 1);
         return `<div class="sbr r${i + 1}"><span class="rk">${i + 1}</span><span class="nm"><b>${esc(nameOf(x.p))}</b>${mv > 0 ? `<i class="mv up">▲ ${mv}</i>` : mv < 0 ? `<i class="mv dn">▼ ${-mv}</i>` : ""}</span>
           <span class="sc"><b>${m$(x.v)}</b><em class="${x.v - x.prev >= 0 ? "" : "neg"}">${x.v - x.prev >= 0 ? "+" : ""}${m$(x.v - x.prev)}</em></span></div>`; }).join("")}</div>
@@ -225,7 +244,7 @@ function hostEnd() {
   const list = standings(H.meta.ids.length - 1), top = list.slice(0, 5);
   const slot = (x, i, cls) => x ? `<div class="pod ${cls}" data-i="${i}"><div class="who"><div class="medal">${i + 1}</div><div class="nm">${esc(nameOf(x.p))}</div><div class="pts">${m$(x.v)}</div></div><div class="block"><span>${ord(i + 1)}</span></div></div>` : `<div class="pod ${cls} empty"></div>`;
   document.body.classList.add("finale-on"); app.style.zoom = "";
-  app.innerHTML = `<div class="finale"><div class="rays"></div><div class="fhead"><div class="kick">Brand Crisis · Final brand value</div><h2>Top 5</h2></div>
+  app.innerHTML = `<div class="finale"><div class="rays"></div><div class="fhead"><div class="kick">Brand Crisis · ${esc(CUR.round)} · Final ${esc(CUR.labels.value.toLowerCase())}</div><h2>Top 5</h2></div>
     <div class="podium">${slot(top[1], 1, "p2")}${slot(top[0], 0, "p1")}${slot(top[2], 2, "p3")}</div>
     <div class="rest">${top.slice(3).map((x, k) => `<div class="row45" data-i="${k + 3}"><span class="r">${k + 4}</span><span class="n">${esc(nameOf(x.p))}</span><span class="s">${m$(x.v)}</span></div>`).join("")}</div>
     <div class="fbar"><button class="btn" id="cr">Class results</button><button class="btn" id="hf">Hall of Fame</button><button class="btn" id="erase">Erase game</button><button class="btn" id="done">Done</button></div></div>`;
@@ -233,7 +252,7 @@ function hostEnd() {
   $("#cr").onclick = classResults; $("#hf").onclick = hostBoard; $("#erase").onclick = hostErase; $("#done").onclick = () => { cleanupHost(); home(); };
   if (!H.posted) { // send this game's results to the Hall of Fame once
     H.posted = Board.post(H.code, H.meta.label, list.slice(0, 3).map((x, i) => ({ name: nameOf(x.p), value: Math.round(x.v), trust: Math.round(K.run(H.meta.ids, Object.fromEntries(H.meta.ids.map((_, r) => [r, pickOf(x.p, r)])), H.state.tw, H.meta.ids.length - 1).b.trust),
-      crises: H.meta.ids.length, label: H.meta.label || "", date: new Date().toISOString().slice(0, 10), code: H.code, place: i + 1, of: list.length })));
+      crises: H.meta.ids.length, pack: CUR.id, label: H.meta.label || "", date: new Date().toISOString().slice(0, 10), code: H.code, place: i + 1, of: list.length })));
   }
 }
 async function hostBoard() {
@@ -241,20 +260,20 @@ async function hostBoard() {
   app.innerHTML = `<div id="bd"><p class="note">Loading the Hall of Fame…</p></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="cr2">Class results</button></div>`;
   $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#cr2").onclick = classResults;
   const res = await (H.posted || Promise.resolve({})), list = (res && res.list) || await Board.get(), el = $("#bd"); if (!el) return;
-  const mark = e => e.code === H.code && String(e.date) === new Date().toISOString().slice(0, 10);
-  el.innerHTML = boardHTML(list, H.meta.ids.length, mark) + (res && res.error ? `<p class="note">Couldn't post this game: ${esc(res.error)}</p>` : "");
+  const mark = e => packOfEntry(e) === CUR.id && e.code === H.code && String(e.date) === new Date().toISOString().slice(0, 10);
+  el.innerHTML = boardHTML(list, H.meta.ids.length, mark, CUR.id) + (res && res.error ? `<p class="note">Couldn't post this game: ${esc(res.error)}</p>` : "");
   wireBoard(el, list, mark); fit();
 }
 function classResults() {
   document.body.classList.remove("finale-on");
   const st = H.state, ps = active(), list = standings(H.meta.ids.length - 1);
   const rows = H.meta.ids.map((id, r) => { const c = K.byId[id], counts = new Array(8).fill(0); ps.forEach(p => { const x = pickOf(p, r); counts[x == null ? K.SILENT(c) : x]++; });
-    const pop = counts.indexOf(Math.max(...counts)), best = K.bestFor(c, st.tw[r], K.BRAND.start);
-    return `<div class="crow"><b>${esc(c.title)}</b><span>Most picked: <b>${LET[pop]}</b> (${counts[pop]})</span><span class="${pop === best ? "ok" : ""}">Best move: <b>${LET[best]}</b></span><small>${esc(c.opts[best].t)}</small></div>`; }).join("");
+    const pop = counts.indexOf(Math.max(...counts)), best = K.bestFor(c, st.tw[r], CUR.brand.start);
+    return `<div class="crow"><b>${esc(c.client ? c.client + ": " + c.title : c.title)}</b><span>Most picked: <b>${LET[pop]}</b> (${counts[pop]})</span><span class="${pop === best ? "ok" : ""}">Best move: <b>${LET[best]}</b></span><small>${esc(c.opts[best].t)}</small></div>`; }).join("");
   app.innerHTML = `<div class="rep"><h2>Class results</h2><div class="endgrid">
     <div class="skills"><div class="skh">Crisis by crisis</div>${rows}
       <p class="note">Talk about it: which responses cost little but kept trust? When did saying nothing work, and when did it blow up?</p></div>
-    <div class="skills"><div class="skh">Final brand value</div><ol class="stand">${list.map(x => `<li><span>${esc(nameOf(x.p))}</span><em>${m$(x.v)}</em></li>`).join("")}</ol></div></div>
+    <div class="skills"><div class="skh">Final ${esc(CUR.labels.value.toLowerCase())}</div><ol class="stand">${list.map(x => `<li><span>${esc(nameOf(x.p))}</span><em>${m$(x.v)}</em></li>`).join("")}</ol></div></div>
     <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="hf2">Hall of Fame</button><button class="btn" id="erase">Erase game</button></div></div>`;
   $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#hf2").onclick = hostBoard; $("#erase").onclick = hostErase;
   fit();
@@ -318,7 +337,7 @@ async function enterGame(N, code, name, forcePid) {
     else { pid = "p" + Math.random().toString(36).slice(2, 10); await N.set(`games/${code}/players/${pid}`, { name, joined: Date.now() }); }
     saveSess({ code, pid, name });
     if (ME && ME.off) ME.off();
-    const { state, players, ...meta } = g;
+    const { state, players, ...meta } = g; setPack(meta.ids);
     ME = { N, code, pid, name, meta, p: { ...((rec && rec.p) || {}) }, sel: null, st: null, rq: null };
     $("#who").textContent = name; $("#who").hidden = false;
     ME.off = N.on(`games/${code}/state`, s => { if (!ME) return; if (!s) return gone(); ME.st = s; stuRender(); });
@@ -328,12 +347,12 @@ async function enterGame(N, code, name, forcePid) {
 function gone() { stopTick(); if (ME && ME.off) ME.off(); ME = null; try { localStorage.removeItem(SKEY); } catch (e) {}
   app.innerHTML = `<div class="wait"><h2>The game has ended</h2><p>Your teacher closed this game.</p><button class="btn main" id="h">OK</button></div>`; $("#h").onclick = home; }
 // my brand after round r (only rounds whose twist is known count)
-function myRun(st, upto) { return upto < 0 ? { b: { ...K.BRAND.start }, log: [] } : K.run(ME.meta.ids, ME.p, st.tw, upto); }
+function myRun(st, upto) { return upto < 0 ? { b: { ...CUR.brand.start }, log: [] } : K.run(ME.meta.ids, ME.p, st.tw, upto); }
 function stuRender() {
   const M = ME, st = M.st; if (!st) return;
   const key = st.phase + "|" + st.r + "|" + (st.phase === "reveal" ? JSON.stringify(st.ranks && st.ranks[M.pid]) : "");
   if (key === M.rq) return; M.rq = key;
-  if (st.phase === "lobby") { app.innerHTML = `<div class="wait"><h2>You're in, ${esc(M.name)}!</h2><p>You're the new marketing team for <b>${esc(K.BRAND.name)}</b>.</p><p>${esc(K.BRAND.about)}</p>${meters(K.BRAND.start)}<p>Watch the board. The first crisis is coming.</p></div>`; return; }
+  if (st.phase === "lobby") { app.innerHTML = `<div class="wait"><h2>You're in, ${esc(M.name)}!</h2><p>You're ${esc(CUR.role)}.</p><p>${esc(CUR.brand.about)}</p>${meters(CUR.brand.start)}<p>Watch the board. The first crisis is coming.</p></div>`; return; }
   if (st.phase === "crisis") return stuCrisis();
   if (st.phase === "twist") { stopTick(); const c = K.byId[M.meta.ids[st.r]], T = c.twists[st.tw[st.r]];
     app.innerHTML = `<div class="wait"><div class="kick">What happened next…</div><div class="tcardx flip small"><div class="back"><b>${esc(T.t)}</b><span>${esc(T.note)}</span></div></div><p>Watch the board for the results.</p></div>`; return; }
@@ -345,7 +364,7 @@ function stuCrisis() {
   if (M.selR !== r) { M.sel = M.p[r] != null ? +M.p[r] : null; M.selR = r; M.t0 = performance.now(); }
   const draw = () => {
     const locked = M.p[r] != null;
-    app.innerHTML = `<div class="sthead"><div><div class="kick">Crisis ${r + 1} of ${M.meta.ids.length}</div><h2>${esc(c.title)}</h2></div>${timerHTML(secs)}</div>
+    app.innerHTML = `<div class="sthead"><div><div class="kick">Crisis ${r + 1} of ${M.meta.ids.length}${c.client ? " · Client: " + esc(c.client) : ""}</div><h2>${esc(c.title)}</h2></div>${timerHTML(secs)}</div>
       ${meters(b)}<p class="story">${esc(c.story)}</p>
       <div class="sopts">${c.opts.map((o, i) => { const broke = o.cost > b.cash;
         return `<button class="sopt ${M.sel === i ? "sel" : ""}" data-i="${i}" ${broke || locked ? "disabled" : ""}><span class="lt">${LET[i]}</span><span class="tx">${esc(o.t)}</span><span class="cost">${broke ? "Not enough budget" : o.cost ? m$(o.cost) : "Free"}</span></button>`; }).join("")}</div>
@@ -358,7 +377,7 @@ function stuCrisis() {
 }
 function stuReveal() {
   stopTick(); const M = ME, st = M.st, r = st.r, c = K.byId[M.meta.ids[r]], R = myRun(st, r), prev = myRun(st, r - 1).b, x = R.log[r];
-  const best = K.bestFor(c, st.tw[r], K.BRAND.start), rk = st.ranks && st.ranks[M.pid];
+  const best = K.bestFor(c, st.tw[r], CUR.brand.start), rk = st.ranks && st.ranks[M.pid];
   app.innerHTML = `<div class="rep stu"><div class="kick">Crisis ${r + 1} · ${esc(c.title)}</div>
     <h2>${x.quiet ? "You stayed quiet" : `You chose ${LET[x.i]}`}</h2><p class="pick">${esc(c.opts[x.i].t)}</p>${effects(x.out)}
     ${meters(R.b, prev)}
@@ -367,15 +386,15 @@ function stuReveal() {
 }
 function stuEnd() {
   stopTick(); const M = ME, st = M.st, R = myRun(st, M.meta.ids.length - 1);
-  app.innerHTML = `<div class="wait"><div class="kick">Brand Crisis · Final</div><h2>Your brand is worth ${m$(R.value)}</h2>${meters(R.b, K.BRAND.start)}
-    <p>You started at ${m$(K.value(K.BRAND.start))}. Watch the board for the Top 5.</p><div id="hofme"></div>
-    <p class="links"><a href="/brand-crisis/winners">See the Hall of Fame</a></p></div>`;
+  app.innerHTML = `<div class="wait"><div class="kick">Brand Crisis · ${esc(CUR.round)} · Final</div><h2>${CUR.id === "agency" ? "Your agency is" : "Your brand is"} worth ${m$(R.value)}</h2>${meters(R.b, CUR.brand.start)}
+    <p>You started at ${m$(K.value(CUR.brand.start))}. Watch the board for the Top 5.</p><div id="hofme"></div>
+    <p class="links"><a href="/brand-crisis/winners${CUR.id === "agency" ? "?round=2" : ""}">See the Hall of Fame</a></p></div>`;
   try { localStorage.removeItem(SKEY); } catch (e) {}
   // did we make the Hall of Fame? (the teacher screen posts it a moment after the game ends)
   const code = M.code, name = M.name;
   [3000, 8000, 15000].forEach(ms => setTimeout(async () => {
     const el = $("#hofme"); if (!el || el.dataset.done) return;
-    const list = await Board.get(), crises = M.meta.ids.length, same = list.filter(e => e.crises === crises);
+    const list = await Board.get(), crises = M.meta.ids.length, same = list.filter(e => e.crises === crises && packOfEntry(e) === CUR.id);
     const i = same.findIndex(e => e.code === code && e.name === name);
     if (i >= 0 && i < 20) { el.dataset.done = 1; el.innerHTML = `<div class="place podium-1"><span>Hall of Fame</span><b>#${i + 1}</b><span>all time</span></div>`; beep(1047, .3); }
   }, ms));

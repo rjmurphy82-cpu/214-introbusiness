@@ -136,3 +136,6 @@
 .hofl .v{text-align:right;font-family:var(--display);font-size:24px;font-weight:600}
 .hofl li.me{border-color:#C9592A;background:#FFF1EA}
 .hofl .new{position:absolute;top:-9px;right:12px;font-style:normal;background:#C9592A;color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:1px 8px;letter-spacing:.08em}
+.alert .cline{color:#FFD7C2;font-weight:600;font-size:17px;margin-top:2px}
+.hofsegs{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.seg.multi.packs button[aria-pressed="false"]{text-decoration:none;opacity:.6}
