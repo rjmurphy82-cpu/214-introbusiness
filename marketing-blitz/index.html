@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Unit 3 Marketing Blitz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+/* Layout: one full-screen game stage per phase (setup, question, reveal, leaderboard, podium) under a slim Hersey header with a progress rail */
+:root{
+  --bg:#24140B; --panel:#3F2417; --panel2:#4C2D1D; --line:#6A4634;
+  --fg:#F7ECDF; --muted:#CDB7A2; --ink:#2A170D; --cream:#F7ECDF;
+  --accent:#E76728; --gold:#F2B84B; --good:#38B36A; --bad:#C9474F;
+  --red:#D13A45; --blue:#2E6BCF; --yellow:#D7980F; --green:#2A9350;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:clamp(15px,1.15vw,21px);line-height:1.4}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.app{min-height:100%;display:flex;flex-direction:column;gap:clamp(10px,1.4vw,18px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 18px;max-width:1700px;margin:0 auto}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.badge{background:var(--accent);color:var(--ink);font-family:var(--display);font-weight:700;letter-spacing:.06em;padding:4px 10px;font-size:.85em;text-transform:uppercase}
+.brand small{color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:.72em;font-weight:600}
+.qcount{font-family:var(--display);font-size:1.15em;letter-spacing:.05em;display:flex;align-items:center;gap:12px}
+.rail{width:clamp(120px,18vw,280px);height:8px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.rail i{display:block;height:100%;background:var(--accent);transition:width .4s}
+
+.stage{flex:1;display:flex;flex-direction:column;gap:clamp(10px,1.4vw,18px);min-height:0}
+.btn{border:0;border-radius:6px;padding:.7em 1.3em;font-family:var(--display);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:1em;background:var(--panel2);border:2px solid var(--line)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);color:var(--ink);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.big{font-size:1.35em;padding:.65em 1.6em}
+.btn.small{font-size:.8em;padding:.45em .9em}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.spacer{flex:1}
+.hint{color:var(--muted);font-size:.85em}
+kbd{font-family:var(--body);background:var(--panel2);border:1px solid var(--line);border-bottom-width:3px;border-radius:4px;padding:0 .4em;font-size:.85em}
+
+/* setup */
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(16px,3vw,48px);align-items:start;padding-top:clamp(8px,2vw,28px)}
+.hero h1{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:clamp(2.6rem,6.4vw,6.5rem);line-height:.92;margin:0;letter-spacing:.01em;text-wrap:balance}
+.hero h1 span{color:var(--accent)}
+.lede{font-size:1.1em;max-width:58ch;color:var(--muted)}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.topics span{border:1px solid var(--line);padding:3px 10px;border-radius:999px;font-size:.8em;color:var(--muted)}
+.rules{display:grid;gap:8px;margin-top:18px;max-width:60ch}
+.rules div{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.rules b{font-family:var(--display);color:var(--gold);letter-spacing:.04em;min-width:7.5em;text-transform:uppercase;font-weight:600}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:clamp(14px,1.6vw,24px)}
+.panel h2{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;margin:0 0 12px;font-size:1.3em;font-weight:600}
+.stepper{display:flex;align-items:center;gap:10px}
+.stepper button{width:2.2em;height:2.2em;border-radius:6px;border:2px solid var(--line);background:var(--panel2);font-size:1.1em;font-weight:700}
+.stepper output{font-family:var(--display);font-size:1.6em;min-width:1.6em;text-align:center}
+.names{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+.names label{display:flex;align-items:center;gap:8px;background:var(--panel2);border-radius:6px;padding:4px 8px}
+.names label span{font-family:var(--display);color:var(--muted);width:1.4em}
+.names input{flex:1;min-width:0;background:transparent;border:0;color:var(--fg);font:inherit;font-weight:600;padding:6px 2px}
+
+/* question */
+.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pill{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:.85em;padding:4px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill.dbl{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700}
+.qcard{background:var(--cream);color:var(--ink);border-radius:10px;padding:clamp(16px,2.2vw,34px) clamp(18px,3vw,44px);text-align:center;font-weight:600;font-size:clamp(1.25rem,2.45vw,2.75rem);line-height:1.22;text-wrap:balance;box-shadow:0 6px 0 rgba(0,0,0,.35)}
+.mid{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;min-height:clamp(90px,11vw,170px)}
+.timer{position:relative;width:clamp(86px,10vw,160px);aspect-ratio:1;max-width:100%}
+.timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer .num{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:clamp(2rem,4vw,4.2rem);font-weight:700}
+.timer.low .num{color:var(--gold)}
+.ready{font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-size:1.3em;text-align:center}
+.readybar{height:10px;background:var(--panel2);border-radius:5px;overflow:hidden;max-width:520px;margin:10px auto 0}
+.readybar i{display:block;height:100%;background:var(--accent);width:0}
+.controls{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,1vw,14px);flex:1}
+.ans{display:flex;align-items:center;gap:clamp(10px,1.2vw,20px);border-radius:8px;padding:clamp(12px,1.4vw,24px);min-height:clamp(70px,9vw,140px);color:#fff;font-weight:600;font-size:clamp(1.05rem,1.75vw,2rem);line-height:1.2;box-shadow:inset 0 -6px 0 rgba(0,0,0,.22);transition:opacity .35s,transform .35s;min-width:0}
+.ans svg{flex:none;width:clamp(30px,3.2vw,56px);height:clamp(30px,3.2vw,56px)}
+.ans .txt{min-width:0}
+.ans.a0{background:var(--red)}.ans.a1{background:var(--blue)}.ans.a2{background:var(--yellow)}.ans.a3{background:var(--green)}
+.ans .mark{margin-left:auto;flex:none;font-family:var(--display);font-size:.8em;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.95);color:var(--ink);padding:4px 10px;border-radius:4px}
+.revealed .ans.no{opacity:.22;transform:scale(.97)}
+.revealed .ans.yes{outline:5px solid #fff;outline-offset:-5px}
+.answers.hidden .ans{opacity:0}
+
+/* reveal / scoring */
+.revealwrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(10px,1.4vw,18px)}
+.why{background:var(--panel);border-left:6px solid var(--good);border-radius:8px;padding:14px 18px;font-size:1.05em}
+.why b{font-family:var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--good);display:block;margin-bottom:4px;font-weight:600}
+.score h3{margin:0 0 8px;font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;font-weight:600;font-size:1em}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.chip{display:flex;align-items:center;gap:8px;border:2px solid var(--line);background:var(--panel2);border-radius:6px;padding:8px 10px;text-align:left;font-weight:600;min-width:0}
+.chip .k{font-family:var(--display);color:var(--muted);font-size:.85em;width:1.2em}
+.chip .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip .s{font-size:.75em;font-family:var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.chip.on{background:var(--good);border-color:var(--good);color:var(--ink)}
+.chip.on .k,.chip.on .s{color:var(--ink)}
+
+/* leaderboard */
+.boardhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.boardhead h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(2rem,3.8vw,3.6rem);margin:0;letter-spacing:.02em}
+.board{display:grid;gap:8px}
+.lrow{display:grid;grid-template-columns:3.2em 2.6em minmax(0,1fr) auto;align-items:center;gap:12px;background:var(--panel);border-radius:8px;padding:8px 14px;font-size:1.15em}
+.lrow.first{background:var(--accent);color:var(--ink)}
+.lrow .rk{font-family:var(--display);font-size:1.4em;font-weight:700}
+.lrow .mv{font-family:var(--display);font-size:.8em;text-align:center}
+.mv.up{color:var(--good)}.mv.down{color:var(--bad)}.mv.same{color:var(--muted)}
+.lrow.first .mv{color:var(--ink)}
+.lrow .bar{position:relative;height:2.1em;display:flex;align-items:center;min-width:0}
+.lrow .bar i{position:absolute;left:0;top:0;bottom:0;background:rgba(255,255,255,.1);border-radius:4px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.lrow.first .bar i{background:rgba(0,0,0,.14)}
+.lrow .bar span{position:relative;padding-left:10px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .pts{font-family:var(--display);font-size:1.3em;font-weight:600;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lrow .pts em{font-style:normal;font-size:.6em;margin-right:10px;color:var(--good)}
+.lrow.first .pts em{color:var(--ink)}
+.streak{font-size:.65em;font-family:var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-left:8px}
+.lrow.first .streak{color:var(--ink)}
+
+/* podium */
+.podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.5vw,22px);align-items:end;max-width:1000px;margin:clamp(10px,3vw,40px) auto 0;width:100%}
+.pod{text-align:center}
+.pod .nm{font-family:var(--display);font-size:clamp(1.2rem,2.4vw,2.4rem);font-weight:600;text-transform:uppercase;overflow-wrap:anywhere}
+.pod .pp{color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:8px}
+.pod .blk{border-radius:8px 8px 0 0;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:clamp(2.5rem,6vw,6rem);color:var(--ink)}
+.pod.p1 .blk{background:var(--gold);height:clamp(160px,22vw,320px)}
+.pod.p2 .blk{background:var(--cream);height:clamp(115px,15vw,220px)}
+.pod.p3 .blk{background:var(--accent);height:clamp(80px,10vw,150px)}
+.rest{max-width:1000px;margin:12px auto 0;width:100%}
+.center{text-align:center}
+
+@media (max-width:760px){
+  .hero,.revealwrap{grid-template-columns:1fr}
+  .answers{grid-template-columns:1fr}
+  .mid{grid-template-columns:auto 1fr}
+  .mid .controls{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+  .lrow{grid-template-columns:2.4em 2em minmax(0,1fr) auto;gap:8px;font-size:1em}
+  .names{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <header class="top">
+    <div class="brand"><span class="badge">Intro to Business</span><small>John Hersey High School &middot; Unit 3 Marketing</small></div>
+    <div class="qcount" id="qcount"></div>
+  </header>
+  <main class="stage" id="stage" aria-live="polite"></main>
+</div>
+
+<script>
+const QUESTIONS = [
+{t:"Target Marketing",time:30,c:1,q:"Which target market description uses TWO different lenses?",
+ a:["Ages 16 to 24, female","Household income over $150,000 and lives within 10 miles of the store","Values adventure and posts outdoor photos","Bought 3+ times last month and found us on TikTok"],
+ x:"Income is socioeconomic and distance from the store is geographic. Each of the other choices stays inside one lens (the TikTok one is all behavioral)."},
+{t:"Target Marketing",time:30,c:0,q:"A gym aims at “members who only come on weekends and signed up after a friend referred them.” Which lens is this?",
+ a:["Behavioral","Psychographic","Demographic","Socioeconomic"],
+ x:"When they come (how they use it) and how they found the gym (a referral) both describe buying and using behavior."},
+{t:"Target Marketing",time:45,c:1,q:"Group A: 400 customers who each spend $15. Group B: 90 customers who each spend $70. Which group brings in more money, and by how much?",
+ a:["Group A, by $300","Group B, by $300","They bring in the same amount","Group B, by $3,000"],
+ x:"A = 400 x $15 = $6,000. B = 90 x $70 = $6,300. The smaller group wins by $300."},
+{t:"Emotional Marketing",time:30,c:1,q:"An ad opens on a teen hiding his smile in photos because of stained teeth, then shows him grinning after two weeks of whitening strips. Main emotion?",
+ a:["Pride / Aspiration","Fear / Insecurity","Happiness / Joy","Nostalgia"],
+ x:"The ad says “something is wrong with you, and this fixes it.” That before-and-after setup is Fear / Insecurity."},
+{t:"Emotional Marketing",time:30,c:2,q:"Sprite’s “Image is nothing. Thirst is everything.” sounds like a rational appeal. What is it really selling?",
+ a:["Facts about how well Sprite quenches thirst","Belonging: you’re part of the group","Rebellion / Independence: you’re not like everyone else","Nostalgia: remember how good things used to be"],
+ x:"It tells you to ignore image and hype, which is a way of saying you’re not like everyone else. That is Rebellion / Independence."},
+{t:"Emotional Marketing",time:30,c:3,q:"Which of these ads uses a RATIONAL appeal?",
+ a:["“Remember Saturday mornings? This cereal tastes like them.”","“Thank the coach who believed in you.”","“You’re not like everyone else. Neither is this jacket.”","“Charges to 80% in 18 minutes, twice as fast as last year’s model.”"],
+ x:"Rational appeals persuade with facts like features and performance. The others sell nostalgia, gratitude, and rebellion."},
+{t:"Emotional Marketing",time:40,c:0,dbl:true,q:"A shopper says the Apple logo makes her think “creative and simple.” Later she pays more for an Apple laptop when a cheaper one has the same specs. Name both, in order.",
+ a:["Brand image; brand loyalty","Brand loyalty; brand image","Rational appeal; brand association","Emotional appeal; mass marketing"],
+ x:"The personality people connect to Apple is its brand image. Choosing it again over a cheaper equal option is brand loyalty."},
+{t:"Emotional Marketing",time:30,c:2,q:"One shoe, two ads: a teen sprinter’s slow-motion win, and a nurse finishing a 12-hour shift in comfort. What’s the lesson?",
+ a:["The brand can’t decide what the shoe is for","Rational appeals beat emotional ones for shoes","The same product can carry a different emotion for each target market","Ads should only target the largest segment"],
+ x:"Pride for the athlete, comfort and care for the nurse. Match the feeling to the segment you’re talking to."},
+{t:"The Media Buy",time:45,c:1,dbl:true,q:"Pawprint Pantry: Teen Dog Lovers are 3,000 customers at $40 a year. Vet Clinics are 60 clinics at $7,000 a year. How much MORE are the vet clinics worth?",
+ a:["$120,000","$300,000","$420,000","$6,960"],
+ x:"Vets: 60 x $7,000 = $420,000. Teens: 3,000 x $40 = $120,000. Difference: $300,000. Teens are the trap, vets are the hidden gem."},
+{t:"The Media Buy",time:45,c:2,q:"A climbing gym: College Students are 5,000 you could win at $60 a year. Corporate Teams are 40 companies at $9,000 a year. Which is the hidden gem, and what is it worth?",
+ a:["College Students, $300,000","Corporate Teams, $36,000","Corporate Teams, $360,000","College Students, $3,000,000"],
+ x:"Corporate: 40 x $9,000 = $360,000. College: 5,000 x $60 = $300,000. The small group is worth more."},
+{t:"The Media Buy",time:30,c:2,q:"Loop E-Bikes: teens showed 74% interest, but riders must be 18 to sign the rental agreement. What should happen to the teen budget?",
+ a:["Increase it, since teen interest is the highest","Keep it equal to the other segments to be fair","Cut it to near zero, because teens can’t become paying customers","Move all of it to TikTok, where the teens are"],
+ x:"Interest isn’t money. If a segment can’t legally buy, every dollar spent on it is wasted."},
+{t:"The Media Buy",time:45,c:0,q:"Basecamp: Young Professionals are 3,000 x $720. High School Teens are 4,000 x $90 with 78% interest. About how many times more valuable are the Young Professionals?",
+ a:["About 6 times","About 2 times","About 8 times","About the same"],
+ x:"$2,160,000 vs. $360,000. That is 6 times as much, even though teens had more people and more interest."},
+{t:"Ad Channels",time:45,c:1,dbl:true,q:"Lollapalooza brought in $45,000 from $60,000 spent. Google Search brought in $180,000 from $50,000 spent. What are their ROIs?",
+ a:["Lolla $1.33, Google $0.28","Lolla $0.75, Google $3.60","Lolla $0.75, Google $2.60","Lolla $1.75, Google $3.60"],
+ x:"ROI = money in ÷ money spent. $45,000 ÷ $60,000 = $0.75 (lost money). $180,000 ÷ $50,000 = $3.60 back per $1."},
+{t:"Ad Channels",time:30,c:3,q:"Four channels’ ROI: CTA $1.05, LinkedIn $1.00, TikTok $2.10, Facebook $0.95. Which one LOST money?",
+ a:["CTA trains ($1.05)","LinkedIn ($1.00)","TikTok ($2.10)","Facebook ($0.95)"],
+ x:"Under $1.00 back means the channel lost money. LinkedIn at exactly $1.00 broke even."},
+{t:"Ad Channels",time:30,c:0,q:"Sidekick sells $14,000 software licenses to school districts. Which channel best reaches the people who sign that check?",
+ a:["LinkedIn","TikTok","Lollapalooza sponsorship","CTA trains and bus shelters"],
+ x:"LinkedIn reaches decision-makers (88%) like superintendents and curriculum directors. Teens on TikTok can’t buy a district license."},
+{t:"Social Media Ads",time:45,c:2,q:"A $4,500 budget at a $12 CPM buys how many impressions?",
+ a:["37,500","540,000","375,000","3,750,000"],
+ x:"Budget ÷ CPM x 1,000 = $4,500 ÷ $12 x 1,000 = 375,000 impressions."},
+{t:"Social Media Ads",time:45,c:0,q:"200,000 impressions get a 1.5% click rate, and 4% of the clickers buy. How many sales?",
+ a:["120","3,000","300","1,200"],
+ x:"Clicks: 200,000 x 1.5% = 3,000. Sales: 3,000 x 4% = 120."},
+{t:"Social Media Ads",time:45,c:3,dbl:true,q:"Those 120 sales each earn $35 profit before ads. The campaign cost $3,000. What is the campaign’s profit?",
+ a:["$4,200","−$1,200","$7,200","$1,200"],
+ x:"120 x $35 = $4,200, minus $3,000 of ads = $1,200 profit. It beat break-even."},
+{t:"Social Media Ads",time:30,c:0,q:"You have a $4,800 ad budget, and each sale earns $60 profit. How many sales do you need to break even?",
+ a:["80","48","288","800"],
+ x:"Break-even sales = ad budget ÷ profit per sale = $4,800 ÷ $60 = 80."},
+{t:"Social Media Ads",time:30,c:2,q:"$18,000 in sales came from $4,000 of ads. What is the ROAS?",
+ a:["0.22x","$14,000","4.5x","45x"],
+ x:"ROAS = revenue ÷ ad spend = $18,000 ÷ $4,000 = 4.5x."},
+{t:"Social Media Ads",time:40,c:0,dbl:true,q:"An ad got 300,000 impressions but reached only 25,000 different people. What is the frequency, and what is the problem?",
+ a:["12, ad fatigue","12, the audience is too broad","0.08, the audience is too narrow","8.3, ad fatigue"],
+ x:"Frequency = impressions ÷ reach = 12. Seeing the same ad 12 times means people tune out: ad fatigue from targeting too narrow."},
+{t:"Social Media Ads",time:30,c:2,q:"A platform’s cost per sale is $55, and each sale earns $48 profit before ads. What should you do?",
+ a:["Keep spending, since it is making sales","Spend more to bring the cost per sale down","Stop or shift the money, since every sale loses $7","Switch to the Awareness objective for cheaper impressions"],
+ x:"Profit is the score. Paying $55 to earn $48 loses $7 on every sale."},
+{t:"Social Media Ads",time:30,c:1,q:"You are advertising to 16 and 17 year-olds. Which targeting setup follows the rules of the buy?",
+ a:["Ages 16 to 17 + interest in gaming","Ages 16 to 17 + location only","Interest in sneakers + location","Ages 13 to 17 + interest in sports + location"],
+ x:"Teens can only be targeted by age and location. Interest targeting only works on adults, which protects teens."},
+{t:"Social Media Ads",time:30,c:1,q:"You need to reach Parents 35 to 54. Using the weekly reach table, which two platforms reach the most of them?",
+ a:["Instagram and TikTok","YouTube and Facebook","Facebook and Pinterest","Snapchat and YouTube"],
+ x:"YouTube 85% and Facebook 75%. Instagram is 45%, Pinterest 40%, TikTok 30%, Snapchat 18%."},
+{t:"Social Media Ads",time:30,c:2,q:"Campaign A: 500,000 impressions, 6,000 clicks, $400 profit. Campaign B: 120,000 impressions, 1,500 clicks, $1,100 profit. Which campaign won?",
+ a:["A, because it had more impressions","A, because it had more clicks","B, because it made more profit","A tie, since each won a category"],
+ x:"Profit is the score. Not impressions, not clicks."},
+{t:"Segmentation",time:60,c:1,dbl:true,q:"Base cost $8, plus features costing $2, $5, and $3. It sells for $40. The segment has 500 people, 40% would buy at $40, and Fit is 100%. Profit?",
+ a:["$8,000","$4,400","$3,600","$11,600"],
+ x:"Unit cost = $8 + $2 + $5 + $3 = $18. Buyers = 500 x 40% x 100% = 200. Profit = 200 x ($40 − $18) = $4,400."},
+{t:"Segmentation",time:45,c:2,q:"A version includes 2 nice-to-have features but leaves out 1 must-have. What is its Fit?",
+ a:["110%","60%","55%","105%"],
+ x:"Start at 100%, add 5% for each nice-to-have = 110%. Then cut in half for the missing must-have = 55%."},
+{t:"Segmentation",time:60,c:2,dbl:true,q:"Maya’s Weekend Wearers cost $14 a pair to make. At $60, only 6% of the 600-person segment would buy. What profit does the $60 price make?",
+ a:["$2,160","$5,856","$1,656","$21,600"],
+ x:"600 x 6% = 36 buyers. 36 x ($60 − $14) = 36 x $46 = $1,656. The $30 price made $5,856, so the higher price loses."},
+{t:"Segmentation",time:30,c:0,q:"A company’s Premium version sells well to collectors. Why could launching a cheap Basic version that collectors would also accept be a mistake?",
+ a:["Collectors may switch to Basic, so the company loses higher-profit sales","Basic versions always lose money","It breaks the must-have feature rule","It counts as mass marketing"],
+ x:"That is cannibalization: the cheaper version steals customers who would have paid for the pricier one."},
+{t:"Put It Together",time:40,c:3,dbl:true,q:"The boba shop’s ads got 90,000 impressions, 2,400 clicks, and 150 sales. Which number best tells you whether the ads worked?",
+ a:["Impressions, because the most people saw it","Clicks, because they show interest","Reach, because it counts different people","Profit: sales x profit per sale, minus the ad spend"],
+ x:"Impressions and clicks don’t pay the rent. Only profit shows whether the $5,000 came back with more."}
+];
+
+const DEFAULT_NAMES=["Orange","Brown","Cream","Gold","Navy","Teal","Crimson","Forest","Silver","Plum","Sky","Slate"];
+const KEY="hersey-u3-marketing-blitz";
+const READY_MS=4000;
+const SHAPES=[
+ '<svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,4 37,35 3,35" fill="#fff"/></svg>',
+ '<svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 38,20 20,38 2,20" fill="#fff"/></svg>',
+ '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#fff"/></svg>',
+ '<svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="30" height="30" rx="2" fill="#fff"/></svg>'];
+const SHAPE_NAMES=["Triangle","Diamond","Circle","Square"];
+
+let S, tick=null, readyStart=0, confirmReset=false;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=n=>(n<0?"−":"")+Math.abs(n).toLocaleString("en-US");
+
+function fresh(n){return {phase:"setup",teams:makeTeams(n||6),qi:0,timeLeft:0,paused:false,correct:[],prevRank:{},gain:{}};}
+function makeTeams(n,old){const t=[];for(let i=0;i<n;i++){t.push(old&&old[i]?old[i]:{name:"Team "+DEFAULT_NAMES[i],score:0,streak:0});}return t;}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function loadSaved(){try{const v=localStorage.getItem(KEY);return v?JSON.parse(v):null;}catch(e){return null;}}
+function ranks(){const order=S.teams.map((t,i)=>i).sort((a,b)=>S.teams[b].score-S.teams[a].score||a-b);const r={};order.forEach((ti,k)=>r[ti]=k+1);return {order,r};}
+function stopTick(){if(tick){clearInterval(tick);tick=null;}}
+
+function header(){
+  const q=$("qcount");
+  if(S.phase==="setup"){q.innerHTML='<span class="hint">30 questions &middot; moderate to hard</span>';return;}
+  const done=S.phase==="final"?QUESTIONS.length:S.qi+(S.phase==="board"?1:0);
+  q.innerHTML=(S.phase==="final"?"Final":"Q "+(S.qi+1)+" / "+QUESTIONS.length)+'<span class="rail"><i style="width:'+(done/QUESTIONS.length*100)+'%"></i></span>';
+}
+
+function render(){
+  header();
+  ({setup:renderSetup,ready:renderQuestion,answer:renderQuestion,reveal:renderQuestion,board:renderBoard,final:renderFinal})[S.phase]();
+  save();
+}
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  const saved=window.__resume;
+  $("stage").innerHTML=`
+  <section class="hero">
+    <div>
+      <h1>Unit 3 <span>Marketing</span> Blitz</h1>
+      <div class="topics"><span>Target marketing</span><span>Emotional marketing</span><span>The media buy</span><span>Ad channels</span><span>Social media ads</span><span>Segmentation</span></div>
+      <p class="lede">Thirty review questions, all moderate or hard, straight from the Unit 3 study guide. Expect math. Bring a calculator.</p>
+      <div class="rules">
+        <div><b>Answer</b><span>Each team writes the shape or letter on a whiteboard before the timer hits zero.</span></div>
+        <div><b>Points</b><span>1,000 per correct answer. Gold questions are worth double: 2,000.</span></div>
+        <div><b>Streaks</b><span>+100 for each answer in a row after the first, up to +500.</span></div>
+        <div><b>Keys</b><span><kbd>Space</kbd> next step &middot; <kbd>P</kbd> pause &middot; <kbd>1</kbd> to <kbd>9</kbd>, <kbd>0</kbd> mark teams</span></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Teams</h2>
+      <div class="stepper"><button id="minus" aria-label="Fewer teams">−</button><output id="tcount">${S.teams.length}</output><button id="plus" aria-label="More teams">+</button><span class="hint">teams (2 to 12)</span></div>
+      <div class="names">${S.teams.map((t,i)=>`<label><span>${i+1}</span><input id="team-${i}" value="${esc(t.name)}" maxlength="22" aria-label="Team ${i+1} name"></label>`).join("")}</div>
+      <div class="row">
+        <button class="btn primary big" id="startBtn">Start game</button>
+        ${saved?`<button class="btn" id="resumeBtn">Resume saved game (Q ${saved.qi+1})</button>`:""}
+      </div>
+    </div>
+  </section>`;
+  const sync=()=>S.teams.forEach((t,i)=>{const el=$("team-"+i);if(el)t.name=el.value.trim()||("Team "+(i+1));});
+  $("minus").onclick=()=>{sync();if(S.teams.length>2){S.teams=makeTeams(S.teams.length-1,S.teams);render();}};
+  $("plus").onclick=()=>{sync();if(S.teams.length<12){S.teams=makeTeams(S.teams.length+1,S.teams);render();}};
+  S.teams.forEach((t,i)=>$("team-"+i).addEventListener("input",()=>{sync();save();}));
+  $("startBtn").onclick=()=>{sync();S.teams.forEach(t=>{t.score=0;t.streak=0;});S.qi=0;window.__resume=null;startQuestion();};
+  if(saved)$("resumeBtn").onclick=()=>{S=saved;window.__resume=null;if(S.phase==="ready"||S.phase==="answer"){S.paused=true;if(S.phase==="ready"){S.phase="answer";S.timeLeft=QUESTIONS[S.qi].time;}}render();if(S.phase==="answer")runTimer();};
+}
+
+/* ---------- question ---------- */
+function startQuestion(){
+  stopTick();
+  const q=QUESTIONS[S.qi];
+  S.phase="ready";S.correct=S.teams.map(()=>false);S.timeLeft=q.time;S.maxTime=q.time;S.paused=false;
+  render();
+  readyStart=performance.now();
+  tick=setInterval(()=>{
+    const p=Math.min(1,(performance.now()-readyStart)/READY_MS);
+    const b=$("readyFill");if(b)b.style.width=(p*100)+"%";
+    if(p>=1)beginAnswer();
+  },50);
+}
+function beginAnswer(){stopTick();S.phase="answer";S.paused=false;render();runTimer();}
+function runTimer(){
+  stopTick();let last=performance.now();
+  tick=setInterval(()=>{
+    const now=performance.now();const dt=(now-last)/1000;last=now;
+    if(S.paused)return;
+    S.timeLeft=Math.max(0,S.timeLeft-dt);updateTimer();
+    if(S.timeLeft<=0)reveal();
+  },100);
+}
+function updateTimer(){
+  const q=QUESTIONS[S.qi];const c=$("tring"),n=$("tnum"),w=$("timerWrap");if(!c)return;
+  const C=2*Math.PI*44;c.style.strokeDashoffset=C*(1-S.timeLeft/(S.maxTime||q.time));
+  n.textContent=Math.ceil(S.timeLeft);w.classList.toggle("low",S.timeLeft<=5);
+}
+function reveal(){stopTick();S.phase="reveal";render();}
+function togglePause(){if(S.phase!=="answer")return;S.paused=!S.paused;const b=$("pauseBtn");if(b)b.textContent=S.paused?"Resume":"Pause";save();}
+
+function renderQuestion(){
+  const q=QUESTIONS[S.qi];const ph=S.phase;const C=2*Math.PI*44;
+  const meta=`<div class="meta"><span class="pill">${esc(q.t)}</span>${q.dbl?'<span class="pill dbl">Double points &middot; 2,000</span>':'<span class="pill">1,000 points</span>'}<span class="spacer"></span><span class="hint">${q.time} seconds</span></div>`;
+  let mid="";
+  if(ph==="ready"){
+    mid=`<div class="ready" style="grid-column:1/-1">Read the question<div class="readybar"><i id="readyFill"></i></div></div>`;
+  }else if(ph==="answer"){
+    mid=`<div class="timer" id="timerWrap"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="var(--panel2)" stroke-width="9"/><circle id="tring" cx="50" cy="50" r="44" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-S.timeLeft/(S.maxTime||q.time))}" style="transition:stroke-dashoffset .1s linear"/></svg><div class="num" id="tnum">${Math.ceil(S.timeLeft)}</div></div>
+      <div class="hint center">Teams: write your shape or letter now.</div>
+      <div class="controls"><button class="btn small" id="pauseBtn">${S.paused?"Resume":"Pause"}</button><button class="btn small" id="addBtn">+10 seconds</button><button class="btn primary" id="revealBtn">Reveal answer</button></div>`;
+  }
+  let lower="";
+  if(ph==="reveal"){
+    const right=S.correct;
+    lower=`<div class="revealwrap">
+      <div class="why"><b>${SHAPE_NAMES[q.c]}: ${esc(q.a[q.c])}</b>${esc(q.x)}</div>
+      <div class="panel score">
+        <h3>Who got it right? Tap a team or press its number.</h3>
+        <div class="chips">${S.teams.map((t,i)=>`<button class="chip${right[i]?" on":""}" data-i="${i}" aria-pressed="${right[i]}"><span class="k">${i<9?i+1:(i===9?0:"")}</span><span class="n">${esc(t.name)}</span><span class="s">${right[i]?"+"+fmt(award(i)):"0"}</span></button>`).join("")}</div>
+        <div class="row" style="margin-top:12px"><button class="btn small" id="allBtn">All correct</button><button class="btn small" id="noneBtn">Clear</button><span class="spacer"></span><button class="btn primary" id="boardBtn">Leaderboard</button></div>
+      </div></div>`;
+  }
+  $("stage").innerHTML=`${meta}<div class="qcard">${esc(q.q)}</div>
+    ${ph!=="reveal"?`<div class="mid">${mid}</div>`:""}
+    <div class="answers${ph==="ready"?" hidden":""}${ph==="reveal"?" revealed":""}">
+      ${q.a.map((a,i)=>`<div class="ans a${i} ${i===q.c?"yes":"no"}">${SHAPES[i]}<span class="txt">${esc(a)}</span>${ph==="reveal"&&i===q.c?'<span class="mark">Correct</span>':""}</div>`).join("")}
+    </div>${lower}`;
+  if(ph==="answer"){
+    $("pauseBtn").onclick=togglePause;
+    $("addBtn").onclick=()=>{S.timeLeft+=10;S.maxTime=Math.max(S.maxTime||0,S.timeLeft);updateTimer();};
+    $("revealBtn").onclick=reveal;
+  }
+  if(ph==="reveal"){
+    document.querySelectorAll(".chip").forEach(b=>b.onclick=()=>toggleTeam(+b.dataset.i));
+    $("allBtn").onclick=()=>{S.correct=S.teams.map(()=>true);render();};
+    $("noneBtn").onclick=()=>{S.correct=S.teams.map(()=>false);render();};
+    $("boardBtn").onclick=commit;
+  }
+}
+function award(i){const q=QUESTIONS[S.qi];const base=q.dbl?2000:1000;const st=S.teams[i].streak+1;return base+Math.min(st-1,5)*100;}
+function toggleTeam(i){if(i<0||i>=S.teams.length)return;S.correct[i]=!S.correct[i];render();}
+
+function commit(){
+  const before=ranks().r;S.prevRank=before;S.gain={};
+  S.teams.forEach((t,i)=>{
+    if(S.correct[i]){const g=award(i);t.score+=g;t.streak+=1;S.gain[i]=g;}
+    else{t.streak=0;S.gain[i]=0;}
+  });
+  S.phase="board";render();
+}
+
+/* ---------- leaderboard ---------- */
+function rowsHTML(animate){
+  const {order,r}=ranks();const top=Math.max(1,...S.teams.map(t=>t.score));
+  return order.map(i=>{
+    const t=S.teams[i];const prev=S.prevRank[i]||r[i];const d=prev-r[i];
+    const mv=d>0?`<span class="mv up">▲${d}</span>`:d<0?`<span class="mv down">▼${-d}</span>`:`<span class="mv same">–</span>`;
+    const from=animate?((t.score-(S.gain[i]||0))/top*100):(t.score/top*100);
+    return `<div class="lrow${r[i]===1?" first":""}"><span class="rk">${r[i]}</span>${animate?mv:"<span></span>"}<div class="bar"><i data-w="${t.score/top*100}" style="width:${Math.max(0,from)}%"></i><span>${esc(t.name)}${animate&&t.streak>=2?`<span class="streak">Streak ${t.streak}</span>`:""}</span></div><span class="pts">${animate&&S.gain[i]?`<em>+${fmt(S.gain[i])}</em>`:""}${fmt(t.score)}</span></div>`;
+  }).join("");
+}
+function renderBoard(){
+  const last=S.qi>=QUESTIONS.length-1;
+  $("stage").innerHTML=`<div class="boardhead"><h2>Leaderboard</h2><span class="hint">After question ${S.qi+1} of ${QUESTIONS.length}</span></div>
+   <div class="board">${rowsHTML(true)}</div>
+   <div class="row"><span class="spacer"></span><button class="btn primary big" id="nextBtn">${last?"Final results":"Next question"}</button></div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll(".bar i").forEach(b=>b.style.width=b.dataset.w+"%")));
+  $("nextBtn").onclick=next;
+}
+function next(){if(S.qi>=QUESTIONS.length-1){S.phase="final";render();}else{S.qi++;startQuestion();}}
+
+/* ---------- final ---------- */
+function renderFinal(){
+  const {order}=ranks();const t=k=>S.teams[order[k]];
+  const pod=(k,cls)=>order[k]===undefined?"<div></div>":`<div class="pod ${cls}"><div class="nm">${esc(t(k).name)}</div><div class="pp">${fmt(t(k).score)} pts</div><div class="blk">${k+1}</div></div>`;
+  $("stage").innerHTML=`<div class="boardhead"><h2>Final podium</h2><span class="hint">Unit 3 Marketing Blitz complete</span></div>
+    <div class="podium">${pod(1,"p2")}${pod(0,"p1")}${pod(2,"p3")}</div>
+    <div class="board rest">${rowsHTML(false)}</div>
+    <div class="row"><span class="spacer"></span><button class="btn" id="resetBtn">New game, same teams</button></div>`;
+  $("resetBtn").onclick=()=>{
+    if(!confirmReset){confirmReset=true;$("resetBtn").textContent="Click again to reset scores";return;}
+    confirmReset=false;const names=S.teams.map(x=>({name:x.name,score:0,streak:0}));S=fresh(names.length);S.teams=names;render();
+  };
+}
+
+/* ---------- keys ---------- */
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="INPUT")return;
+  const k=e.key;
+  if(k===" "||k==="Enter"){
+    if(e.target.tagName==="BUTTON"&&k==="Enter")return;
+    e.preventDefault();
+    if(S.phase==="ready")beginAnswer();
+    else if(S.phase==="answer")reveal();
+    else if(S.phase==="reveal")commit();
+    else if(S.phase==="board")next();
+  }else if((k==="p"||k==="P")&&S.phase==="answer"){togglePause();}
+  else if(S.phase==="reveal"&&/^[0-9]$/.test(k)){toggleTeam(k==="0"?9:(+k-1));}
+});
+
+/* ---------- boot ---------- */
+function start(data){
+  if(data&&data.teams&&data.phase){S=data;}
+  else{
+    S=fresh(6);
+    const saved=loadSaved();
+    if(saved&&saved.teams){S.teams=saved.teams.map(t=>({name:t.name,score:0,streak:0}));if(saved.phase!=="setup"&&saved.phase!=="final")window.__resume=saved;}
+  }
+  if(S.phase==="ready"){S.phase="answer";S.paused=true;}
+  render();
+  if(S.phase==="answer")runTimer();
+}
+window.claude?.hot?.snapshot?.(()=>JSON.parse(JSON.stringify(S)));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+</script>
+
+</body>
+</html>

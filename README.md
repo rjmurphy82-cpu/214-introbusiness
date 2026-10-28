@@ -18,6 +18,7 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/ad-buy-live/teacher` | Ad Buy Live host screen |
 | `/marketing-ladder/` | Marketing Ladder unit review (students join with a code) |
 | `/marketing-ladder/teacher` | Marketing Ladder host screen |
+| `/marketing-blitz/` | Marketing Blitz projector review game (teacher screen only, linked from `/teacher`, not the hub) |
 | `/brand-crisis/` | Brand Crisis simulation (students join with a code) |
 | `/brand-crisis/teacher` | Brand Crisis host screen |
 | `/brand-crisis/winners` | Brand Crisis Hall of Fame (all-time top teams) |
