@@ -194,6 +194,187 @@ var LADDER = (function () {
       math: "Profit a version can make = segment size x % who'd buy x (price − unit cost). Varsity Pro: 6,000 x 48% = 2,880 x $55 = $158,400. Lite: 6,000 x 62% = 3,720, halved to 1,860, x $45 = $83,700. Elite: 6,000 x 3% = 180 x $120 = $21,600."
     }
   ];
+
+  /* ================================================================ SET 2
+     Seven new client companies for the buys, and a bank of scenario questions (no term matching).
+     Each bank question: p = prompt, o = options with the correct one FIRST (shuffled on screen), x = why. */
+  const BUYS2 = [
+    {
+      id: "swim", tp: "target", kind: "Customer segments",
+      client: "Tidewater Swim School", what: "Indoor swim school in Palatine",
+      about: "Group lessons, private lessons, and a heated pool you can rent. A 10-week lesson session is $160; private coaching is $60 an hour.",
+      ask: "We have $100,000 for ads this year. Put it where the money is.",
+      cols: ["Interest", "Customers you could win", "Spending per customer, per year"],
+      opts: [
+        { name: "High Schoolers (ages 14–18)", cells: ["70%", "1,000", "$50"], note: "\"Open swim with friends sounds fun. Maybe once.\"", V: 50000, k: 6 },
+        { name: "Parents of Kids 5–12", cells: ["52%", "500", "$320"], note: "\"Two sessions a year, every year, until she can swim laps.\"", V: 160000, k: 3 },
+        { name: "Adult Beginners", cells: ["18%", "300", "$360"], note: "\"I never learned. I'm finally doing it at 38.\"", V: 108000, k: 3 },
+        { name: "Triathletes", cells: ["12%", "80", "$900"], note: "\"Private coaching twice a month. Worth every penny.\"", V: 72000, k: 1.3 },
+        { name: "Summer Camps and Scout Troops", cells: ["35%", "40 groups", "$3,000"], note: "\"We book a pool party every week of camp.\"", V: 120000, k: 1.3 }
+      ],
+      lesson: "High schoolers had the most interest and the least money behind it: a trap. Parents of young swimmers come back session after session. Camps and triathletes are small groups that spend a lot, so one or two blocks reach most of them and more money there stops paying.",
+      math: "What a group is worth = customers you could win x spending per customer. Parents: 500 x $320 = $160,000. High schoolers: 1,000 x $50 = $50,000, even with 70% interest."
+    },
+    {
+      id: "haven", tp: "feel", kind: "Ad emotions",
+      client: "Haven Pet Insurance", what: "Pet health insurance, $35 a month",
+      about: "Haven pays vet bills when a dog or cat gets sick or hurt. Nearly all buyers are pet owners ages 30 to 55 who call their pet \"part of the family.\"",
+      ask: "We made five versions of our ad. Spend $100,000 running the ones that will sign up pet owners.",
+      cols: ["Emotion", "What the ad shows", "Test audience said"],
+      opts: [
+        { name: "Ad A: \"Part of the Family\"", cells: ["Love", "A family's dog growing up alongside their kids", "\"I hugged my dog after watching it.\""], note: "", V: 160000, k: 2.8 },
+        { name: "Ad B: \"The 2 a.m. Vet Bill\"", cells: ["Fear / insecurity", "An owner staring at a $4,000 emergency bill", "\"That's my worst nightmare. I'd sign up.\""], note: "", V: 125000, k: 2.5 },
+        { name: "Ad C: \"Puppy Bloopers\"", cells: ["Humor / joy", "Puppies tripping over their own paws", "\"So cute! What was it selling?\""], note: "", V: 50000, k: 2.8 },
+        { name: "Ad D: \"Your First Dog\"", cells: ["Nostalgia", "Grown-ups remembering their childhood dog", "\"Made me miss Buster. Sad, though.\""], note: "", V: 70000, k: 2.8 },
+        { name: "Ad E: \"Rules Are for Cats\"", cells: ["Rebellion", "A dog breaking every house rule", "\"Funny, but it doesn't fit insurance.\""], note: "", V: 28000, k: 3.5 }
+      ],
+      lesson: "Love fits people who treat their pet like family. Fear is usually risky, but insurance is one product where a little fear fits: the buyer is protecting against a real problem. Humor got laughs and no one remembered the brand, and rebellion fought against what insurance is for.",
+      math: "Split your money between the two ads that fit the buyer. Once an ad's audience has seen it, more money on that same ad brings in less."
+    },
+    {
+      id: "glide", tp: "media", kind: "Customer segments + news",
+      client: "Glide Driving School", what: "Driver's ed and lessons in the northwest suburbs",
+      about: "Teen driver's ed is $450. Adult lessons are $500. Companies pay $3,000 a year to train their delivery drivers.",
+      ask: "Spend $100,000 this year. Read the news first.",
+      news: "This year's news: Illinois car insurers announce a big discount for teens who finish a certified driving course.",
+      cols: ["Interest", "Customers you could win", "Spending per customer, per year"],
+      opts: [
+        { name: "Teens Ages 15–16", cells: ["85%", "1,500", "$40"], note: "\"I want my license so bad. My parents pick the school.\"", V: 60000, k: 6 },
+        { name: "Parents of 15-Year-Olds", cells: ["50%", "400", "$450"], note: "\"The insurance discount pays for half the course.\"", V: 180000, k: 3 },
+        { name: "Adults Getting a First License", cells: ["30%", "300", "$500"], note: "\"I moved to the suburbs. I need to drive now.\"", V: 150000, k: 3 },
+        { name: "Delivery Companies", cells: ["25%", "40 companies", "$3,000"], note: "\"Safer drivers mean fewer accidents for us.\"", V: 120000, k: 1.4 },
+        { name: "Seniors (Refresher Course)", cells: ["20%", "400", "$120"], note: "\"Only if it lowers my insurance.\"", V: 48000, k: 4 }
+      ],
+      lesson: "The news made parents of 15-year-olds the place to be: they pay $450 and the insurance discount gives them a reason to sign up now. Delivery companies are the hidden gem: only 40, but $3,000 each. Teens had the most interest but spend the least.",
+      math: "Parents: 400 x $450 = $180,000. Delivery companies: 40 x $3,000 = $120,000. Teens: 1,500 x $40 = $60,000."
+    },
+    {
+      id: "vet", tp: "channel", kind: "Ad channels",
+      client: "Northside Animal Hospital", what: "Vet clinic in Arlington Heights",
+      about: "Checkups, shots, and emergency care. A typical pet costs its owner about $600 a year at the vet.",
+      ask: "Spend $100,000 on the channels that reach pet owners nearby.",
+      cols: ["Reaches pet owners 30–60 (worth $250K)", "Reaches new pet owners 20–35 (worth $150K)", "What it is"],
+      opts: [
+        { name: "Google Search Ads", cells: ["70%", "55%", "Shown when people search \"vet near me\""], note: "Only so many people search each week.", V: 170000, k: 1.6 },
+        { name: "Nextdoor Ads", cells: ["60%", "25%", "Neighborhood app for local recommendations"], note: "", V: 150000, k: 2.5 },
+        { name: "Facebook Ads", cells: ["65%", "35%", "Feed ads and local pet groups"], note: "", V: 140000, k: 3 },
+        { name: "TikTok Ads", cells: ["15%", "60%", "Short videos in the For You feed"], note: "", V: 70000, k: 3 },
+        { name: "WGN Radio Ads", cells: ["40%", "10%", "30-second spots during drive time"], note: "Heard once, while driving", V: 45000, k: 3.5 }
+      ],
+      lesson: "People pick a vet when they need one, so Google Search catches them at the exact moment they're looking, but those searches run out fast. Nextdoor and Facebook reach local pet owners 30 to 60, the group worth the most. TikTok reaches new owners, a smaller money group.",
+      math: "Google: 70% of $250K + 55% of $150K = about $258K of customers in reach. Radio: 40% of $250K + 10% of $150K = $115K, heard once in a car."
+    },
+    {
+      id: "prom", tp: "social", kind: "Social platforms",
+      client: "Ridgeline Formalwear", what: "Prom tux and dress rentals",
+      about: "Rentals run about $180. Most students pick their own look, and many pay for part of it themselves.",
+      ask: "Spend $100,000 on social ads before prom season.",
+      cols: ["Weekly reach of ages 16–17", "Weekly reach of parents 35–54", "Cost per 1,000 impressions (CPM)"],
+      opts: [
+        { name: "Instagram", cells: ["68%", "45%", "$9.50"], note: "Reels and outfit photos", V: 160000, k: 3 },
+        { name: "TikTok", cells: ["65%", "30%", "$7.50"], note: "\"Get ready with me\" videos", V: 140000, k: 3 },
+        { name: "Snapchat", cells: ["62%", "18%", "$5.50"], note: "Story ads with a swipe-up", V: 130000, k: 2.8 },
+        { name: "Pinterest", cells: ["30%", "40%", "$6.00"], note: "Prom style boards", V: 90000, k: 2 },
+        { name: "Facebook", cells: ["25%", "75%", "$8.50"], note: "Feed ads", V: 55000, k: 3 }
+      ],
+      lesson: "Students choose the look, so the money goes where 16- and 17-year-olds scroll: Instagram, TikTok, and Snapchat. Pinterest is small but full of people planning outfits. Facebook reaches parents, who may help pay but don't pick the tux or dress.",
+      math: "Spread across the three teen platforms. Each one fills up, so a fourth or fifth block on the same platform earns less than a first block somewhere else."
+    },
+    {
+      id: "pulse", tp: "lineup", kind: "Product lineup",
+      client: "Pulse Wireless", what: "Phone carrier building a lineup of plans",
+      about: "Pulse can launch five plans, each aimed at a different segment. Every $10,000 block markets one plan. Leaving out a must-have feature cuts a plan's buyers in half.",
+      ask: "Spend $100,000 launching the plans that will make the most profit.",
+      cols: ["Segment size", "Price / cost per month", "Would buy at this price", "Must-haves"],
+      opts: [
+        { name: "Student Plan", cells: ["16,000", "$25 / $10", "45%", "All included"], note: "Unlimited texts, 10 GB data", V: 108000, k: 3 },
+        { name: "Family Plan (4 lines)", cells: ["10,000 families", "$120 / $60", "35%", "All included"], note: "Parental controls, shared data", V: 210000, k: 3 },
+        { name: "Unlimited Pro", cells: ["8,000", "$85 / $40", "40%", "All included"], note: "Unlimited data and hotspot", V: 144000, k: 2.5 },
+        { name: "Basic Unlimited", cells: ["8,000", "$60 / $30", "60%", "No hotspot"], note: "Cheaper, but missing a must-have.", V: 72000, k: 2.5 },
+        { name: "Platinum Everything", cells: ["8,000", "$200 / $110", "2%", "All included"], note: "Every feature, international, a new phone each year", V: 14400, k: 1.5 }
+      ],
+      lesson: "Each segment gets the plan it needs at a price it will pay. Families are the biggest money. Platinum has everything, but almost nobody pays $200. Basic Unlimited is missing a must-have, which cuts its buyers in half, and it pulls customers away from Unlimited Pro (cannibalization).",
+      math: "Profit = segment size x % who'd buy x (price − cost). Family: 10,000 x 35% = 3,500 x $60 = $210,000. Basic: 8,000 x 60% = 4,800, halved to 2,400, x $30 = $72,000. Platinum: 8,000 x 2% = 160 x $90 = $14,400."
+    },
+    {
+      id: "camp2", tp: "channel", kind: "Ad channels",
+      client: "Wildwood Summer Camp", what: "Day camp for kids ages 6 to 12",
+      about: "A week of camp is $350. Parents sign up and pay. Teens ages 14 to 17 can apply as counselors-in-training.",
+      ask: "Spend $100,000 on the channels that fill the camp.",
+      cols: ["Reaches parents of kids 6–12 (worth $280K)", "Reaches teens 14–17 (worth $40K)", "What it is"],
+      opts: [
+        { name: "Facebook Ads", cells: ["70%", "10%", "Feed ads and local parent groups"], note: "", V: 160000, k: 3 },
+        { name: "School Email Newsletters", cells: ["85%", "20%", "A paid spot in elementary school emails"], note: "Only so many schools and emails", V: 150000, k: 1.8 },
+        { name: "Instagram Ads", cells: ["45%", "65%", "Reels and Stories"], note: "", V: 110000, k: 3 },
+        { name: "Spotify Audio Ads", cells: ["30%", "70%", "30-second ads between songs"], note: "", V: 70000, k: 2.5 },
+        { name: "Park District Flyers", cells: ["40%", "15%", "Posters at parks and pools"], note: "", V: 60000, k: 3 }
+      ],
+      lesson: "Parents pay for camp, so the money goes where they are: Facebook and school newsletters. Newsletters reach the most parents, but there are only so many schools, so they fill up fast. Spotify mostly reaches teens, who aren't buying camp.",
+      math: "Newsletters: 85% of $280K + 20% of $40K = $246K of customers in reach. Spotify: 30% of $280K + 70% of $40K = $112K."
+    }
+  ];
+  BUYS.push(...BUYS2);
+
+  const QBANK = [
+    // target marketing
+    { id: "t1", tp: "target", p: "A taco truck targets \"people who work within 5 blocks of downtown.\" Which lens is that?", o: ["Geographic", "Demographic", "Behavioral", "Psychographic"], x: "Where people live, work, or shop is geographic." },
+    { id: "t2", tp: "target", p: "A gym targets \"people who bought a gym membership in the last year.\" Which lens is that?", o: ["Behavioral", "Psychographic", "Socioeconomic", "Geographic"], x: "What people have bought and how they buy is behavioral." },
+    { id: "t3", tp: "target", p: "A luxury watch brand aims at households earning over $250,000. Which lens is that?", o: ["Socioeconomic", "Demographic", "Psychographic", "Behavioral"], x: "Income, education, and job are socioeconomic." },
+    { id: "t4", tp: "target", p: "A hiking boot brand targets people who \"love the outdoors and post trail photos.\" Which lens is that?", o: ["Psychographic", "Behavioral", "Geographic", "Demographic"], x: "Values, interests, and lifestyle are psychographic." },
+    { id: "t5", tp: "target", p: "Which of these is mass marketing?", o: ["One paper towel TV ad shown to everyone", "A TikTok ad shown only to college runners", "A mailer sent to new parents in Schaumburg", "A Google ad shown when someone searches \"prom tux\""], x: "Mass marketing is one product and one message aimed at everyone." },
+    { id: "t6", tp: "target", p: "Group A: 1,000 customers spend $20 a year. Group B: 150 customers spend $200 a year. Which group is worth more?", o: ["Group B: $30,000 vs. $20,000", "Group A: more customers always wins", "They're worth the same", "Group A: $20,000 vs. $3,000"], x: "Customers x spending: 150 x $200 = $30,000; 1,000 x $20 = $20,000." },
+    { id: "t7", tp: "target", p: "A sneaker brand splits its buyers into collectors, athletes, and everyday wearers. What is it doing?", o: ["Market segmentation", "Mass marketing", "Building brand loyalty", "Cannibalization"], x: "Splitting a market into groups that share needs is segmentation." },
+    // emotional marketing
+    { id: "e1", tp: "feel", p: "A soup ad shows a grandma's kitchen from the 1970s. Which emotion is it using?", o: ["Nostalgia", "Fear / insecurity", "Rebellion", "Pride"], x: "Looking back at \"the good old days\" is nostalgia." },
+    { id: "e2", tp: "feel", p: "A deodorant ad shows a teen embarrassed at a school dance. Which emotion is it using?", o: ["Fear / insecurity", "Belonging", "Love", "Gratitude"], x: "\"Something's wrong with you, and this fixes it\" is a fear appeal." },
+    { id: "e3", tp: "feel", p: "A truck ad says \"0 to 60 in 5.4 seconds and tows 12,000 pounds.\" What kind of appeal is that?", o: ["Rational", "Emotional", "Nostalgia", "Belonging"], x: "Facts, numbers, and features are a rational appeal." },
+    { id: "e4", tp: "feel", p: "Two bottled waters taste the same. Why does one spend millions on ads about \"living your best life\"?", o: ["When products are alike, the feeling sets the brand apart", "The law requires it", "Feelings are cheaper to film than facts", "To lower its price"], x: "If the product can't stand out, the feeling attached to the brand can." },
+    { id: "e5", tp: "feel", p: "Fans keep buying the same brand even when a cheaper one is right next to it. That's...", o: ["Brand loyalty", "Mass marketing", "Unit cost", "Reach"], x: "Choosing a brand again and again over cheaper options is brand loyalty." },
+    { id: "e6", tp: "feel", p: "A video game ad shows friends cheering together online: \"Your squad is waiting.\" Which emotion is it using?", o: ["Belonging", "Fear / insecurity", "Nostalgia", "Gratitude"], x: "\"You're part of the group\" is belonging." },
+    { id: "e7", tp: "feel", p: "Which ad matches its emotion to its target best?", o: ["Pride in a running shoe ad for high school athletes", "Rebellion in a retirement savings ad for 60-year-olds", "Humor in a hospital's cancer center ad", "Fear in a birthday party ad for 6-year-olds"], x: "Pride fits young athletes. The others clash with the buyer or the product." },
+    // media buy
+    { id: "m1", tp: "media", p: "Lots of teens love a $5 phone game, but almost none of them spend money in it. For your ad budget, that group is...", o: ["A trap: lots of interest, little money", "A hidden gem", "The best place for most of the budget", "Your repeat customers"], x: "High interest with little money behind it is a trap." },
+    { id: "m2", tp: "media", p: "Only 40 hospitals buy a $50,000 software license each year. That segment is...", o: ["A hidden gem: few buyers, big money each", "A trap", "Mass marketing", "Not worth anything because it's small"], x: "40 x $50,000 = $2,000,000. Small groups can be worth the most." },
+    { id: "m3", tp: "media", p: "News: a rival dog food brand recalls millions of bags. Which customers should get MORE of your budget?", o: ["Worried dog owners who can afford premium food", "Teens who share dog videos", "Cat owners", "No one. News doesn't change the plan"], x: "The news sends worried owners with money looking for a food they trust." },
+    { id: "m4", tp: "media", p: "News: a rival opens next to the college campus. What should happen to your college budget?", o: ["Cut it. The rival will take many of those customers", "Double it", "Nothing. News doesn't matter", "Move your whole budget there"], x: "When news shrinks a segment, move money to segments that are still growing." },
+    { id: "m5", tp: "media", p: "How do you figure out what a customer segment is worth?", o: ["Customers you could win x spending per customer", "Interest % x number of ads", "Ad budget ÷ number of customers", "How many people like your posts"], x: "Customers x what each spends is the money behind a segment." },
+    { id: "m6", tp: "media", p: "Climbers who come four nights a week on a monthly plan are valuable because they're...", o: ["Repeat customers who keep paying", "A trap", "A mass market", "Cheap to advertise to"], x: "Repeat customers bring in money every month, not just once." },
+    { id: "m7", tp: "media", p: "Before splitting an ad budget, what should you look at first?", o: ["Who spends the most and how many of them you could win", "Which group has the most followers", "Which ad looks coolest", "What your competitors spent"], x: "The money behind each group decides where the budget goes." },
+    // ad channels
+    { id: "c1", tp: "channel", p: "Which channel reaches people at the exact moment they're looking to buy?", o: ["Google Search ads", "A Lollapalooza sponsorship", "CTA train posters", "TikTok ads"], x: "Search ads show up when someone types what they want to buy." },
+    { id: "c2", tp: "channel", p: "A channel brought in $80,000 from $100,000 of spending. What's its ROI?", o: ["$0.80 per $1. It lost money", "$1.80 per $1", "$80 per $1", "It broke even"], x: "$80,000 ÷ $100,000 = $0.80 back for every $1." },
+    { id: "c3", tp: "channel", p: "Which channel best reaches business owners and HR managers?", o: ["LinkedIn", "Snapchat", "TikTok", "Lollapalooza"], x: "LinkedIn targets people by job title and company." },
+    { id: "c4", tp: "channel", p: "A brand pays to put its name on a stadium's scoreboard. That's a...", o: ["Sponsorship", "Search ad", "Conversion", "Creator partnership"], x: "Paying to attach your brand to a team, event, or venue is a sponsorship." },
+    { id: "c5", tp: "channel", p: "Why can a channel with huge reach still lose money?", o: ["It reaches lots of people who will never buy", "Big reach always makes money", "Reach is free", "ROI is always negative"], x: "Reach only pays when it reaches the customers who spend." },
+    { id: "c6", tp: "channel", p: "A dog daycare's best customers are adults 35 to 54. Which channel reaches them best?", o: ["Facebook", "TikTok", "Snapchat", "Lollapalooza"], x: "Facebook reaches about 70% of parents and older adults." },
+    { id: "c7", tp: "channel", p: "Channel A: $300,000 back from $100,000. Channel B: $150,000 back from $50,000. Which has the better ROI?", o: ["They're the same: $3 back per $1", "A, because it made more", "B, because it cost less", "You can't tell"], x: "$300K ÷ $100K = 3 and $150K ÷ $50K = 3." },
+    { id: "c8", tp: "channel", p: "A TikTok ban scare sends teens to Instagram Reels. Teens are your best customers. Where should money move?", o: ["From TikTok to Instagram", "From Instagram to TikTok", "Into Facebook", "Nowhere"], x: "Follow your customers to where they moved." },
+    // social media ads
+    { id: "s1", tp: "social", p: "$4,000 at an $8 CPM buys how many impressions?", o: ["500,000", "50,000", "32,000", "5,000,000"], x: "$4,000 ÷ $8 x 1,000 = 500,000." },
+    { id: "s2", tp: "social", p: "200,000 impressions at a 1.5% click rate gives how many clicks?", o: ["3,000", "300", "30,000", "1,500"], x: "200,000 x 0.015 = 3,000." },
+    { id: "s3", tp: "social", p: "2,000 people click and 3% of them buy. How many sales?", o: ["60", "600", "6", "2,003"], x: "2,000 x 0.03 = 60." },
+    { id: "s4", tp: "social", p: "$2,500 of ads brings in $10,000 of sales. What's the ROAS?", o: ["4x", "0.25x", "2.5x", "$7,500"], x: "ROAS = revenue ÷ ad spend = $10,000 ÷ $2,500 = 4." },
+    { id: "s5", tp: "social", p: "Each sale earns $25 profit. Ads cost $5,000. How many sales to break even?", o: ["200", "125", "2,000", "50"], x: "$5,000 ÷ $25 = 200 sales." },
+    { id: "s6", tp: "social", p: "An ad's reach is 25,000 and its frequency is 4. How many impressions?", o: ["100,000", "6,250", "25,004", "29,000"], x: "Impressions = reach x frequency." },
+    { id: "s7", tp: "social", p: "Which format fits Snapchat best?", o: ["A full-screen story with a swipe-up", "A 30-second pre-roll video", "A single photo with a long caption", "A LinkedIn article"], x: "Snapchat is built around full-screen stories you tap through." },
+    { id: "s8", tp: "social", p: "Frequency hits 14 and clicks start falling. What's happening?", o: ["Ad fatigue", "Conversion", "Too much reach", "High ROAS"], x: "People have seen it so often they stop noticing it." },
+    // market segmentation
+    { id: "l1", tp: "lineup", p: "Base cost is $8. You add features that cost $2, $3, and $1. What's the unit cost?", o: ["$14", "$8", "$6", "$22"], x: "Unit cost = base cost + every feature: $8 + $2 + $3 + $1." },
+    { id: "l2", tp: "lineup", p: "A version sells for $50 and costs $32 to make. What's the profit per unit?", o: ["$18", "$82", "$32", "$50"], x: "Price − unit cost = $50 − $32." },
+    { id: "l3", tp: "lineup", p: "A segment has 1,000 people and 40% would buy at your price. No must-haves are missing. How many buyers?", o: ["400", "40", "1,040", "600"], x: "1,000 x 40% x 100% Fit = 400." },
+    { id: "l4", tp: "lineup", p: "A version would get 800 buyers, but it leaves out one must-have feature. Now how many buyers?", o: ["400", "800", "200", "720"], x: "Each missing must-have cuts buyers in half." },
+    { id: "l5", tp: "lineup", p: "Your $30 basic plan pulls customers away from your $60 premium plan. That's...", o: ["Cannibalization", "Willingness to pay", "Brand loyalty", "Mass marketing"], x: "Your cheaper version eating your pricier version's sales is cannibalization." },
+    { id: "l6", tp: "lineup", p: "45% of a segment wants a feature. What kind of feature is it?", o: ["Nice-to-have", "Must-have", "Don't care", "Unit cost"], x: "30% to 59% is nice-to-have. 60% or more is must-have." },
+    { id: "l7", tp: "lineup", p: "At $30, 366 people buy and each earns $16. At $60, 36 buy and each earns $46. Which price makes more profit?", o: ["$30: $5,856 vs. $1,656", "$60, because each one earns more", "They tie", "Neither makes money"], x: "366 x $16 = $5,856. 36 x $46 = $1,656." },
+    { id: "l8", tp: "lineup", p: "Why do companies sell good, better, and best versions of one product?", o: ["Different segments want different features at different prices", "Three products are cheaper to make than one", "The law requires choices", "To confuse shoppers"], x: "Each version is built for a different segment and priced for it." }
+  ];
+  const qById = Object.fromEntries(QBANK.map(q => [q.id, q]));
+  function bankQuestion(qid, seed) {
+    const Q = qById[qid], r = rng(hash(qid + ":" + seed)), order = shuffle([0, 1, 2, 3], r);
+    return { id: "q:" + qid, key: "q:" + qid, tp: Q.tp, p: Q.p, ask: TOPICS[Q.tp].name, opts: order.map(i => Q.o[i]), ans: order.indexOf(0), mode: "q",
+      head: "Answer: " + Q.o[0], body: Q.x, missText: Q.p, missAns: Q.o[0] };
+  }
+  const ORDER2 = ["swim", "haven", "glide", "vet", "prom", "pulse", "camp2"];
   const buyById = Object.fromEntries(BUYS.map(b => [b.id, b]));
 
   /* ---------------------------------------------------------------- MATH */
@@ -238,26 +419,30 @@ var LADDER = (function () {
     const raw = [T, ...wrong];
     const order = shuffle([0, 1, 2, 3], r);
     const opts = order.map(i => (mode === "d" ? raw[i].t : raw[i].d));
-    return { id: termId + mode, tp: T.tp, term: T.t, p: mode === "d" ? T.d : T.t, ask: mode === "d" ? "Which term matches?" : "What does it mean?", opts, ans: order.indexOf(0), ex: T.ex, mode };
+    return { id: termId + mode, key: termId, tp: T.tp, term: T.t, p: mode === "d" ? T.d : T.t, ask: mode === "d" ? "Which term matches?" : "What does it mean?", opts, ans: order.indexOf(0), ex: T.ex, mode,
+      head: T.t + ": " + T.d, body: "Example: " + T.ex, missText: T.t, missAns: T.d };
   }
 
   /* ---------------------------------------------------------------- GAME PLAN
      Round r uses BUYS in this order (a round's vocab comes from its buy's topic). */
   const ORDER = ["rink", "pie", "pizza", "kayak", "camp", "cleats", "fest"];
-  // buys = the client briefs to play, in order (one round each). A round's vocab comes from its buy's topic.
-  function plan(buys, perRound, seed) {
-    const r = rng(seed), used = new Set(), out = [];
+  // buys = the client briefs to play, in order (one round each). A round's questions come from its buy's topic.
+  // Set 1 asks term/definition questions; Set 2 asks scenario questions from QBANK (codes start with "q:").
+  function plan(buys, perRound, seed, set) {
+    const r = rng(seed), used = new Set(), out = [], bank = set === 2;
+    const pool = bank ? QBANK : TERMS, idOf = x => x.id;
     buys.forEach((buy, i) => {
       const tp = buyById[buy].tp;
-      const pick = shuffle(TERMS.filter(t => t.tp === tp && !used.has(t.id)), r).slice(0, perRound);
-      if (pick.length < perRound) shuffle(TERMS.filter(t => !used.has(t.id) && !pick.includes(t)), r).slice(0, perRound - pick.length).forEach(t => pick.push(t));
-      pick.forEach(t => used.add(t.id));
-      out.push({ buy, defs: pick.map((t, j) => t.id + ((j + i) % 2 ? "t" : "d")) });
+      const pick = shuffle(pool.filter(t => t.tp === tp && !used.has(idOf(t))), r).slice(0, perRound);
+      if (pick.length < perRound) shuffle(pool.filter(t => !used.has(idOf(t)) && !pick.includes(t)), r).slice(0, perRound - pick.length).forEach(t => pick.push(t));
+      pick.forEach(t => used.add(idOf(t)));
+      out.push({ buy, defs: pick.map((t, j) => bank ? "q:" + t.id : t.id + ((j + i) % 2 ? "t" : "d")) });
     });
     return out;
   }
-  const question = (code, seed) => defQuestion(code.slice(0, -1), code.slice(-1), seed);
+  const SETS = { 1: { name: "Set 1", sub: "Term and definition questions", order: ORDER }, 2: { name: "Set 2", sub: "Scenario questions, seven new companies", order: ORDER2 } };
+  const question = (code, seed) => (code.startsWith("q:") ? bankQuestion(code.slice(2), seed) : defQuestion(code.slice(0, -1), code.slice(-1), seed));
 
-  return { TOPICS, TERMS, termById, BUYS, buyById, ORDER, BLOCKS, BLOCK, BUY_MAX, optRev, revenue, spent, profit, best, buyPoints, plan, question, defQuestion, rng, shuffle, hash };
+  return { TOPICS, TERMS, termById, QBANK, SETS, ORDER2, BUYS, buyById, ORDER, BLOCKS, BLOCK, BUY_MAX, optRev, revenue, spent, profit, best, buyPoints, plan, question, defQuestion, rng, shuffle, hash };
 })();
 if (typeof module !== "undefined") module.exports = LADDER;

@@ -135,3 +135,4 @@
 .seg.multi button{text-align:left;display:flex;flex-direction:column;gap:1px}
 .seg.multi button small{font-weight:500;font-size:13px;opacity:.8}
 .seg.multi button[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
+.seg.multi.sets button[aria-pressed="false"]{text-decoration:none;opacity:.6}

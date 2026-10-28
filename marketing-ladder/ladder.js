@@ -98,6 +98,7 @@ const tableOf = (st, pid) => (st.tables || []).findIndex(t => t.includes(pid));
 /* ============================================================ SHARED VIEW PIECES */
 const roundBuy = (meta, r) => L.buyById[meta.plan[r].buy];
 const roundQ = (meta, r, qi) => L.question(meta.plan[r].defs[qi], meta.seed);
+const qLabel = meta => (meta.set === 2 ? "Know It" : "Define It");
 const secsLeft = (t0, secs) => Math.max(0, secs - (performance.now() - t0) / 1000);
 let TICK = null;
 function stopTick() { clearInterval(TICK); TICK = null; }
@@ -166,21 +167,26 @@ function home() { stopTick(); document.body.classList.remove("wide", "finale-on"
 let H = null;
 async function hostSetup() {
   const N = await net().catch(() => null); if (!N) return needSetup();
-  const cfg = { buys: L.ORDER.filter(b => b !== "fest"), per: 3, qsecs: 20, bsecs: 150, rule: "place" };
+  const order = () => L.SETS[cfg.set].order;
+  const cfg = { set: 1, buys: L.ORDER.filter(b => b !== "fest"), per: 3, qsecs: 20, bsecs: 150, rule: "place" };
   app.innerHTML = `${hdr()}<div class="panel wide-panel"><h2>Host a game</h2>
+    <p>Question set:</p><div class="seg multi sets" id="set">${Object.entries(L.SETS).map(([k, S]) => `<button data-v="${k}" aria-pressed="${+k === cfg.set}"><b>${esc(S.name)}</b><small>${esc(S.sub)}</small></button>`).join("")}</div>
     <p>Rounds: each client buy is one round, played in this order. Tap to turn one off.</p>
-    <div class="seg multi" id="buys">${L.ORDER.map(id => { const b = L.buyById[id]; return `<button data-v="${id}" aria-pressed="${cfg.buys.includes(id)}"><b>${esc(b.client)}</b><small>${esc(L.TOPICS[b.tp].short === b.kind ? b.kind : L.TOPICS[b.tp].short + " · " + b.kind)}</small></button>`; }).join("")}</div>
+    <div class="seg multi" id="buys"></div>
     <p class="note" id="rc"></p>
-    <p>Vocab questions each round:</p><div class="seg" data-k="per"><button data-v="2">2</button><button data-v="3" aria-pressed="true">3</button><button data-v="4">4</button></div>
-    <p>Time per vocab question:</p><div class="seg" data-k="qsecs"><button data-v="15">15 sec</button><button data-v="20" aria-pressed="true">20 sec</button><button data-v="30">30 sec</button></div>
+    <p>Questions each round:</p><div class="seg" data-k="per"><button data-v="2">2</button><button data-v="3" aria-pressed="true">3</button><button data-v="4">4</button></div>
+    <p>Time per question:</p><div class="seg" data-k="qsecs"><button data-v="15">15 sec</button><button data-v="20" aria-pressed="true">20 sec</button><button data-v="30">30 sec</button></div>
     <p>Time to make the buy:</p><div class="seg" data-k="bsecs"><button data-v="120">2 min</button><button data-v="150" aria-pressed="true">2½ min</button><button data-v="180">3 min</button><button data-v="240">4 min</button></div>
     <p>How students move after each round:</p><div class="seg" data-k="rule"><button data-v="place" aria-pressed="true">Regroup by place</button><button data-v="ladder">Ladder</button></div>
     <p class="note" id="rn"></p>
     <div class="err" id="er"></div><button class="btn main" id="go">Create game</button></div>`;
   const roundNote = () => { const n = cfg.buys.length; $("#rc").textContent = n ? `${n} round${n === 1 ? "" : "s"}, about ${n * 7} to ${n * 9} minutes with 30 students.` : "Pick at least one round."; $("#go").disabled = !n; };
+  const drawBuys = () => { $("#buys").innerHTML = order().map(id => { const b = L.buyById[id]; return `<button data-v="${id}" aria-pressed="${cfg.buys.includes(id)}"><b>${esc(b.client)}</b><small>${esc(L.TOPICS[b.tp].short === b.kind ? b.kind : L.TOPICS[b.tp].short + " · " + b.kind)}</small></button>`; }).join(""); roundNote(); };
+  $("#set").onclick = e => { const b = e.target.closest("button"); if (!b) return; [...$("#set").children].forEach(x => x.setAttribute("aria-pressed", x === b));
+    cfg.set = +b.dataset.v; cfg.buys = order().slice(0, 6); drawBuys(); };
   $("#buys").onclick = e => { const b = e.target.closest("button"); if (!b) return; const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on);
-    cfg.buys = L.ORDER.filter(id => document.querySelector(`#buys [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); roundNote(); };
-  roundNote();
+    cfg.buys = order().filter(id => document.querySelector(`#buys [data-v="${id}"]`).getAttribute("aria-pressed") === "true"); roundNote(); };
+  drawBuys();
   const ruleNote = () => $("#rn").textContent = cfg.rule === "place"
     ? "Regroup by place: all 1st-place finishers sit together at the top tables, then all 2nds, then all 3rds. Table 1 is always the Top Table."
     : "Ladder: the winner moves up one table, last place moves down one table, and 2nd place stays put.";
@@ -191,7 +197,7 @@ async function hostSetup() {
     $("#go").disabled = true;
     try {
       let code; for (let t = 0; t < 20; t++) { code = String(Math.floor(1000 + Math.random() * 9000)); if (!(await N.get("games/" + code))) break; }
-      const seed = Math.floor(Math.random() * 1e9), plan = L.plan(cfg.buys, cfg.per, seed);
+      const seed = Math.floor(Math.random() * 1e9), plan = L.plan(cfg.buys, cfg.per, seed, cfg.set);
       const meta = { created: Date.now(), game: GAME, seed, plan, rounds: cfg.buys.length, ...cfg };
       const state = { phase: "lobby", rule: cfg.rule, tot: {} };
       await N.set("games/" + code, { ...meta, state });
@@ -227,7 +233,7 @@ function hostLobby() {
     ${H.qr ? `<div class="qr">${H.qr}<span>Scan to join</span></div>` : ""}</div>
     <div class="count">${ps.length} player${ps.length === 1 ? "" : "s"} joined · ${sizes(ps.length).length} table${sizes(ps.length).length === 1 ? "" : "s"}</div>
     <div class="names">${ps.map(id => `<span>${esc(nameOf(id))}</span>`).join("") || '<span style="opacity:.5">Waiting for players…</span>'}</div>
-    <p class="note">${H.meta.rounds} rounds · ${H.meta.per} vocab questions + 1 buy each · ${H.meta.rule === "place" ? "regroup by place" : "ladder moves"}</p>
+    <p class="note">${H.meta.rounds} rounds · ${H.meta.per} questions + 1 buy each · ${H.meta.rule === "place" ? "regroup by place" : "ladder moves"}</p>
     <div class="row" style="justify-content:center"><button class="btn main" id="start" ${ps.length >= 2 ? "" : "disabled"}>Seat the tables</button>
     <button class="btn" id="signs">Print table signs</button><button class="btn" id="end">Cancel</button></div></div>`;
   $("#start").onclick = () => { const order = L.shuffle(active(), Math.random); hostSet({ phase: "seat", r: 0, rule: H.meta.rule, tables: chunk(order), from: {}, tot: {}, names: namesMap() }); };
@@ -272,7 +278,7 @@ function hostQuestion(fromPlayers) {
   const st = H.state, q = roundQ(H.meta, st.r, st.qi), secs = H.meta.qsecs, total = seated().length, a = answeredQ(st.r, st.qi);
   if (H.rq !== "q" + st.r + "." + st.qi) {
     H.rq = "q" + st.r + "." + st.qi; H.t0 = performance.now();
-    app.innerHTML = qHTML(q, `Round ${st.r + 1} · Define It`, { num: `Question ${st.qi + 1} of ${H.meta.per} · ${L.TOPICS[q.tp].short}`, timed: true, secs })
+    app.innerHTML = qHTML(q, `Round ${st.r + 1} · ${qLabel(H.meta)}`, { num: `Question ${st.qi + 1} of ${H.meta.per} · ${L.TOPICS[q.tp].short}`, timed: true, secs })
       + `<div class="row" style="justify-content:space-between;margin-top:10px"><span class="count" id="cnt"></span><button class="btn" id="skip">Show answer now</button></div>`;
     app.querySelectorAll(".opt").forEach(b => b.disabled = true);
     $("#skip").onclick = () => hostReveal(true);
@@ -296,10 +302,10 @@ async function hostReveal(go) {
     const run = scoreDefs(st.r, st.qi); return hostSet({ ...st, phase: "qrev", run: Object.fromEntries(Object.entries(run).map(([p, v]) => [p, v.s])) }); }
   const q = roundQ(H.meta, st.r, st.qi), counts = [0, 0, 0, 0];
   seated().forEach(p => { const x = H.players[p] && H.players[p].a && H.players[p].a[st.r + "." + st.qi]; if (x && x.c >= 0) counts[x.c]++; });
-  const mx = Math.max(1, ...counts), last = st.qi >= H.meta.per - 1, T = L.termById[q.id.slice(0, -1)];
-  app.innerHTML = qHTML(q, `Round ${st.r + 1} · Define It`, { num: `Question ${st.qi + 1} of ${H.meta.per} · ${L.TOPICS[q.tp].short}` });
+  const mx = Math.max(1, ...counts), last = st.qi >= H.meta.per - 1;
+  app.innerHTML = qHTML(q, `Round ${st.r + 1} · ${qLabel(H.meta)}`, { num: `Question ${st.qi + 1} of ${H.meta.per} · ${L.TOPICS[q.tp].short}` });
   app.querySelectorAll(".opt").forEach((b, i) => { b.disabled = true; b.classList.add(i === q.ans ? "right" : "dim"); });
-  app.querySelector(".fbbox").innerHTML = `<div class="fb"><b>${esc(T.t)}: ${esc(T.d)}</b>Example: ${esc(T.ex)}</div>
+  app.querySelector(".fbbox").innerHTML = `<div class="fb"><b>${esc(q.head)}</b>${esc(q.body)}</div>
     <div class="dist">${counts.map((n, i) => `<div class="${i === q.ans ? "ok" : "wrong"}" style="--oc:${COLORS[i]};--h:${Math.max(14, n / mx * 100)}%"><b>${i === q.ans ? "✓" : SHAPES[i]} ${n}</b></div>`).join("")}</div>
     <div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn main" id="nx">${last ? "Make the buy →" : "Next question →"}</button></div>`;
   $("#nx").onclick = () => last ? hostSet({ ...st, phase: "buy" }) : hostSet({ ...st, phase: "q", qi: st.qi + 1 });
@@ -390,12 +396,12 @@ async function classResults() {
   Object.keys(L.TOPICS).forEach(k => by[k] = { n: 0, r: 0 });
   Object.values(H.players).forEach(p => Object.entries(p.a || {}).forEach(([key, x]) => { const [r, qi] = key.split(".").map(Number); if (r >= H.meta.rounds) return;
     const q = roundQ(H.meta, r, qi); by[q.tp].n++; if (x.c === q.ans) by[q.tp].r++; }));
-  const misses = {}; Object.values(H.players).forEach(p => Object.entries(p.a || {}).forEach(([key, x]) => { const [r, qi] = key.split(".").map(Number); const q = roundQ(H.meta, r, qi); if (x.c !== q.ans) misses[q.id.slice(0, -1)] = (misses[q.id.slice(0, -1)] || 0) + 1; }));
-  const hard = Object.entries(misses).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([id]) => L.termById[id]);
+  const misses = {}; Object.values(H.players).forEach(p => Object.entries(p.a || {}).forEach(([key, x]) => { const [r, qi] = key.split(".").map(Number); const q = roundQ(H.meta, r, qi); if (x.c !== q.ans) { const m = misses[q.key] || (misses[q.key] = { n: 0, q }); m.n++; } }));
+  const hard = Object.values(misses).sort((a, b) => b.n - a.n).slice(0, 4).map(m => m.q);
   const list = standings(st);
   app.innerHTML = `<div class="rep"><h2>Class results</h2><div class="endgrid">
-    <div class="skills"><div class="skh">Vocab by topic</div>${Object.entries(by).filter(([, v]) => v.n).map(([k, v]) => { const p = v.r / v.n; return `<div class="sk"><span><b>${esc(L.TOPICS[k].short)}</b></span><div class="bar"><i class="${p >= .85 ? "" : p >= .6 ? "mid" : "lo"}" style="width:${Math.max(4, p * 100)}%"></i></div><span class="v">${Math.round(p * 100)}%</span></div>`; }).join("")}
-      <div class="skh" style="margin-top:10px">Missed most</div>${hard.map(t => `<div class="tipline"><b>${esc(t.t)}:</b> ${esc(t.d)}</div>`).join("") || "<p class='note'>Nothing missed. Nice.</p>"}</div>
+    <div class="skills"><div class="skh">Questions by topic</div>${Object.entries(by).filter(([, v]) => v.n).map(([k, v]) => { const p = v.r / v.n; return `<div class="sk"><span><b>${esc(L.TOPICS[k].short)}</b></span><div class="bar"><i class="${p >= .85 ? "" : p >= .6 ? "mid" : "lo"}" style="width:${Math.max(4, p * 100)}%"></i></div><span class="v">${Math.round(p * 100)}%</span></div>`; }).join("")}
+      <div class="skh" style="margin-top:10px">Missed most</div>${hard.map(q => `<div class="tipline"><b>${esc(q.missText)}</b> ${esc(q.missAns)}</div>`).join("") || "<p class='note'>Nothing missed. Nice.</p>"}</div>
     <div class="skills"><div class="skh">Final standings</div><ol class="stand">${list.map(x => `<li><span>${esc(nameOf(x.p))}</span><em>${num(x.s)}</em></li>`).join("")}</ol></div></div>
     <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="pod">Back to Top 5</button><button class="btn" id="erase">Erase game</button></div></div>`;
   $("#pod").onclick = () => { H.rq = null; hostEnd(); }; $("#erase").onclick = hostErase;
@@ -498,7 +504,7 @@ function stuQuestion() {
   const M = ME, st = M.st, q = roundQ(M.meta, st.r, st.qi), k = st.r + "." + st.qi, secs = M.meta.qsecs;
   if (M.a[k]) { app.innerHTML = `<div class="wait"><h2>Answer locked in</h2><p>Waiting for everyone else…</p></div>`; return; }
   document.body.classList.add("stu-live");
-  app.innerHTML = qHTML(q, `Round ${st.r + 1} · Define It`, { num: `${st.qi + 1} of ${M.meta.per}`, timed: true, secs, score: myTotal(st) });
+  app.innerHTML = qHTML(q, `Round ${st.r + 1} · ${qLabel(M.meta)}`, { num: `${st.qi + 1} of ${M.meta.per}`, timed: true, secs, score: myTotal(st) });
   const t0 = performance.now(); let done = false;
   const pick = i => { if (done) return; done = true; stopTick(); const ms = Math.round(performance.now() - t0);
     document.body.classList.remove("stu-live");
@@ -509,10 +515,10 @@ function stuQuestion() {
   startTimer(app, secs, t0, () => pick(-1));
 }
 function stuReveal() {
-  stopTick(); const M = ME, st = M.st, q = roundQ(M.meta, st.r, st.qi), x = M.a[st.r + "." + st.qi], T = L.termById[q.id.slice(0, -1)];
+  stopTick(); const M = ME, st = M.st, q = roundQ(M.meta, st.r, st.qi), x = M.a[st.r + "." + st.qi];
   const ok = x && x.c === q.ans, pts = x ? defPts(ok, x.ms, M.meta.qsecs) : 0;
   app.innerHTML = `<div class="wait"><h2 style="color:${ok ? "var(--good)" : "var(--bad)"}">${ok ? "Correct!" : x ? "Not quite" : "No answer"}</h2><div class="big">+${pts}</div>
-    <p><b>${esc(T.t)}:</b> ${esc(T.d)}</p>${tableStrip(st)}</div>`;
+    <p><b>${esc(q.head)}</b><br>${esc(q.body)}</p>${tableStrip(st)}</div>`;
 }
 /* ---------- the buy ---------- */
 function stuBuy() {

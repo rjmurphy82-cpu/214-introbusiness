@@ -39,7 +39,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `api/ab/` | Ad Buy Showdown server code |
 | `ad-buy-live/` | Ad Buy Live: same engine as the Accounting site's live games. Questions are in `live.js` under QUESTION BANK |
 | `api/live.js` | Ad Buy Live server code (game codes stored under `ibl:`) |
-| `marketing-ladder/` | Marketing Ladder: tables-of-3 unit review. Vocab terms and the six client buys are in `data.js`. Uses the same `api/live.js` as Ad Buy Live, so it adds no server function |
+| `marketing-ladder/` | Marketing Ladder: tables-of-3 unit review. Set 1 terms, Set 2 scenario questions (QBANK), and every client buy are in `data.js`. Uses the same `api/live.js` as Ad Buy Live, so it adds no server function |
 | `brand-crisis/` | Brand Crisis: crisis simulation with two rounds (Round 1 Strider Sneakers, Round 2 Lakeshore Crisis Group with six client companies). The crises, their 8 responses, and the twist cards are in `data.js`. Also runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
 
