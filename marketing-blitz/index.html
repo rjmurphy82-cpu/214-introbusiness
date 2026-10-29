@@ -12,11 +12,11 @@
 <style>
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}
-/* Layout: one full-screen game stage per phase (setup, question, reveal, leaderboard, podium) under a slim Hersey header with a progress rail */
+/* Layout: one full-screen game stage per phase (setup, question, reveal, leaderboard, podium) under a slim District 214 header with a progress rail */
 :root{
-  --bg:#24140B; --panel:#3F2417; --panel2:#4C2D1D; --line:#6A4634;
-  --fg:#F7ECDF; --muted:#CDB7A2; --ink:#2A170D; --cream:#F7ECDF;
-  --accent:#E76728; --gold:#F2B84B; --good:#38B36A; --bad:#C9474F;
+  --bg:#121212; --panel:#1E1E1E; --panel2:#2B2B2B; --line:#444444;
+  --fg:#F4F3F3; --muted:#B5B5B5; --ink:#111111; --cream:#F4F3F3;
+  --accent:#FF4D63; --gold:#F2B84B; --good:#38B36A; --bad:#C9474F;
   --red:#D13A45; --blue:#2E6BCF; --yellow:#D7980F; --green:#2A9350;
   --display:"Oswald","Arial Narrow",Impact,sans-serif;
   --body:"Barlow","Helvetica Neue",Arial,sans-serif;
@@ -156,7 +156,7 @@ kbd{font-family:var(--body);background:var(--panel2);border:1px solid var(--line
 
 <div class="app">
   <header class="top">
-    <div class="brand"><span class="badge">Intro to Business</span><small>John Hersey High School &middot; Unit 3 Marketing</small></div>
+    <div class="brand"><span class="badge">Intro to Business</span><small>High School District 214 &middot; Unit 3 Marketing</small></div>
     <div class="qcount" id="qcount"></div>
   </header>
   <main class="stage" id="stage" aria-live="polite"></main>
@@ -256,7 +256,7 @@ const QUESTIONS = [
  x:"Impressions and clicks don’t pay the rent. Only profit shows whether the $5,000 came back with more."}
 ];
 
-const DEFAULT_NAMES=["Orange","Brown","Cream","Gold","Navy","Teal","Crimson","Forest","Silver","Plum","Sky","Slate"];
+const DEFAULT_NAMES=["Red","Black","Silver","Gold","Navy","Teal","Crimson","Forest","White","Plum","Sky","Slate"];
 const KEY="hersey-u3-marketing-blitz";
 const READY_MS=4000;
 const SHAPES=[

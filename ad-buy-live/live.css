@@ -1,18 +1,18 @@
 /* Ad Buy Live: same engine and layout as the District 214 Accounting live games, in Hersey colors. */
 :root{
-  --bg:#F6F3F1; --paper:#FFFFFF; --ink:#24190F; --muted:#6E6159; --dark:#4C3629; --soft:#FAF7F5;
-  --red:#C9592A; --red2:#B24C21; --accent:#C9592A; --line:rgba(76,54,41,.16);
+  --bg:#F4F3F3; --paper:#FFFFFF; --ink:#111111; --muted:#5C5C5C; --dark:#111111; --soft:#F7F6F6;
+  --red:#C1102F; --red2:#D9203F; --accent:#C1102F; --line:rgba(17,17,17,.16);
   --good:#1E7A3C; --goodsoft:#E7F4EB; --bad:#B23A2A; --badsoft:#F8E6E2;
-  --c0:#C9592A; --c1:#1F5FAD; --c2:#9A6B00; --c3:#23763A;
+  --c0:#C1102F; --c1:#1F5FAD; --c2:#9A6B00; --c3:#23763A;
   --display:"Oswald","Arial Narrow",Impact,sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --k:1;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#17110D;--paper:#221A15;--ink:#F3EAE3;--muted:#B5A396;--dark:#5E4535;--soft:#2A211B;--accent:#F2955F;--line:rgba(243,234,227,.14);--good:#3FB86A;--goodsoft:#123020;--bad:#F07A6E;--badsoft:#3E1C18;color-scheme:dark}
+  :root:not([data-theme="light"]){--bg:#121212;--paper:#1E1E1E;--ink:#F2F2F2;--muted:#A8A8A8;--dark:#2B2B2B;--soft:#262626;--accent:#FF5C70;--line:rgba(242,242,242,.14);--good:#3FB86A;--goodsoft:#123020;--bad:#F07A6E;--badsoft:#3A1219;color-scheme:dark}
 }
-:root[data-theme="dark"]{--bg:#17110D;--paper:#221A15;--ink:#F3EAE3;--muted:#B5A396;--dark:#5E4535;--soft:#2A211B;--accent:#F2955F;--line:rgba(243,234,227,.14);--good:#3FB86A;--goodsoft:#123020;--bad:#F07A6E;--badsoft:#3E1C18;color-scheme:dark}
+:root[data-theme="dark"]{--bg:#121212;--paper:#1E1E1E;--ink:#F2F2F2;--muted:#A8A8A8;--dark:#2B2B2B;--soft:#262626;--accent:#FF5C70;--line:rgba(242,242,242,.14);--good:#3FB86A;--goodsoft:#123020;--bad:#F07A6E;--badsoft:#3A1219;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:18px/1.45 var(--body);min-height:100vh}
@@ -144,7 +144,7 @@ body.finale-on .top{visibility:hidden}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
 .fhead{position:relative;z-index:2;text-align:center}
 .fhead .lg{height:clamp(34px,6vh,64px);display:block;margin:0 auto 1vh;border-radius:4px}
-.fhead .kick{font-family:var(--display);letter-spacing:.3em;text-transform:uppercase;color:#F2955F;font-size:clamp(14px,2.2vh,26px)}
+.fhead .kick{font-family:var(--display);letter-spacing:.3em;text-transform:uppercase;color:#FF5C70;font-size:clamp(14px,2.2vh,26px)}
 .fhead h2{font-family:var(--display);font-weight:700;font-size:clamp(48px,10vh,130px);line-height:.95;margin:0;background:linear-gradient(180deg,#fff 45%,#F4B6C0);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(193,16,47,.6))}
 .podium{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:1.6vw;width:min(92vw,1500px);align-self:end}
 .pod{display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(40px) scale(.9);transition:opacity .5s, transform .7s cubic-bezier(.2,1.6,.4,1)}
@@ -167,7 +167,7 @@ body.finale-on .top{visibility:hidden}
 .rest{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:1.4vw;width:min(92vw,1500px);margin-top:1.6vh}
 .row45{display:flex;align-items:center;gap:1.2vw;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:1vh 1.4vw;font-size:clamp(20px,3.6vh,44px);font-weight:700;opacity:0;transform:translateX(-30px);transition:opacity .5s, transform .5s}
 .row45.in{opacity:1;transform:none}
-.row45 .r{font-family:var(--display);color:#F2955F;min-width:1.4em}
+.row45 .r{font-family:var(--display);color:#FF5C70;min-width:1.4em}
 .row45 .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row45 .s{opacity:.8}
 .fbar{position:relative;z-index:4;display:flex;gap:10px;margin-top:1.6vh;opacity:.55;transition:opacity .2s}
@@ -199,7 +199,7 @@ body.host-reveal #app{display:grid;grid-template-columns:minmax(0,1fr) minmax(30
 .dist div.wrong{opacity:.3}
 .dist div.ok{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--good)}
 @keyframes grow{from{transform:scaleY(0)}}
-.sb{position:relative;display:flex;flex-direction:column;gap:calc(10px * var(--k));background:linear-gradient(165deg,#3B2A20 0%,#24190F 60%,#4C3629 100%);color:#fff;border-radius:16px;padding:calc(16px * var(--k)) calc(16px * var(--k)) calc(14px * var(--k));border-top:calc(6px * var(--k)) solid #E26F39;box-shadow:0 18px 40px rgba(0,0,0,.25);overflow:hidden}
+.sb{position:relative;display:flex;flex-direction:column;gap:calc(10px * var(--k));background:linear-gradient(165deg,#3A1219 0%,#111111 60%,#111111 100%);color:#fff;border-radius:16px;padding:calc(16px * var(--k)) calc(16px * var(--k)) calc(14px * var(--k));border-top:calc(6px * var(--k)) solid #C1102F;box-shadow:0 18px 40px rgba(0,0,0,.25);overflow:hidden}
 .sb::after{content:"";position:absolute;right:-30%;top:-40%;width:90%;height:90%;background:radial-gradient(circle,rgba(193,16,47,.35),transparent 65%);pointer-events:none}
 .sbh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;position:relative}
 .sbh span{font-family:var(--display);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:calc(22px * var(--k))}
@@ -223,8 +223,8 @@ body.host-reveal #app{display:grid;grid-template-columns:minmax(0,1fr) minmax(30
 .sbr .sc em{font-style:normal;font-weight:800;font-size:calc(14px * var(--k));color:#6EE397}
 .sbr .sc em.z{color:#8a8a8a}
 .sbr .bar{grid-column:2 / 4;height:calc(6px * var(--k));background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}
-.sbr .bar i{display:block;height:100%;width:var(--w);background:linear-gradient(90deg,#E26F39,#F2955F);border-radius:999px}
-.sbr.r1 .bar i{background:linear-gradient(90deg,#F2955F,#fff)}
+.sbr .bar i{display:block;height:100%;width:var(--w);background:linear-gradient(90deg,#C1102F,#FF5C70);border-radius:999px}
+.sbr.r1 .bar i{background:linear-gradient(90deg,#FF5C70,#fff)}
 .sb.anim .sbr .bar i{animation:fillbar 1.2s cubic-bezier(.2,.9,.3,1) both;animation-delay:calc(var(--d) + .4s)}
 @keyframes fillbar{from{width:0}}
 .sb #nx{position:relative;align-self:stretch;font-size:calc(24px * var(--k));padding:calc(10px * var(--k))}

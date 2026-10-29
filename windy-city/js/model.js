@@ -265,11 +265,11 @@ export const CHANNELS = [
     reach: { teen: 0, college: 10, ya: 15, parent: 8, older: 12, senior: 5, gig: 2, b2b: 88 } },
   { id: "cta",  name: "CTA Trains & Bus Shelters", short: "CTA", what: "Posters on L cars, platforms, and bus shelters", price: "Seen daily by city riders", k: 300, eff: 0.75, color: "#C60C30",
     reach: { teen: 35, college: 55, ya: 60, parent: 20, older: 28, senior: 25, gig: 30, b2b: 10 } },
-  { id: "bb",   name: "Kennedy Expressway Billboards", short: "Billboards", what: "Digital billboards over the Kennedy and Dan Ryan", price: "Huge numbers of drivers, one glance each", k: 350, eff: 0.6, color: "#6E6159",
+  { id: "bb",   name: "Kennedy Expressway Billboards", short: "Billboards", what: "Digital billboards over the Kennedy and Dan Ryan", price: "Huge numbers of drivers, one glance each", k: 350, eff: 0.6, color: "#5C5C5C",
     reach: { teen: 10, college: 18, ya: 45, parent: 55, older: 60, senior: 40, gig: 50, b2b: 20 } },
   { id: "uc",   name: "United Center Sponsorship", short: "United Center", what: "Jumbotron and courtside signs at Bulls and Blackhawks games", price: "Big crowds, big price tag", k: 500, eff: 0.45, color: "#CE1141",
     reach: { teen: 30, college: 35, ya: 40, parent: 30, older: 30, senior: 15, gig: 10, b2b: 25 } },
-  { id: "lolla", name: "Lollapalooza Sponsorship", short: "Lollapalooza", what: "Booth and stage signs at the Grant Park festival", price: "One weekend, very young crowd", k: 400, eff: 0.5, color: "#E26F39",
+  { id: "lolla", name: "Lollapalooza Sponsorship", short: "Lollapalooza", what: "Booth and stage signs at the Grant Park festival", price: "One weekend, very young crowd", k: 400, eff: 0.5, color: "#C1102F",
     reach: { teen: 55, college: 60, ya: 35, parent: 5, older: 3, senior: 0, gig: 5, b2b: 2 } }
 ];
 

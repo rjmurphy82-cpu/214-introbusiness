@@ -7,7 +7,7 @@
 // Each year's news multiplies cap (and sometimes val) for some segments.
 // =====================================================================
 
-const COLORS = ["#E9A27C", "#C9B8AC", "#4C3629", "#E26F39", "#8C6E5D", "#2E5E4E"];
+const COLORS = ["#E8A7B1", "#BDBDBD", "#111111", "#C1102F", "#6E6E6E", "#2E5E4E"];
 const seg = (i, o) => ({ color: COLORS[i], ...o });
 
 export const COMPANIES = [

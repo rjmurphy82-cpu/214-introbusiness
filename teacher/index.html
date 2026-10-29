@@ -10,8 +10,8 @@
 <style>
 /* Layout: teacher home for the Intro to Business site. Same top bar and cards as the student hub, one column of sections. */
 :root{
-  --brown:#4C3629; --brown-2:#6B5040; --orange:#E26F39; --orange-lt:#F2955F; --orange-ink:#B9511F;
-  --paper:#F6F3F1; --card:#FFFFFF; --ink:#24190F; --muted:#6E6159; --line:#E2DAD4; --tint:#FBF1EB;
+  --brown:#111111; --brown-2:#2B2B2B; --orange:#C1102F; --orange-lt:#FF5C70; --orange-ink:#B00E2A;
+  --paper:#F4F3F3; --card:#FFFFFF; --ink:#111111; --muted:#5C5C5C; --line:#DCDCDC; --tint:#FBE7EA;
   --display:'Oswald','Arial Narrow',Impact,sans-serif;
   --body:'Barlow','Segoe UI',Arial,sans-serif;
   --data:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
@@ -25,6 +25,7 @@ a{color:inherit}
 .top{background:var(--brown);color:#fff;border-bottom:5px solid var(--orange)}
 .top .in{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1140px;margin:0 auto}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo .d214{height:36px;width:auto;display:block;border-radius:3px}
 .logo .mark{font-family:var(--display);font-weight:700;background:var(--orange);color:#fff;padding:3px 8px;border-radius:2px;font-size:18px;letter-spacing:.02em}
 .logo .nm{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-size:19px}
 .top .tag{margin-left:auto;font-family:var(--data);text-transform:uppercase;letter-spacing:.12em;font-size:15px;color:var(--orange-lt)}
@@ -39,7 +40,7 @@ section{display:flex;flex-direction:column;gap:14px}
 .sh p{margin:0;color:var(--muted);font-size:16px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
 .card{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--brown);border-radius:4px;padding:18px 20px;text-decoration:none;min-width:0;transition:transform .12s,box-shadow .12s}
-a.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(76,54,41,.12)}
+a.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(17,17,17,.12)}
 .card.new{border-top-color:var(--orange)}
 .tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .chip{font-family:var(--data);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:var(--tint);color:var(--brown);padding:2px 8px;border-radius:2px;white-space:nowrap}
@@ -72,7 +73,7 @@ footer .in{max-width:1140px;margin:0 auto;display:flex;justify-content:space-bet
 </head>
 <body>
 <header class="top"><div class="in">
-  <a class="logo" href="/"><span class="mark">214</span><span class="nm">Intro to Business</span></a>
+  <a class="logo" href="/"><img class="d214" src="/logo-214.png" alt="High School District 214"><span class="nm">Intro to Business</span></a>
   <span class="tag">Teacher</span>
 </div></header>
 
@@ -103,7 +104,7 @@ footer .in{max-width:1140px;margin:0 auto;display:flex;justify-content:space-bet
       <a class="card new" href="/brand-crisis/teacher">
         <div class="tags"><span class="chip">Unit 3</span><span class="chip hot">New</span><span class="topic">Brand crisis simulation</span></div>
         <h3>Brand Crisis</h3>
-        <p>Pairs, one iPad per team. Round 1: Strider Sneakers through six crises. Round 2: Lakeshore Crisis Group, a PR agency with six different clients (an ice cream chain, a game studio, an airline, an energy drink, a bank, a fashion brand). Each crisis has 8 responses to lock in, then a random twist changes what happened. Trust, sales, and budget carry over; highest brand value wins, and each game's top 3 teams go to the all-time <a href="/brand-crisis/winners">Hall of Fame</a>.</p>
+        <p>Pairs, one iPad per team. Round 1: Strider Sneakers through six crises. Round 2: Lakeshore Crisis Group, a PR agency with six different clients (an ice cream chain, a game studio, an airline, an energy drink, a bank, a fashion brand). Each crisis has 8 responses to lock in, then a random twist changes what happened. Trust, sales, and budget carry over; highest brand value wins, and each game's top 3 teams go to the all-time Hall of Fame (<b>/brand-crisis/winners</b>).</p>
         <ul class="tools"><li><b>Host:</b> pick Round 1 or Round 2, the crises, the time to decide, and a class name for the Hall of Fame</li><li><b>End of game:</b> top 5, the best move for each crisis vs. what the class picked</li></ul>
         <div class="foot"><span>Students: <b>Brand Crisis</b> → enter the code</span><span class="go">Host a game →</span></div>
       </a>

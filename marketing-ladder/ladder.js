@@ -243,8 +243,8 @@ function hostLobby() {
 function printSigns() {
   const n = Math.max(12, sizes(active().length).length), w = window.open("", "_blank"); if (!w) return;
   w.document.write(`<!doctype html><title>Table signs</title><style>@page{size:letter landscape;margin:.5in}body{margin:0;font-family:Arial,sans-serif}
-    .s{height:7.3in;display:flex;flex-direction:column;align-items:center;justify-content:center;page-break-after:always;border:6px solid #4C3629;border-radius:24px;box-sizing:border-box}
-    .s small{font-size:40px;letter-spacing:.2em;color:#4C3629;font-weight:700}.s b{font-size:330px;line-height:1;color:#4C3629}.s em{font-style:normal;font-size:36px;color:#E26F39;font-weight:700}</style>
+    .s{height:7.3in;display:flex;flex-direction:column;align-items:center;justify-content:center;page-break-after:always;border:6px solid #111111;border-radius:24px;box-sizing:border-box}
+    .s small{font-size:40px;letter-spacing:.2em;color:#111111;font-weight:700}.s b{font-size:330px;line-height:1;color:#111111}.s em{font-style:normal;font-size:36px;color:#C1102F;font-weight:700}</style>
     ${Array.from({ length: n }, (_, i) => `<div class="s"><small>TABLE</small><b>${i + 1}</b>${i === 0 ? "<em>TOP TABLE</em>" : ""}</div>`).join("")}<script>print()<\/script>`);
   w.document.close();
 }

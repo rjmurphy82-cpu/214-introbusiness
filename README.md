@@ -29,7 +29,8 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 
 | Folder | What it is |
 |---|---|
-| `index.html` | The hub page. To add a game, add an item to the `ITEMS` list near the bottom. |
+| `index.html` | The hub page. To add a game, add an item to the `SITE_ITEMS` list; the card and the sidebar menu link both come from it. |
+| `site.css`, `site.js` | The hub's look (black sidebar, District 214 logo, red accents) and its menu and text size control, matching the Finance & Investing site |
 | `media-buy/` | Media Buy pages, styles, and game logic |
 | `windy-city/` | Windy City pages, styles, and game logic |
 | `build-the-lineup/` | Build the Lineup pages, styles, game logic, and the 12 company case files (`js/data.js`) |

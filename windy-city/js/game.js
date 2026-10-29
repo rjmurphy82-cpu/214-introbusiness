@@ -31,7 +31,7 @@ export function yearBar(game) {
 /* ---------- the client brief ---------- */
 export function briefHTML(co) {
   const c = co.charts, maxVal = Math.max(...co.audience.map(s => s.val));
-  const heat = v => `background:rgba(226,111,57,${(v / 100 * 0.8).toFixed(2)});color:${v >= 55 ? "#fff" : "var(--ink)"}`;
+  const heat = v => `background:rgba(193,16,47,${(v / 100 * 0.8).toFixed(2)});color:${v >= 55 ? "#fff" : "var(--ink)"}`;
   return `<div class="stack">
   <div class="hero">
     <div class="stack" style="gap:10px">
@@ -166,7 +166,7 @@ export function roiHTML(co, buys, title) {
   return `<div class="panel"><span class="eyebrow">Return on investment</span><h3>${esc(title)}</h3>
     <p style="margin:0 0 8px">Best ROI: <b>${esc(rows[0].ch.name)}</b>, $${rows[0].roi.toFixed(2)} back for every $1.</p>
     <div class="tablewrap"><table><thead><tr><th>Channel</th><th class="r">Spent</th><th class="r">Earned</th><th class="r">Back per $1</th><th style="min-width:120px"></th></tr></thead><tbody>
-      ${rows.map(r => `<tr><td><b>${esc(r.ch.short)}</b></td><td class="r num">${money(r.spend)}</td><td class="r num">${money(r.rev)}</td><td class="r num" style="font-size:18px">$${r.roi.toFixed(2)}</td><td><div class="track" style="height:12px;background:#EFE9E5;border-radius:2px;overflow:hidden"><div style="height:100%;width:${r.roi / max * 100}%;background:${r.ch.color}"></div></div></td></tr>`).join("")}
+      ${rows.map(r => `<tr><td><b>${esc(r.ch.short)}</b></td><td class="r num">${money(r.spend)}</td><td class="r num">${money(r.rev)}</td><td class="r num" style="font-size:18px">$${r.roi.toFixed(2)}</td><td><div class="track" style="height:12px;background:#EDEDED;border-radius:2px;overflow:hidden"><div style="height:100%;width:${r.roi / max * 100}%;background:${r.ch.color}"></div></div></td></tr>`).join("")}
     </tbody></table></div></div>`;
 }
 

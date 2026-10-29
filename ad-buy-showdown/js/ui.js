@@ -28,7 +28,7 @@ export function rulesHTML() {
 /* ---------- client brief ---------- */
 export function briefHTML(r) {
   const R = ROUNDS[r];
-  const heat = SEGMENTS.map(s => `<tr><td>${esc(s.name)}</td>${PLATFORMS.map(p => { const v = s.reach[p.id]; return `<td class="h" style="background:rgba(226,111,57,${(v * v * 0.7).toFixed(2)})">${Math.round(v * 100)}%</td>`; }).join("")}<td class="h r">${short(s.size)}</td></tr>`).join("");
+  const heat = SEGMENTS.map(s => `<tr><td>${esc(s.name)}</td>${PLATFORMS.map(p => { const v = s.reach[p.id]; return `<td class="h" style="background:rgba(193,16,47,${(v * v * 0.7).toFixed(2)})">${Math.round(v * 100)}%</td>`; }).join("")}<td class="h r">${short(s.size)}</td></tr>`).join("");
   return `<div class="stack">
   <div><span class="eyebrow">Round ${r + 1} of ${NROUNDS} · ${esc(R.tag)}</span><h2>${esc(R.title)}</h2><p class="muted" style="margin:0">Client: <b>${esc(R.client)}</b></p></div>
   <div class="brief">
