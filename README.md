@@ -22,6 +22,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/brand-crisis/` | Brand Crisis simulation (students join with a code) |
 | `/brand-crisis/teacher` | Brand Crisis host screen |
 | `/brand-crisis/winners` | Brand Crisis Hall of Fame (all-time top teams) |
+| `/boss-moves/` | Boss Moves management simulation (students join with a code, new partner every round) |
+| `/boss-moves/teacher` | Boss Moves host screen |
 
 Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub. Bookmark `/teacher`, which links to all of them, and keep that address to yourself.
 
@@ -29,7 +31,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 
 | Folder | What it is |
 |---|---|
-| `index.html` | The hub page. To add a game, add an item to the `SITE_ITEMS` list; the card and the sidebar menu link both come from it. |
+| `index.html` | The hub page. To add a game, add an item to the `SITE_ITEMS` list with `cat: "Management"` or `cat: "Marketing"`; the card and the sidebar menu link both come from it. The two groups themselves are in `SITE_CATS`. |
 | `site.css`, `site.js` | The hub's look (black sidebar, District 214 logo, red accents) and its menu and text size control, matching the Finance & Investing site |
 | `media-buy/` | Media Buy pages, styles, and game logic |
 | `windy-city/` | Windy City pages, styles, and game logic |
@@ -43,6 +45,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `api/live.js` | Ad Buy Live server code (game codes stored under `ibl:`) |
 | `marketing-ladder/` | Marketing Ladder: tables-of-3 unit review. Set 1 terms, Set 2 scenario questions (QBANK), and every client buy are in `data.js`. Uses the same `api/live.js` as Ad Buy Live, so it adds no server function |
 | `brand-crisis/` | Brand Crisis: crisis simulation with two rounds (Round 1 Strider Sneakers, Round 2 Lakeshore Crisis Group with six client companies). The crises, their 8 responses, and the twist cards are in `data.js`. Also runs on `api/live.js` |
+| `boss-moves/` | Boss Moves: management and leadership simulation. The 10 leadership styles, the four Situational Leadership levels, and the 11 workplace situations (each with its best style, good fits, and Perfect Statement) are in `data.js`. Runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
 
 Each game's server code runs through one file, `[route].js`, which hands each request to the matching `_` file. Vercel's free plan allows only 12 server functions per site, so this keeps every game at one. When you add a game, give it one `[route].js` the same way.

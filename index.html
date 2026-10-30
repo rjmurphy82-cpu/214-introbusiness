@@ -32,6 +32,10 @@ section{margin-top:34px;scroll-margin-top:70px}
 .livetag{margin-left:auto;flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--redtext)}
 .livetag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 3px var(--redsoft)}
 .empty{color:var(--muted);margin:0}
+.subhead{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;margin:18px 0 10px}
+.subhead:first-of-type{margin-top:4px}
+.subhead h3{font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:.04em;text-transform:uppercase;color:var(--redtext);margin:0}
+.subhead span{color:var(--muted);font-size:14px;font-weight:600}
 @media (prefers-reduced-motion: reduce){.card{transition:none}.card:hover{transform:none}}
 </style>
 </head>
@@ -43,7 +47,7 @@ section{margin-top:34px;scroll-margin-top:70px}
       <h1>Intro to Business games and simulations</h1>
       <p class="lede">Live class games your teacher runs on the board, and simulations you can play on your own and send to your teacher as a report.</p>
     </header>
-    <div class="tabs" id="filters" role="group" aria-label="Filter by unit"></div>
+    <div class="tabs" id="filters" role="group" aria-label="Filter by topic"></div>
     <div id="sections"></div>
   </div></main>
 </div>
@@ -54,53 +58,58 @@ window.SITE_SECTIONS = [
   { id: "live", title: "Live Class Games", note: "Teacher-led. Pick “Live in Class” and join with your first names." },
   { id: "sims", title: "Simulations", note: "Play on your own with “Open Play,” then send your report to your teacher." }
 ];
+// The two big groups on the hub, in the order they show. Every item has a cat that matches one of these.
+window.SITE_CATS = [
+  { id: "Management", note: "Leadership styles, situational leadership, levels of management, and motivation" },
+  { id: "Marketing", note: "Target marketing, ad buys, social media ads, segmentation, and brand crises" }
+];
 window.SITE_ITEMS = [
-  { section: "live", unit: "Unit 3", topic: "Brand crisis simulation", title: "Brand Crisis", href: "/brand-crisis/",
+  { section: "live", cat: "Management", topic: "Leadership styles · Pairs", title: "Boss Moves", href: "/boss-moves/",
+    text: "A new partner and a new workplace problem every round. Pick the leadership style that fits, write the statement you'd give your team, then vote for the one closest to the Perfect Statement.", count: "New partner every round · join with a code", go: "Join" },
+  { section: "live", cat: "Marketing", topic: "Brand crisis simulation", title: "Brand Crisis", href: "/brand-crisis/",
     text: "Round 1: you and a partner run Strider Sneakers. Round 2: you run a crisis PR agency, and every crisis is a new client. Pick one of 8 responses, then see what happened next. Top teams make the Hall of Fame.", count: "Pairs · 2 rounds · join with a code", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Unit review · Tables of 3", title: "Marketing Ladder", href: "/marketing-ladder/",
+  { section: "live", cat: "Marketing", topic: "Unit review · Tables of 3", title: "Marketing Ladder", href: "/marketing-ladder/",
     text: "Whole-unit review: target marketing, emotional marketing, the media buy, ad channels, social ads, and segmentation. Join with your first name, play the two people at your table, and move up when you win.", count: "Join with a code", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Target marketing", title: "Media Buy Live", href: "/media-buy/",
+  { section: "live", cat: "Marketing", topic: "Target marketing", title: "Media Buy Live", href: "/media-buy/",
     text: "Your teacher runs one company on the board. Split $1,000,000 across customer segments each year and see who spent it best.", count: "Up to 15 teams", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Advertising channels", title: "Windy City Live", href: "/windy-city/",
+  { section: "live", cat: "Marketing", topic: "Advertising channels", title: "Windy City Live", href: "/windy-city/",
     text: "Your teacher runs one company on the board. Spend $1,000,000 on Chicago ad channels and compare returns as a class.", count: "Up to 15 teams", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Market segmentation", title: "Build the Lineup Live", href: "/build-the-lineup/",
+  { section: "live", cat: "Marketing", topic: "Market segmentation", title: "Build the Lineup Live", href: "/build-the-lineup/",
     text: "Your teacher runs one company on the board. Build a version for each customer segment, price it, and see whose lineup makes the most profit.", count: "Up to 15 teams", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Social media marketing", title: "Ad Buy Showdown Live", href: "/ad-buy-showdown/",
+  { section: "live", cat: "Marketing", topic: "Social media marketing", title: "Ad Buy Showdown Live", href: "/ad-buy-showdown/",
     text: "Six clients, from Calvin Harris tickets to a Black Friday headset. Pick platforms, audiences, and creative, lock in your buy, and see whose campaign made the most profit.", count: "Up to 15 teams · 6 rounds", go: "Join" },
-  { section: "live", unit: "Unit 3", topic: "Social media marketing · Review", title: "Ad Buy Live", href: "/ad-buy-live/",
+  { section: "live", cat: "Marketing", topic: "Social media marketing · Review", title: "Ad Buy Live", href: "/ad-buy-live/",
     text: "Kahoot-style review on your own device: ad terms, the math, who's scrolling where, targeting, formats, and campaign calls. Speed earns points, wrong answers cost points.", count: "6 rounds · join with a code", go: "Join" },
-  { section: "sims", unit: "Unit 3", topic: "Target marketing", title: "Million Dollar Media Buy", href: "/media-buy/",
+  { section: "sims", cat: "Marketing", topic: "Target marketing", title: "Million Dollar Media Buy", href: "/media-buy/",
     text: "Read the client brief, find the customers who actually spend, and put your money there. Five companies, four years each.", count: "5 companies", go: "Play" },
-  { section: "sims", unit: "Unit 3", topic: "Advertising channels · ROI", title: "Windy City Ad Buy", href: "/windy-city/",
+  { section: "sims", cat: "Marketing", topic: "Advertising channels · ROI", title: "Windy City Ad Buy", href: "/windy-city/",
     text: "Instagram, TikTok, the CTA, the United Center, or Lollapalooza? Match each company’s customers to the Chicago channels they use and find the best ROI.", count: "5 companies · 9 channels", go: "Play" },
-  { section: "sims", unit: "Unit 3", topic: "Market segmentation · Pricing", title: "Build the Lineup", href: "/build-the-lineup/",
+  { section: "sims", cat: "Marketing", topic: "Market segmentation · Pricing", title: "Build the Lineup", href: "/build-the-lineup/",
     text: "One product, three kinds of customers. Pick the features and the price for each version, launch it, then fix it for Launch 2.", count: "12 companies", go: "Play" },
-  { section: "sims", unit: "Unit 3", topic: "Social media marketing · ROAS", title: "Ad Buy Showdown", href: "/ad-buy-showdown/",
+  { section: "sims", cat: "Marketing", topic: "Social media marketing · ROAS", title: "Ad Buy Showdown", href: "/ad-buy-showdown/",
     text: "Build a real social ad buy for six clients: objective, location, ages, interests, format, and budget across Instagram, TikTok, Snapchat, and more.", count: "6 clients · 6 platforms", go: "Play" }
 ];
 
 </script>
 <script src="/site.js"></script>
 <script>
-const SECTIONS = window.SITE_SECTIONS, ITEMS = window.SITE_ITEMS;
+const SECTIONS = window.SITE_SECTIONS, CATS = window.SITE_CATS, ITEMS = window.SITE_ITEMS;
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const units = [...new Set(ITEMS.map(i => i.unit))].sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
 let filter = "all";
 
 const card = i => `<a class="card ${i.section === "live" ? "live" : ""}" href="${i.href}">
-  <div class="ctop"><span class="chip">${esc(i.unit)}</span><span class="kind">${esc(i.topic)}</span>${i.section === "live" ? `<span class="livetag">Live</span>` : ""}</div>
+  <div class="ctop"><span class="chip">${esc(i.cat)}</span><span class="kind">${esc(i.topic)}</span>${i.section === "live" ? `<span class="livetag">Live</span>` : ""}</div>
   <h3>${esc(i.title)}</h3><p>${esc(i.text)}</p>
   <div class="cfoot"><span class="meta">${esc(i.count)}</span><span class="go">${esc(i.go)} →</span></div></a>`;
 
 function render() {
-  // The unit filter only shows once there is more than one unit on the site.
-  $("#filters").hidden = units.length < 2;
-  $("#filters").innerHTML = ["all", ...units].map(u => `<button aria-pressed="${filter === u}" data-f="${esc(u)}">${u === "all" ? "All units" : esc(u)}</button>`).join("");
-  $("#sections").innerHTML = SECTIONS.map(sec => {
-    const list = ITEMS.filter(i => i.section === sec.id && (filter === "all" || i.unit === filter));
-    return `<section id="${sec.id}"><div class="sechead"><h2>${esc(sec.title)}</h2><span>${esc(sec.note)}</span></div>
-      ${list.length ? `<div class="grid">${list.map(card).join("")}</div>` : `<p class="empty">Nothing here for this unit yet.</p>`}</section>`;
+  $("#filters").innerHTML = ["all", ...CATS.map(c => c.id)].map(u => `<button aria-pressed="${filter === u}" data-f="${esc(u)}">${u === "all" ? "Everything" : esc(u)}</button>`).join("");
+  $("#sections").innerHTML = CATS.filter(c => filter === "all" || filter === c.id).map(c => {
+    const subs = SECTIONS.map(sec => { const list = ITEMS.filter(i => i.cat === c.id && i.section === sec.id);
+      return list.length ? `<div class="subhead"><h3>${esc(sec.title)}</h3><span>${esc(sec.note)}</span></div><div class="grid">${list.map(card).join("")}</div>` : ""; }).join("");
+    return `<section id="${c.id.toLowerCase()}"><div class="sechead"><h2>${esc(c.id)}</h2><span>${esc(c.note)}</span></div>
+      ${subs || `<p class="empty">Nothing here yet.</p>`}</section>`;
   }).join("");
   document.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { filter = b.dataset.f; render(); });
 }

@@ -1,20 +1,18 @@
 // District 214 Intro to Business: sidebar, mobile menu and text size (same as the Finance & Investing site).
-// The menu is built from window.SITE_SECTIONS and window.SITE_ITEMS, which the hub page (index.html) defines
+// The menu is built from window.SITE_CATS, window.SITE_SECTIONS and window.SITE_ITEMS, which the hub page (index.html) defines
 // before loading this file. The page's <body data-page="..."> marks the current page.
 (function () {
   var SECTIONS = window.SITE_SECTIONS || [], ITEMS = window.SITE_ITEMS || [];
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-  var unitNum = function (u) { var m = /\d+/.exec(u || ""); return m ? m[0] : "•"; };
-  var units = [];
-  ITEMS.forEach(function (i) { if (units.indexOf(i.unit) < 0) units.push(i.unit); });
-  units.sort(function (a, b) { return b.localeCompare(a, undefined, { numeric: true }); });
-  var links = SECTIONS.map(function (sec) {
-    var out = '<div class="ng">' + esc(sec.title) + "</div>";
-    units.forEach(function (u) {
-      var list = ITEMS.filter(function (i) { return i.section === sec.id && i.unit === u; });
+  var CATS = window.SITE_CATS || [];
+  // Sidebar: Management and Marketing, each with its live games, then its simulations
+  var links = CATS.map(function (c) {
+    var out = '<div class="ng">' + esc(c.id) + "</div>";
+    SECTIONS.forEach(function (sec) {
+      var list = ITEMS.filter(function (i) { return i.cat === c.id && i.section === sec.id; });
       if (!list.length) return;
-      if (sec.subs !== false) out += '<div class="nch">' + esc(u) + "</div>";
-      list.forEach(function (i) { out += '<a href="' + i.href + '"><span class="ch">' + esc(unitNum(i.unit)) + "</span>" + esc(i.navLabel || i.title) + "</a>"; });
+      out += '<div class="nch">' + esc(sec.title) + "</div>";
+      list.forEach(function (i) { out += '<a href="' + i.href + '"><span class="ch">' + (sec.id === "live" ? "●" : "▸") + "</span>" + esc(i.navLabel || i.title) + "</a>"; });
     });
     return out;
   }).join("");
