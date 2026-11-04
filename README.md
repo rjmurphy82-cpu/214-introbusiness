@@ -24,6 +24,7 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/brand-crisis/winners` | Brand Crisis Hall of Fame (all-time top teams) |
 | `/boss-moves/` | Boss Moves management simulation (students join with a code, new partner every round) |
 | `/boss-moves/teacher` | Boss Moves host screen |
+| `/leadership-style/` | Leadership Style Finder: 24-question Goleman leadership styles survey with results and a reflection one-pager (self-paced, no teacher console) |
 
 Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub. Bookmark `/teacher`, which links to all of them, and keep that address to yourself.
 

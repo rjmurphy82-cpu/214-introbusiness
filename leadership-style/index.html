@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leadership Style Finder</title>
+<meta name="description" content="District 214 Intro to Business: a 24-question survey on Goleman's six leadership styles with results and a reflection one-pager.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: single centered column; one question card at a time, then results report + reflection worksheet */
+:root{
+  --bg:#F4F3F3; --paper:#ffffff; --ink:#111111; --muted:#5C5C5C; --line:rgba(17,17,17,.14);
+  --navy:#111111; --gold:#C1102F; --gold-soft:#FBE7EA; --navy-soft:#EDEDED;
+  --display:"Oswald","Arial Narrow",Impact,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Barlow",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121212; --paper:#1E1E1E; --ink:#F2F2F2; --muted:#A8A8A8; --line:rgba(242,242,242,.14); --navy:#F2F2F2; --gold:#FF5C70; --gold-soft:#3A1219; --navy-soft:#2A2A2A; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121212; --paper:#1E1E1E; --ink:#F2F2F2; --muted:#A8A8A8; --line:rgba(242,242,242,.14); --navy:#F2F2F2; --gold:#FF5C70; --gold-soft:#3A1219; --navy-soft:#2A2A2A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:28px 60px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,6vw,2.9rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.55rem;font-weight:800}
+h3{font-size:1.05rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:clamp(20px,4vw,34px);display:flex;flex-direction:column;gap:16px}
+.lede{color:var(--muted);max-width:62ch}
+.btn{font-family:var(--display);font-weight:700;font-size:1rem;border-radius:8px;padding:12px 20px;cursor:pointer;border:2px solid var(--navy);background:var(--navy);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn:focus-visible,.opt:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.styles-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:0;padding:0;list-style:none}
+.styles-list li{border-top:3px solid var(--gold);padding-top:8px;font-size:.92rem;color:var(--muted)}
+.styles-list b{display:block;font-family:var(--display);color:var(--ink)}
+/* quiz */
+.progress{height:8px;background:var(--navy-soft);border-radius:4px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--gold);transition:width .25s}
+.qmeta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.qtext{font-family:var(--display);font-size:clamp(1.25rem,3.6vw,1.6rem);font-weight:700;line-height:1.3;min-height:3.9em;text-wrap:balance}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.opt{border:2px solid var(--line);background:var(--paper);color:var(--ink);border-radius:8px;padding:12px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--body);font-size:.78rem;line-height:1.2;text-align:center}
+.opt .n{font-family:var(--display);font-weight:800;font-size:1.3rem}
+.opt:hover{border-color:var(--navy)}
+.opt.on{border-color:var(--navy);background:var(--navy);color:var(--paper)}
+.hint{font-size:.82rem;color:var(--muted)}
+/* results */
+.hero-result{background:var(--navy);color:var(--paper);border-radius:10px;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:10px}
+.hero-result .eyebrow{color:var(--gold)}
+.hero-result h2{font-weight:700;font-size:clamp(2rem,6vw,2.8rem);color:var(--paper)}
+.hero-result .phrase{font-family:var(--mono);font-size:.95rem}
+.hero-result p{max-width:62ch}
+.bars{display:flex;flex-direction:column;gap:10px}
+.bar{display:grid;grid-template-columns:118px 1fr 44px;gap:10px;align-items:center;font-size:.92rem}
+.bar .lbl{font-family:var(--display);font-weight:700}
+.bar .track{height:16px;background:var(--navy-soft);border-radius:3px;overflow:hidden}
+.bar .fill{height:100%;background:var(--navy);border-radius:3px}
+.bar.top .fill{background:var(--gold)}
+.bar .val{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.grid2>div{min-width:0;display:flex;flex-direction:column;gap:8px}
+ul.tight{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px}
+.callout{background:var(--gold-soft);border-radius:8px;padding:14px 16px;font-size:.95rem}
+/* worksheet */
+.sheet{border:2px solid var(--ink);border-radius:4px}
+.sheet-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+label{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+input,textarea{font-family:var(--body);font-size:1rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%}
+textarea{min-height:84px;resize:vertical;line-height:1.5}
+.glance{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.glance div{background:var(--navy-soft);border-radius:6px;padding:10px;font-size:.85rem}
+.glance b{display:block;font-family:var(--display);font-size:1rem}
+.q{display:flex;flex-direction:column;gap:6px}
+.q .prompt{font-weight:600}
+.q .prompt span{font-family:var(--mono);color:var(--gold);margin-right:6px}
+.q .ref{font-size:.85rem;color:var(--muted)}
+.toast{font-size:.9rem;color:var(--muted)}
+@media (max-width:520px){
+  .opt .w{display:none}
+  .bar{grid-template-columns:92px 1fr 40px}
+  .fields,.glance{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.04em}
+.top img{height:30px;width:auto;border-radius:3px}
+.top a{color:var(--ink);text-decoration:none}
+.top a:hover{color:var(--gold)}
+.hero-result{background:#111111;color:#ffffff}
+.hero-result h2,.hero-result p,.hero-result .phrase{color:#ffffff}
+.hero-result .eyebrow{color:#FF8A99}
+.btn{color:var(--bg)}
+.opt.on{color:var(--bg)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top"><img src="/logo-214.png" alt="District 214"><a href="/">District 214 Intro to Business</a> | Leadership Style Finder</div>
+
+  <!-- INTRO -->
+  <section class="panel" id="intro">
+    <span class="eyebrow">Management | Leadership Self-Assessment</span>
+    <h1>What kind of leader are you?</h1>
+    <p class="lede">This 24-question survey is based on Daniel Goleman's six leadership styles from his Harvard Business Review research, "Leadership That Gets Results." Strong leaders use more than one style, but most of us lean on one or two. Find out which ones you reach for first.</p>
+    <ul class="styles-list">
+      <li><b>Visionary</b>Mobilizes people toward a shared vision</li>
+      <li><b>Coaching</b>Develops people for the future</li>
+      <li><b>Affiliative</b>Builds harmony and relationships</li>
+      <li><b>Democratic</b>Builds agreement through participation</li>
+      <li><b>Pacesetting</b>Sets high standards by example</li>
+      <li><b>Commanding</b>Demands immediate action</li>
+    </ul>
+    <div class="callout">Answer based on how you <b>actually</b> act in groups (class projects, teams, clubs, jobs, family), not how you think a leader <i>should</i> act. There are no wrong answers.</div>
+    <div class="row">
+      <button class="btn" id="start">Start the survey</button>
+      <button class="btn ghost" id="resume" hidden>Resume where I left off</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="quiz" hidden>
+    <div class="qmeta"><span id="qnum">Question 1 of 24</span><span id="qpct">0%</span></div>
+    <div class="progress"><span id="bar" style="width:0%"></span></div>
+    <p class="qtext" id="qtext"></p>
+    <div class="scale" id="scale" role="radiogroup" aria-label="How much does this sound like you?"></div>
+    <p class="hint">Tip: on a keyboard you can press 1 to 5.</p>
+    <div class="row" style="justify-content:space-between">
+      <button class="btn ghost" id="back">Back</button>
+      <button class="btn" id="next" disabled>Next</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <div id="results" hidden style="display:flex;flex-direction:column;gap:22px"></div>
+</div>
+
+<script>
+const STYLES = {
+  V:{name:"Visionary", phrase:"\"Come with me.\"", aka:"also called Authoritative",
+    desc:"You lead by painting a clear picture of where the group is going and why it matters. You set the destination and let people find their own route there. Goleman's research found this style has the most positive effect on a team's climate overall.",
+    strengths:["Gives the team a clear sense of purpose","Motivates people by connecting tasks to a bigger goal","Trusts others to figure out how to get there"],
+    watch:["Can sound preachy or out of touch if you have less experience than the team","Big ideas still need a plan; don't skip the details"],
+    best:"When a group needs a new direction, a fresh start, or a reason to care.",
+    business:"A startup founder pitching why the company exists before anyone builds the product.",
+    q1:"Visionary leaders explain the \"why.\" Think of a group you are in now. In one or two sentences, write the vision you would give that group.",
+    q2:"Visionary leaders can lose people when a big idea has no clear next steps. What is one way you could turn a big goal into steps your team can act on this week?"},
+  C:{name:"Coaching", phrase:"\"Try this.\"", aka:"",
+    desc:"You lead by helping people grow. You care about each person's goals and you are willing to let someone struggle a bit so they learn. You see mistakes as practice, not failure.",
+    strengths:["Builds people's skills and confidence over time","Makes teammates feel invested in","Creates future leaders, not just followers"],
+    watch:["Slow when a deadline is tight","Does not work well with people who don't want feedback"],
+    best:"When people want to improve and there is time for them to learn.",
+    business:"A manager who meets with each new hire monthly to set growth goals.",
+    q1:"Coaching leaders develop others. Describe a time you helped someone get better at something. What did you do or say that helped?",
+    q2:"Coaching takes time. Describe a situation where coaching would be the wrong choice and what you would do instead."},
+  A:{name:"Affiliative", phrase:"\"People come first.\"", aka:"",
+    desc:"You lead by building relationships and keeping the group connected. You notice how people feel, celebrate wins, and help repair things after conflict. People feel safe and valued around you.",
+    strengths:["Builds trust and loyalty","Heals a team after conflict or stress","Keeps morale high through praise and recognition"],
+    watch:["Avoiding hard feedback can let poor performance slide","Praise alone won't fix a group with no direction"],
+    best:"When a team is stressed, divided, or needs its trust rebuilt.",
+    business:"A store manager who takes a struggling crew out for lunch after a rough holiday season.",
+    q1:"Affiliative leaders build connection. What is one thing you do (or could do) that makes people in your group feel valued?",
+    q2:"Affiliative leaders sometimes avoid hard conversations. Write how you would kindly tell a friend on your team that their work is not meeting the group's standard."},
+  D:{name:"Democratic", phrase:"\"What do you think?\"", aka:"",
+    desc:"You lead by getting everyone's input and building agreement. You believe the group is smarter than any one person, and you make sure quiet voices are heard. People support decisions they helped make.",
+    strengths:["Builds buy-in and commitment","Surfaces ideas the leader might miss","Gives everyone a voice"],
+    watch:["Endless meetings and slow decisions","Not helpful in a crisis or when the group lacks the knowledge to decide"],
+    best:"When you need the group's ideas and support, and there is time to discuss.",
+    business:"A team that votes on which product feature to build next after hearing every member's pitch.",
+    q1:"Democratic leaders gather input. Describe a decision in your life (team, club, class, family) that would turn out better if more people had a say.",
+    q2:"Democratic leaders can get stuck. If your group has been debating for too long, how would you move it to a final decision?"},
+  P:{name:"Pacesetting", phrase:"\"Do as I do, now.\"", aka:"",
+    desc:"You lead by example and set a high bar. You work hard, move fast, and expect others to keep up. Goleman found this style works with skilled, motivated teams but can wear people down if overused.",
+    strengths:["Gets high-quality results quickly","Models a strong work ethic","Pushes a capable team to its best"],
+    watch:["Others may feel overwhelmed or micromanaged","Taking over someone's work keeps them from learning","Goleman found this style often hurts team climate when overused"],
+    best:"When the team is already skilled and motivated and needs fast results.",
+    business:"A lead engineer who ships the hardest code first and expects the team to match the standard.",
+    q1:"Pacesetting leaders set high standards. Where in your life do your high standards help you most? Give a specific example.",
+    q2:"Pacesetters sometimes do others' work for them. Describe a time you took over a task. What could you have done instead to help that person do it themselves?"},
+  Co:{name:"Commanding", phrase:"\"Do what I tell you.\"", aka:"also called Coercive",
+    desc:"You lead by taking charge and giving clear direction. You are comfortable making fast, tough calls and expect people to follow through. In a crisis, people are glad you are there.",
+    strengths:["Fast, decisive action in a crisis","Clear expectations and structure","Can turn around a group that is falling apart"],
+    watch:["Overuse makes people feel unheard and lowers motivation","Goleman found it has the most negative effect on climate when used day to day"],
+    best:"In an emergency, a turnaround, or with someone who is not following safety rules.",
+    business:"A restaurant manager directing every station during a sudden dinner rush when two cooks call in sick.",
+    q1:"Commanding leaders shine in a crisis. Describe a time when someone needed to take charge quickly. What happened (or what should have happened)?",
+    q2:"Commanding leaders can make people feel unheard. Rewrite this instruction so it is still clear but more respectful: \"Just do it the way I said.\""}
+};
+const ORDER = ["V","C","A","D","P","Co"];
+const QS = [
+ ["V","When starting a group project, I like to describe what the finished result could look like so everyone gets excited."],
+ ["C","I enjoy helping a teammate get better at something, even if it takes longer than doing it myself."],
+ ["A","I pay close attention to how everyone in the group is feeling."],
+ ["D","Before making a group decision, I want to hear everyone's opinion."],
+ ["P","I set high standards for myself and expect the same from others."],
+ ["Co","In an emergency or crunch time, I take charge and tell people what to do."],
+ ["V","I explain the \"why\" behind a task before talking about the \"how.\""],
+ ["C","I ask people about their goals and how I can help them reach them."],
+ ["A","When there is conflict in a group, my first move is to help people reconnect."],
+ ["D","I would rather the group vote or agree than have one person decide."],
+ ["P","If a teammate falls behind, I will often just do the work myself to keep things moving."],
+ ["Co","I am comfortable making a tough decision quickly, even if some people disagree."],
+ ["V","I give people freedom to choose their own methods, as long as we are heading toward the same goal."],
+ ["C","When someone makes a mistake, I see it as a chance for them to learn."],
+ ["A","I make a point to praise people and celebrate small wins."],
+ ["D","I ask quieter group members to share their ideas."],
+ ["P","I lead by example by working harder and faster than anyone else."],
+ ["Co","I like clear rules and expect people to follow directions."],
+ ["V","People tell me I am good at getting others excited about a big idea."],
+ ["C","I give specific feedback to help others improve."],
+ ["A","I believe a team that gets along well will do its best work."],
+ ["D","I believe the best ideas usually come from the group, not one person."],
+ ["P","I get frustrated when people do not work at my pace."],
+ ["Co","When a group is stuck, I step in and give direct instructions."]
+];
+const SCALE = [[1,"Not like me"],[2,"Rarely"],[3,"Sometimes"],[4,"Often"],[5,"Very like me"]];
+const KEY = "lsf-v1";
+let answers = new Array(QS.length).fill(0), i = 0;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+function save(extra){ try{ const cur = JSON.parse(localStorage.getItem(KEY)||"{}"); localStorage.setItem(KEY, JSON.stringify({...cur, answers, i, ...extra})); }catch(e){} }
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||"null"); }catch(e){ return null; } }
+
+const stored = load();
+if (stored && Array.isArray(stored.answers) && stored.answers.some(a=>a)) {
+  $("resume").hidden = false;
+  if (stored.answers.every(a=>a)) $("resume").textContent = "See my results";
+}
+
+function show(id){ ["intro","quiz","results"].forEach(s => $(s).hidden = s !== id); window.scrollTo({top:0}); }
+
+function renderQ(){
+  const [, text] = QS[i];
+  $("qnum").textContent = `Question ${i+1} of ${QS.length}`;
+  const done = answers.filter(a=>a).length;
+  $("qpct").textContent = Math.round(done/QS.length*100) + "%";
+  $("bar").style.width = (done/QS.length*100) + "%";
+  $("qtext").textContent = text;
+  $("scale").innerHTML = SCALE.map(([n,w]) =>
+    `<button class="opt${answers[i]===n?" on":""}" role="radio" aria-checked="${answers[i]===n}" data-n="${n}"><span class="n">${n}</span><span class="w">${w}</span></button>`).join("");
+  $("back").disabled = i === 0;
+  $("next").disabled = !answers[i];
+  $("next").textContent = i === QS.length-1 ? "See my results" : "Next";
+}
+function pick(n){
+  answers[i] = n; save(); renderQ();
+  setTimeout(() => { if (i < QS.length-1 && answers[i]) { i++; renderQ(); } }, 220);
+}
+$("scale").addEventListener("click", e => { const b = e.target.closest(".opt"); if (b) pick(+b.dataset.n); });
+document.addEventListener("keydown", e => {
+  if ($("quiz").hidden) return;
+  if (e.target.matches("input,textarea")) return;
+  if (/^[1-5]$/.test(e.key)) pick(+e.key);
+});
+$("back").onclick = () => { if (i>0){ i--; renderQ(); } };
+$("next").onclick = () => {
+  if (!answers[i]) return;
+  if (i < QS.length-1) { i++; renderQ(); }
+  else { const first = answers.findIndex(a=>!a); if (first>=0){ i=first; renderQ(); } else results(); }
+};
+$("start").onclick = () => { answers = new Array(QS.length).fill(0); i = 0; try{localStorage.removeItem(KEY)}catch(e){} show("quiz"); renderQ(); };
+$("resume").onclick = () => {
+  answers = stored.answers; i = Math.min(stored.i||0, QS.length-1);
+  if (answers.every(a=>a)) results(); else { show("quiz"); renderQ(); }
+};
+
+function scores(){
+  const s = {}; ORDER.forEach(k => s[k]=0);
+  QS.forEach(([k],idx) => s[k] += answers[idx]);
+  return s;
+}
+
+function results(){
+  const s = scores();
+  const ranked = [...ORDER].sort((a,b) => s[b]-s[a] || ORDER.indexOf(a)-ORDER.indexOf(b));
+  const top = ranked[0], second = ranked[1], low = ranked[5];
+  const T = STYLES[top], S2 = STYLES[second], L = STYLES[low];
+  const tie = s[top] === s[second];
+  const prior = load() || {};
+  const ws = prior.ws || {};
+
+  $("results").innerHTML = `
+    <section class="hero-result">
+      <span class="eyebrow">Your primary leadership style</span>
+      <h2>${T.name}</h2>
+      <span class="phrase">${T.phrase}${T.aka ? " &middot; " + T.aka : ""}</span>
+      <p>${T.desc}</p>
+      ${tie ? `<p><b>Note:</b> You scored the same on ${T.name} and ${S2.name}. Read both descriptions and decide which fits you better.</p>` : ""}
+    </section>
+
+    <section class="panel">
+      <h3>Your scores (out of 20)</h3>
+      <div class="bars">
+        ${ranked.map(k => `<div class="bar${k===top?" top":""}">
+          <span class="lbl">${STYLES[k].name}</span>
+          <span class="track"><span class="fill" style="width:${(s[k]-4)/16*100}%"></span></span>
+          <span class="val">${s[k]}</span></div>`).join("")}
+      </div>
+      <p class="hint">Each style had 4 questions, so scores range from 4 to 20. Scores of 16 or higher show a strong preference. Your second style is <b>${S2.name}</b> and your least-used style is <b>${L.name}</b>.</p>
+    </section>
+
+    <section class="panel">
+      <div class="grid2">
+        <div><h3>Strengths</h3><ul class="tight">${T.strengths.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+        <div><h3>Watch out for</h3><ul class="tight">${T.watch.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      </div>
+      <div class="grid2">
+        <div><h3>Works best when</h3><p>${T.best}</p></div>
+        <div><h3>In the business world</h3><p>${T.business}</p></div>
+      </div>
+      <div class="callout"><b>The big idea:</b> Goleman found that the most effective leaders do not stick to one style. They switch between at least four, the way a golfer picks a different club for each shot. Your result shows your comfort zone, not your limit.</div>
+    </section>
+
+    <section class="panel sheet" id="sheet">
+      <div class="sheet-head">
+        <div><span class="eyebrow">Reflection one-pager</span><h2>My Leadership Style</h2></div>
+        <div class="row"><button class="btn" id="copy">Copy my answers</button></div>
+      </div>
+      <div class="fields">
+        <label for="w-name">Name<input id="w-name" value="${esc(ws.name||"")}" autocomplete="name"></label>
+        <label for="w-period">Class period<input id="w-period" value="${esc(ws.period||"")}"></label>
+      </div>
+      <div class="glance">
+        <div>Primary style<b>${T.name} (${s[top]})</b></div>
+        <div>Second style<b>${S2.name} (${s[second]})</b></div>
+        <div>Least-used style<b>${L.name} (${s[low]})</b></div>
+      </div>
+      ${[
+        ["agree", `Your primary style is ${T.name}. Do you agree with this result? Explain why or why not using one example from your life.`, `Look back at the ${T.name} description at the top of your results.`],
+        ["s1", T.q1, `See "Strengths" and "Works best when."`],
+        ["s2", T.q2, `See "Watch out for."`],
+        ["combo", `Your second style is ${S2.name} (${S2.phrase}). How could you combine ${T.name} and ${S2.name} to lead a group project more effectively?`, `${S2.name} works best: ${S2.best.charAt(0).toLowerCase()+S2.best.slice(1)}`],
+        ["low", `Your least-used style is ${L.name}. Describe a situation where ${L.name} would be the best choice, and one thing you could do to practice it.`, `${L.name} works best: ${L.best.charAt(0).toLowerCase()+L.best.slice(1)}`],
+        ["goal", `Goleman says great leaders switch styles like a golfer switches clubs. Write one specific leadership goal for this semester.`, `Example: "In my next group project I will ask every member for an idea before we decide."`]
+      ].map(([id,prompt,ref],n) => `<div class="q">
+          <label for="w-${id}" style="text-transform:none;letter-spacing:0;font-family:var(--body);font-size:1rem;color:var(--ink)"><span class="prompt"><span>${n+1}.</span>${prompt}</span></label>
+          <span class="ref">${ref}</span>
+          <textarea id="w-${id}" data-q="${esc(prompt)}">${esc(ws[id]||"")}</textarea></div>`).join("")}
+      <p class="toast" id="toast" aria-live="polite">Your answers are saved in this browser as you type. When you are done, copy them into your assignment.</p>
+    </section>
+
+    <div class="row"><button class="btn ghost" id="retake">Retake the survey</button></div>
+  `;
+  show("results");
+  $("results").style.display = "flex";
+
+  const sheet = $("sheet");
+  sheet.addEventListener("input", () => {
+    const w = {name:$("w-name").value, period:$("w-period").value};
+    sheet.querySelectorAll("textarea").forEach(t => w[t.id.slice(2)] = t.value);
+    save({ws:w});
+  });
+  $("copy").onclick = () => {
+    let out = `MY LEADERSHIP STYLE\nName: ${$("w-name").value}\nPeriod: ${$("w-period").value}\n\nPrimary: ${T.name} (${s[top]}/20)\nSecond: ${S2.name} (${s[second]}/20)\nLeast used: ${L.name} (${s[low]}/20)\nAll scores: ${ranked.map(k=>STYLES[k].name+" "+s[k]).join(", ")}\n`;
+    sheet.querySelectorAll("textarea").forEach((t,n) => out += `\n${n+1}. ${t.dataset.q}\n${t.value || "(no answer)"}\n`);
+    const ok = () => $("toast").textContent = "Copied. Paste it into your Google Doc or assignment.";
+    const fail = () => { const ta=document.createElement("textarea"); ta.value=out; ta.style.width="100%"; ta.style.minHeight="200px"; $("toast").textContent="Copy did not work here. Select all the text below and copy it."; $("toast").after(ta); ta.select(); };
+    try { navigator.clipboard.writeText(out).then(ok, fail); } catch(e){ fail(); }
+  };
+  $("retake").onclick = () => { $("results").style.display=""; $("start").click(); };
+}
+</script>
+
+</body>
+</html>
