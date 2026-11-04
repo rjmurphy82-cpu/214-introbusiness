@@ -52,7 +52,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `brand-crisis/` | Brand Crisis: crisis simulation with two rounds (Round 1 Strider Sneakers, Round 2 Lakeshore Crisis Group with six client companies). The crises, their 8 responses, and the twist cards are in `data.js`. Also runs on `api/live.js` |
 | `boss-moves/` | Boss Moves: management and leadership simulation. The 10 leadership styles, the four Situational Leadership levels, and the 11 workplace situations (each with its best style, good fits, and Perfect Statement) are in `data.js`. Runs on `api/live.js` |
 | `mgmt-kit/` | Shared code for Shift Manager and Leadership Lab: groups of 2 or 3 with few repeat partners, join screen, timers, lobby, finale (`kit.js`) and their extra styles (`kit.css`) |
-| `shift-manager/` | Shift Manager: the 10 Sole Revival employees (8 regular, 2 twists), each with a true development level, four opening lines, and three follow-ups, are in `data.js`. Runs on `api/live.js` |
+| `shift-manager/` | Shift Manager: the 10 Sole Revival employees (8 regular, 2 twists), each with a true development level, four opening lines, three follow-ups, and the Perfect Line the class votes against, are in `data.js`. Runs on `api/live.js` |
 | `leadership-lab/` | Leadership Lab: the 8 secret leader cards and the tower rules are in `data.js`. Runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
 

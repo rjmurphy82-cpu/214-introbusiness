@@ -4,8 +4,10 @@
      d       the true development level (1 to 4) for THIS task
      lines   four opening lines, one per style (s = 1 to 4), each with the employee's reaction
      follow  three follow-up moves worth 2, 1, or 0 points, each with a reaction
-   Scoring per round (10 max): diagnosis 3 / 1 / 0, style 3 / 1 / 0 (exact / off by one / further),
-   opening line 2 / 1 / 0 (matches the level / off by one / further), follow-up 2 / 1 / 0. */
+     perfect the Perfect Line: the one-liner the class compares its own motivating lines to
+   Scoring per round: diagnosis 3 / 1 / 0, style 3 / 1 / 0 (exact / off by one / further),
+   opening line 2 / 1 / 0 (matches the level / off by one / further), follow-up 2 / 1 / 0 (10 max),
+   then the vote: +1 for each class vote your group's one-liner gets, +3 for the top line, +1 for voting. */
 "use strict";
 var SHIFT = (function () {
   const LEVELS = {
@@ -20,12 +22,13 @@ var SHIFT = (function () {
     3: { code: "S3", name: "Supporting", sub: "Listen and encourage. They make the calls." },
     4: { code: "S4", name: "Delegating", sub: "Hand over the work and the decisions." }
   };
-  const PTS = { diag: [3, 1, 0], style: [3, 1, 0], line: [2, 1, 0] };
+  const PTS = { diag: [3, 1, 0], style: [3, 1, 0], line: [2, 1, 0], vote: 1, top: 3, cast: 1 };
 
   const EMPLOYEES = [
     { id: "lena", name: "Lena", role: "New restorer", d: 1,
       see: "It's Lena's first day on the airbrush station. She watched restoration videos all weekend and can't stop smiling. She has never painted a real pair.",
       need: "Clear, step-by-step direction and someone to check her first pair. Her motivation is already high.",
+      perfect: "I love your energy. Let's do your first pair together, step by step, and I'll be right here to check it.",
       lines: [
         { s: 1, t: "Let me show you the five steps for prepping a pair. Watch me do one, then you do the next and I'll check it.", react: "“Yes! Can I take notes? I want to get it exactly right.”" },
         { s: 2, t: "Here's how we prep a pair and why each step matters. What do you think will be the hardest part?", react: "“Um, honestly I don't know enough yet to guess. Can you just show me?”" },
@@ -40,6 +43,7 @@ var SHIFT = (function () {
     { id: "tasha", name: "Tasha", role: "Restorer, 2 months", d: 2,
       see: "Tasha is getting faster, but three of her pairs were sent back this week. She's standing at her station with her arms crossed and just said, “Maybe I'm not cut out for this.”",
       need: "Still needs direction on what went wrong, AND encouragement and a voice. Her confidence dropped.",
+      perfect: "You're closer than you think. Let's look at those pairs together, and I want to hear what you think went wrong.",
       lines: [
         { s: 1, t: "Three returns is too many. Redo them using the checklist, exactly as written, starting now.", react: "“Fine.” She stares at the floor and gets to work without another word." },
         { s: 2, t: "Let's look at those three pairs together. I'll show you what went wrong, and I want to hear what you think happened. You're closer than you think.", react: "She uncrosses her arms. “I think I rushed the drying. Can you show me how long you wait?”" },
@@ -54,6 +58,7 @@ var SHIFT = (function () {
     { id: "omar", name: "Omar", role: "Restorer, 1 year", d: 3,
       see: "Omar is skilled and reliable. Maya asked him to run the PM shift alone for the first time tonight. He said, “Are you sure? What if something goes wrong?”",
       need: "Confidence and someone to listen. He already knows how to do the work, so instructions feel like doubt.",
+      perfect: "You already know how to run this shift, and I trust your judgment. Tell me what's worrying you and let's talk it through.",
       lines: [
         { s: 1, t: "Here's the full closing checklist. Do it in this order and text me after each step.", react: "“I know how to close. I've done it a hundred times with Kenji.”" },
         { s: 2, t: "Let me walk you through each part of the shift, then tell me your ideas for running it.", react: "“OK... but I already know all of this. I'm just nervous about being the one in charge.”" },
@@ -68,6 +73,7 @@ var SHIFT = (function () {
     { id: "marcus", name: "Marcus", role: "Lead restorer, 2 years", d: 4,
       see: "Marcus is the best restorer in the shop. He trains new hires without being asked and just finished his work early again. A big rush order came in.",
       need: "Freedom and ownership. A real challenge, then step back.",
+      perfect: "This rush order is yours. You're the best we have, so plan it your way and tell me what you need.",
       lines: [
         { s: 1, t: "For this order, use the standard process exactly, and check in with me every hour.", react: "“Every hour? I've done this two hundred times.” He updates his resume that night." },
         { s: 2, t: "Let me explain how I want this order handled, and then I want your input.", react: "“Sure.” He's polite, but clearly bored." },
@@ -82,6 +88,7 @@ var SHIFT = (function () {
     { id: "dev", name: "Dev", role: "Front counter, 1 week", d: 1,
       see: "Dev started at the front counter last week. Customers love him and he talks sneakers with everyone. He has entered five orders wrong this week.",
       need: "A clear checklist and close follow-up. He's motivated; he just doesn't know the system yet.",
+      perfect: "Customers love you. Let's use this checklist together on the next few orders so your accuracy matches your energy.",
       lines: [
         { s: 1, t: "Here's the five-step checklist for every order. Let's enter the next one together, then I'll watch you do one.", react: "“Oh, that helps a lot. I didn't know about the color code step.”" },
         { s: 2, t: "Orders have been wrong. Why do you think that's happening? Here's what I'd suggest.", react: "He shrugs. “Maybe I'm just going too fast? I'm not sure.”" },
@@ -96,6 +103,7 @@ var SHIFT = (function () {
     { id: "rosa", name: "Rosa", role: "Suede specialist, 3 years", d: 3,
       see: "Rosa is the shop's suede expert. Lately she's slower, seems bored, and skipped the last two team meetings.",
       need: "To be heard, involved, and recognized. Her skill is high; her commitment dropped.",
+      perfect: "You're the best suede restorer we have. What would make this work exciting for you again? I want your ideas.",
       lines: [
         { s: 1, t: "You need to finish 12 suede pairs a day starting tomorrow, and attend every meeting.", react: "“Sure,” she says in a flat voice. Her work gets slower, not faster." },
         { s: 2, t: "Here's what I need from you, and here's why. What ideas do you have?", react: "“Fine. I guess I could work faster.” She doesn't sound convinced." },
@@ -110,6 +118,7 @@ var SHIFT = (function () {
     { id: "ava", name: "Ava", role: "Online lead", d: 4,
       see: "Ava runs the online shop. She hits her numbers every month, suggests new ideas, and rarely needs help. She wants to launch a cleaning-kit product line.",
       need: "Authority to decide and the resources to do it.",
+      perfect: "You've earned this. The launch is yours, here's the budget, and I can't wait to see what you build.",
       lines: [
         { s: 1, t: "Write up every step of the launch plan and I'll approve each piece before you do it.", react: "“Do you not trust me with this?”" },
         { s: 2, t: "I'll lay out how I'd do the launch, then you tell me what you'd change.", react: "“I already have a plan. I was hoping you'd want to see mine.”" },
@@ -124,6 +133,7 @@ var SHIFT = (function () {
     { id: "kenji", name: "Kenji", role: "New shift lead", d: 2,
       see: "Kenji is a great restorer who was just promoted to shift lead. His first schedule left the AM shift two people short, and he's frustrated with himself.",
       need: "Coaching: clear direction on scheduling, plus support because his confidence dropped.",
+      perfect: "Every new lead struggles with the first schedule. Let's build next week's together, and I want your ideas on what went wrong.",
       lines: [
         { s: 1, t: "I'll redo the schedule myself. Just follow it next week.", react: "“So I guess I can't do this part of the job.”" },
         { s: 2, t: "Let's build next week's schedule together. I'll explain each choice, and I want your ideas on what went wrong.", react: "“That makes sense. I think I forgot to check who requested time off.”" },
@@ -138,6 +148,7 @@ var SHIFT = (function () {
     { id: "marcus2", name: "Marcus", role: "Twist: same person, new task", d: 1, twist: "Same Person, New Task",
       see: "Maya asks Marcus, her best restorer, to take over Sole Revival's TikTok account. He's excited, but he has never made a video or posted for a business.",
       need: "For THIS task, Marcus is a beginner. Development level is about the task, not the person, so he needs directing.",
+      perfect: "You'll be great at this too. Let's make the first video together so you can learn what works.",
       lines: [
         { s: 1, t: "Here's our posting checklist and three example videos. Let's make the first one together this afternoon.", react: "“Perfect. I had no idea where to start, honestly.”" },
         { s: 2, t: "Here's how we want the account to feel and why. What kind of videos are you thinking?", react: "“Maybe restorations? I don't really know what works on TikTok.”" },
@@ -152,6 +163,7 @@ var SHIFT = (function () {
     { id: "omar2", name: "Omar", role: "Twist: rush order", d: 3, twist: "Rush Order",
       see: "A customer needs 20 pairs by tomorrow morning and Omar is running the PM shift. He knows exactly how to do the work, but he says, “Twenty? Tonight? I don't know if we can.”",
       need: "Urgency doesn't change his level. He's skilled but worried, so he still needs support, not orders.",
+      perfect: "You know this shift better than anyone. What's your plan for the 20 pairs, and what do you need from me to pull it off?",
       lines: [
         { s: 1, t: "Here's the exact plan: you do 8, Jordan does 6, Lena does 6. Start now and text me hourly.", react: "“I could have split it up myself.” He does it, but stops thinking for himself." },
         { s: 2, t: "Here's how I'd split the work and why. What would you change?", react: "“Your plan works, I guess. I was mostly worried about burning out the team.”" },
