@@ -25,7 +25,7 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/boss-moves/` | Boss Moves management simulation (students join with a code, new partner every round) |
 | `/boss-moves/teacher` | Boss Moves host screen |
 | `/leadership-style/` | Leadership Style Finder: 24-question Goleman leadership styles survey with results and a reflection one-pager (self-paced, no teacher console) |
-| `/shift-manager/` | Shift Manager situational leadership simulation (students join with a code, groups of 2 or 3, new group every round) |
+| `/shift-manager/` | Shift Manager situational leadership simulation (students sign up individually, pairs with one group of 3 if odd, new partners every two rounds) |
 | `/shift-manager/teacher` | Shift Manager host screen |
 | `/leadership-lab/` | Leadership Lab paper tower experiment (students join with a code, groups of 2 or 3, secret leader styles) |
 | `/leadership-lab/teacher` | Leadership Lab host screen |

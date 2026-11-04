@@ -1,5 +1,6 @@
 /* Shift Manager: a live Situational Leadership simulation for the Management & Leadership unit.
-   Students join with their first name and get new groups of 2 or 3 every round (the teacher picks the size).
+   Students sign up individually with their first name. The teacher screen pairs everyone up (one group of 3 if the
+   class has an odd number) and keeps those partners for two rounds, then rotates to new partners.
    Each round one Sole Revival employee needs a manager. The group, on any of their devices:
      1. Diagnoses the development level (D1 to D4)
      2. Picks the leadership style (S1 to S4)
@@ -23,8 +24,8 @@ const VP = S.PTS;
 
 const hdr = () => `<h1 class="title">Shift <span>Manager.</span></h1>
   <p class="lede">${ROLE === "teacher"
-    ? "Teacher screen for the projector. Students join on their own devices in groups of 2 or 3, new groups every round. Each group manages one Sole Revival employee: diagnose the development level, pick the leadership style, choose what to say, and write a one-liner to motivate them. Then the class votes for the line closest to the Perfect Line."
-    : "Join with your first name. Every round you and your group manage a different employee at Sole Revival. Read the person, pick the style, choose what to say, then write your own line to motivate them. The class votes on whose line comes closest to the Perfect Line. Your points add up all game."}</p>`;
+    ? "Teacher screen for the projector. Students sign up on their own devices and get paired up (one group of 3 if there's an odd number), with new partners every two rounds. Each pair manages one Sole Revival employee: diagnose the development level, pick the leadership style, choose what to say, and write a one-liner to motivate them. Then the class votes for the line closest to the Perfect Line."
+    : "Join with your first name. You'll get a partner (new partners every two rounds), and every round you manage a different employee at Sole Revival. Read the person, pick the style, choose what to say, then write your own line to motivate them. The class votes on whose line comes closest to the Perfect Line. Your points add up all game."}</p>`;
 const emp = (meta, r) => S.byId[meta.plan[r]];
 const lvlTag = n => `${S.LEVELS[n].code} ${S.LEVELS[n].name}`;
 const styTag = n => `${S.STYLES[n].code} ${S.STYLES[n].name}`;
@@ -45,9 +46,9 @@ function home() { K.stopTick(); document.body.classList.remove("wide", "finale-o
 let H = null;
 async function hostSetup() {
   const N = await K.net("shiftMock").catch(() => null); if (!N) return K.needSetup(hdr());
-  const cfg = { plan: S.DEFAULT.slice(), secs: 240, vsecs: 60, size: 2 };
+  const cfg = { plan: S.DEFAULT.slice(), secs: 240, vsecs: 60, size: 2 }; // pairs; an odd one out makes one group of 3
   app.innerHTML = `${hdr()}<div class="panel wide-panel"><h2>Host a game</h2>
-    <p>Group size:</p><div class="seg" data-k="size"><button data-v="2" aria-pressed="true">Groups of 2</button><button data-v="3">Groups of 3</button></div>
+    <p class="note"><b>Groups:</b> everyone signs up on their own device. The game pairs them up (one group of 3 if there's an odd number) and rotates partners every two rounds.</p>
     <p>Rounds: each employee is one round, in this order. Tap to turn one off.</p>
     <div class="seg multi" id="sc">${S.EMPLOYEES.map(e => `<button data-v="${e.id}" aria-pressed="${cfg.plan.includes(e.id)}"><b>${esc(e.name)}${e.twist ? " (twist)" : ""}</b><small>${esc(e.twist || e.role)}</small></button>`).join("")}</div>
     <p class="note" id="rc"></p>
@@ -81,7 +82,7 @@ function hostRender(fromPlayers) {
   ({ lobby: hostLobby, seat: hostSeat, play: hostPlay, reveal: hostReveal, vote: hostVote, results: hostResults, end: hostEnd })[st.phase](fromPlayers);
 }
 function hostLobby() {
-  app.innerHTML = K.lobbyHTML(H, "Shift Manager", PATH, `${plural(H.meta.rounds, "round")} · new group every round · points add up all game`);
+  app.innerHTML = K.lobbyHTML(H, "Shift Manager", PATH, `${plural(H.meta.rounds, "round")} · pairs (one group of 3 if odd) · new partners every two rounds · points add up all game`);
   $("#start").onclick = () => hostSet({ phase: "seat", r: 0, groups: K.groupUp(K.activeIds(H), {}, H.meta.size), hist: {}, tot: {}, log: [], names: K.namesMap(H) });
   $("#end").onclick = hostErase;
   K.fit();
@@ -91,8 +92,12 @@ function hostSeat(fromPlayers) {
   if (JSON.stringify(patched) !== JSON.stringify(st.groups)) return hostSet({ ...st, groups: patched, names: K.namesMap(H) });
   if (fromPlayers && H.rq === "seat") return;
   H.rq = "seat";
-  app.innerHTML = K.seatHTML(H, { sub: st.r === 0 ? "Sit with your group. Any of you can tap; every device in the group shows the same picks." : "Everyone gets new teammates. Find your group and sit together.", go: `Everyone's with a group: start Round ${st.r + 1}` });
-  $("#go").onclick = () => hostSet({ ...st, phase: "play", endsAt: Date.now() + H.meta.secs * 1000, prog: {}, hist: K.addHist(st.hist, st.groups), names: K.namesMap(H) });
+  const fresh = st.r % 2 === 0;
+  app.innerHTML = K.seatHTML(H, { sub: st.r === 0 ? "Sit with your partner. Any of you can tap; every device in the group shows the same picks. You keep this partner for two rounds."
+      : fresh ? "New partners! Find your new partner and sit together. You keep them for two rounds." : "Same partner as last round. Stay together for one more round.",
+    go: `Everyone's with a partner: start Round ${st.r + 1}` });
+  const h2 = app.querySelector(".hostbar h2"); if (h2) h2.textContent = st.r === 0 ? "Find your partner" : fresh ? "New partners" : "Same partners";
+  $("#go").onclick = () => hostSet({ ...st, phase: "play", endsAt: Date.now() + H.meta.secs * 1000, prog: {}, hist: st.r % 2 === 0 ? K.addHist(st.hist, st.groups) : st.hist, names: K.namesMap(H) });
   K.bindRemove(H, () => { H.rq = null; hostSeat(); });
   K.fit();
 }
@@ -208,13 +213,15 @@ function hostResults() {
   const st = H.state, e = emp(H.meta, st.r), last = st.r >= H.meta.rounds - 1, list = K.standings(st).slice(0, 10), hid = new Set(st.hid || []);
   const ranked = (st.stmts || []).filter(x => !hid.has(x.gi)).map(x => ({ ...x, v: (st.vres[x.gi] || {}).votes || 0 })).sort((a, b) => b.v - a.v).slice(0, 3);
   app.innerHTML = `<div class="hostbar"><div><div class="kick">Round ${st.r + 1} of ${H.meta.rounds} · ${esc(e.name)}</div><h2>Round results</h2></div>
-    <p>${last ? "Last round done. Points are final." : "Next round: new groups and a new employee."}</p></div>
+    <p>${last ? "Last round done. Points are final." : (st.r + 1) % 2 === 0 ? "Next round: new partners and a new employee." : "Next round: same partners, new employee."}</p></div>
     <div class="revgrid"><div>${perfectHTML(e, { small: true })}<div class="skh" style="margin-top:10px">Class favorites</div>${ranked.map((x, i) => `<div class="scard win ${i === 0 && x.v ? "first" : ""}"><div class="sk"><b>${esc(x.k)}</b><span>Group line</span><em>${plural(x.v, "vote")}${i === 0 && x.v ? ` · +${VP.top} bonus` : ""}</em></div>
         <p>“${esc(x.t)}”</p><div class="by">${esc(st.groups[x.gi].map(p => K.nameOf(H, p)).join(" & "))}</div></div>`).join("") || "<p class='note'>No votes this round.</p>"}</div>
       <div><div class="skh">Leaderboard</div><div class="lbx">${list.map((x, i) => `<div><span class="r">${i + 1}</span><span class="n">${esc(K.nameOf(H, x.p))}</span><em>+${num((st.rp || {})[x.p] || 0)}</em><b>${num(x.s)}</b></div>`).join("")}</div></div></div>
-    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="nx">${last ? "Final results →" : `New groups for Round ${st.r + 2} →`}</button></div>`;
+    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn main" id="nx">${last ? "Final results →" : (st.r + 1) % 2 === 0 ? `New partners for Round ${st.r + 2} →` : `Round ${st.r + 2}, same partners →`}</button></div>`;
+  // partners rotate every two rounds: rounds 1-2, 3-4, 5-6 share partners
+  const nextGroups = () => (st.r + 1) % 2 === 0 ? K.groupUp(K.activeIds(H), st.hist || {}, 2) : K.patchGroups(st.groups, K.activeIds(H), 2);
   $("#nx").onclick = () => last ? hostSet({ ...st, phase: "end" })
-    : hostSet({ phase: "seat", r: st.r + 1, groups: K.groupUp(K.activeIds(H), st.hist || {}, H.meta.size), hist: st.hist, tot: st.tot, log: st.log, names: K.namesMap(H) });
+    : hostSet({ phase: "seat", r: st.r + 1, groups: nextGroups(), hist: st.hist, tot: st.tot, log: st.log, names: K.namesMap(H) });
   K.fit();
 }
 function hostEnd() {
@@ -264,8 +271,9 @@ function stuRender() {
   if (!inPlay) { K.stopTick(); app.innerHTML = `<div class="wait"><h2>You're in, ${esc(M.name)}</h2><p>This round already started. You'll join a group next round.</p><div class="big">${num(myTotal(st))}</div><p>points</p></div>`; return; }
   if (st.phase === "seat") {
     K.stopTick(); const mates = mateNames(st);
-    app.innerHTML = `<div class="wait seat"><div class="kick">Round ${st.r + 1} of ${M.meta.rounds}</div><p>Your group</p>
-      <div class="tablebig mate">${mates.length ? esc(andList(mates)) : "Solo"}</div><p>Find them and sit together. One device is enough, but any of you can tap.</p><div class="tot">${num(myTotal(st))} points so far</div></div>`;
+    const same = st.r % 2 === 1;
+    app.innerHTML = `<div class="wait seat"><div class="kick">Round ${st.r + 1} of ${M.meta.rounds}</div><p>${same ? "Same partner as last round" : mates.length > 1 ? "Your partners" : "Your partner"}</p>
+      <div class="tablebig mate">${mates.length ? esc(andList(mates)) : "Solo"}</div><p>${same ? "Stay together for one more round." : "Find them and sit together. You'll work together for two rounds."} One device is enough, but any of you can tap.</p><div class="tot">${num(myTotal(st))} points so far</div></div>`;
     return;
   }
   if (st.phase === "play") { M.pick = mergedPick(); return drawPlay(true); }
