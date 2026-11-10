@@ -25,6 +25,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/boss-moves/` | Boss Moves management simulation (students join with a code, new partner every round) |
 | `/boss-moves/teacher` | Boss Moves host screen |
 | `/leadership-style/` | Leadership Style Finder: 24-question Goleman leadership styles survey with results and a reflection one-pager (self-paced, no teacher console) |
+| `/culture-launch/` | Culture Launch unit project (random pairs build and present a culture guide; the class rates tone alignment; games last 14 days) |
+| `/culture-launch/teacher` | Culture Launch host screen (can resume a game after a reload or on another day) |
 | `/motivation-live/` | Motivation Live review game (students join with a code) |
 | `/motivation-live/teacher` | Motivation Live host screen |
 | `/keep-the-crew/` | Keep the Crew employee motivation simulation (pairs run a shop for six months, same partner all game; Play Solo for absent students) |
@@ -57,6 +59,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `boss-moves/` | Boss Moves: management and leadership simulation. The 10 leadership styles, the four Situational Leadership levels, and the 11 workplace situations (each with its best style, good fits, and Perfect Statement) are in `data.js`. Runs on `api/live.js` |
 | `mgmt-kit/` | Shared code for Shift Manager and Leadership Lab: groups of 2 or 3 with few repeat partners, join screen, timers, lobby, finale (`kit.js`) and their extra styles (`kit.css`) |
 | `shift-manager/` | Shift Manager: the 10 Sole Revival employees (8 regular, 2 twists), each with a true development level, four opening lines, three follow-ups, and the Perfect Line the class votes against, are in `data.js`. Runs on `api/live.js` |
+| `culture-launch/` | Culture Launch: tones, styles, values, the 10 investment levers, 7 policies, 6 infractions, 6 crisis cards, the audience rubric, and the alignment engine are all in `data.js`, with the model explained at the top. `culture.js` has the 8-slide deck builder. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
 | `motivation-live/` | Motivation Live: same engine as Ad Buy Live. The 42 questions (six rounds: intrinsic vs. extrinsic, Maslow, Herzberg, Theory X/Y, motivation data, Manager's Call) are in `live.js` under QUESTION BANK. Runs on `api/live.js` (game type `motive`) |
 | `keep-the-crew/` | Keep the Crew: the 6 crew members, 7 survey items, 15 moves (with their Hygiene/Motivator and Extrinsic/Intrinsic answers), the 6 monthly events, and the Herzberg engine are all in `data.js`, with the full model explained at the top. Runs on `api/live.js` |
 | `leadership-lab/` | Leadership Lab: the 8 secret leader cards and the tower rules are in `data.js`. Runs on `api/live.js` |

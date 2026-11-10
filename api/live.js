@@ -52,10 +52,11 @@ async function live(req, res) {
         await r(["SET", K.state, JSON.stringify(state || null), "EX", ttl]);
         return res.json({ ok: true });
       }
-      if (rest[0] === "state") { await r(["SET", K.state, JSON.stringify(b.v), "EX", TTL]); return res.json({ ok: true }); }
+      // state and players live as long as the game itself (4 hours, or 14 days for multi-day games)
+      if (rest[0] === "state") { const left = await r(["TTL", K.meta]); await r(["SET", K.state, JSON.stringify(b.v), "EX", Math.max(TTL, left > 0 ? left : 0)]); return res.json({ ok: true }); }
       if (rest[0] === "players" && rest[1]) {
         if (!(await r(["EXISTS", K.meta]))) return res.status(404).json({ error: "No game" });
-        await r(["HSET", K.players, rest[1], JSON.stringify(b.v)]); await r(["EXPIRE", K.players, TTL]);
+        await r(["HSET", K.players, rest[1], JSON.stringify(b.v)]); const left = await r(["TTL", K.meta]); await r(["EXPIRE", K.players, Math.max(TTL, left > 0 ? left : 0)]);
         return res.json({ ok: true });
       }
     }
