@@ -33,8 +33,6 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/keep-the-crew/teacher` | Keep the Crew host screen |
 | `/shift-manager/` | Shift Manager situational leadership simulation (students sign up individually, pairs with one group of 3 if odd, new partners every two rounds) |
 | `/shift-manager/teacher` | Shift Manager host screen |
-| `/leadership-lab/` | Leadership Lab paper tower experiment (students join with a code, groups of 2 or 3, secret leader styles) |
-| `/leadership-lab/teacher` | Leadership Lab host screen |
 
 Each game's start screen offers **Live in Class** (joins the game you run from its teacher console) and **Open Play** (always open, students work on their own and send you a report). The teacher consoles have no password and are not linked from the hub. Bookmark `/teacher`, which links to all of them, and keep that address to yourself.
 
@@ -57,12 +55,11 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `marketing-ladder/` | Marketing Ladder: tables-of-3 unit review. Set 1 terms, Set 2 scenario questions (QBANK), and every client buy are in `data.js`. Uses the same `api/live.js` as Ad Buy Live, so it adds no server function |
 | `brand-crisis/` | Brand Crisis: crisis simulation with two rounds (Round 1 Strider Sneakers, Round 2 Lakeshore Crisis Group with six client companies). The crises, their 8 responses, and the twist cards are in `data.js`. Also runs on `api/live.js` |
 | `boss-moves/` | Boss Moves: management and leadership simulation. The 10 leadership styles, the four Situational Leadership levels, and the 11 workplace situations (each with its best style, good fits, and Perfect Statement) are in `data.js`. Runs on `api/live.js` |
-| `mgmt-kit/` | Shared code for Shift Manager and Leadership Lab: groups of 2 or 3 with few repeat partners, join screen, timers, lobby, finale (`kit.js`) and their extra styles (`kit.css`) |
+| `mgmt-kit/` | Shared code for Shift Manager and Keep the Crew: groups of 2 or 3 with few repeat partners, join screen, timers, lobby, finale (`kit.js`) and their extra styles (`kit.css`) |
 | `shift-manager/` | Shift Manager: the 10 Sole Revival employees (8 regular, 2 twists), each with a true development level, four opening lines, three follow-ups, and the Perfect Line the class votes against, are in `data.js`. Runs on `api/live.js` |
 | `culture-launch/` | Culture Launch: tones, styles, values, the 10 investment levers, 7 policies, 6 infractions, 6 crisis cards, the audience rubric, and the alignment engine are all in `data.js`, with the model explained at the top. `culture.js` has the 8-slide deck builder. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
 | `motivation-live/` | Motivation Live: same engine as Ad Buy Live. The 42 questions (six rounds: intrinsic vs. extrinsic, Maslow, Herzberg, Theory X/Y, motivation data, Manager's Call) are in `live.js` under QUESTION BANK. Runs on `api/live.js` (game type `motive`) |
 | `keep-the-crew/` | Keep the Crew: the 6 crew members, 7 survey items, 15 moves (with their Hygiene/Motivator and Extrinsic/Intrinsic answers), the 6 monthly events, and the Herzberg engine are all in `data.js`, with the full model explained at the top. Runs on `api/live.js` |
-| `leadership-lab/` | Leadership Lab: the 8 secret leader cards and the tower rules are in `data.js`. Runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
 
 Each game's server code runs through one file, `[route].js`, which hands each request to the matching `_` file. Vercel's free plan allows only 12 server functions per site, so this keeps every game at one. When you add a game, give it one `[route].js` the same way.

@@ -1,4 +1,4 @@
-/* Management Kit: shared plumbing for the Management unit's live group games (Shift Manager, Leadership Lab).
+/* Management Kit: shared plumbing for the Management unit's live group games (Shift Manager, Keep the Crew).
    Same pattern and store as Boss Moves: the teacher screen does all the scoring and writes the shared state;
    student devices only write their own player record. Storage: /api/live (codes under ibl:), so no new server function.
    Groups of 2 or 3 (teacher picks), reshuffled every round with as few repeat partners as possible. */

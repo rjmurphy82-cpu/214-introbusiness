@@ -1,4 +1,4 @@
-/* Management Kit: styles for Shift Manager and Leadership Lab, on top of /ad-buy-live/live.css,
+/* Management Kit: styles for Shift Manager and Keep the Crew, on top of /ad-buy-live/live.css,
    /marketing-ladder/ladder.css, and /boss-moves/boss.css (cards, pairs grid, bars, leaderboard). */
 
 /* shared */
@@ -46,7 +46,7 @@
 .cmp .cy.ok{color:var(--good);font-weight:700}.cmp .cy.mid{color:#9A6B00;font-weight:700}.cmp .cy.no{color:var(--bad);font-weight:700}
 .cmp b{text-align:right;font-family:var(--display);font-size:20px}
 
-/* Leadership Lab */
+/* extra shared styles (round screens, report scales, tables, scatter) */
 .rules{background:var(--paper);border:2px solid var(--line);border-radius:14px;padding:8px 18px;margin-top:10px}
 .rules ol{margin:2px 0 6px;padding-left:1.3em;font-size:22px;line-height:1.45}
 .buildscreen{text-align:center}
