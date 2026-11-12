@@ -81,6 +81,36 @@ const HOW = [
    ],
    need:["Building takes about 35 minutes. Presentations take about 2 minutes per pair.","Print the audience rubric backup in case devices act up."],
    tip:"Games last 14 days. Build one day, then click <b>Resume game</b> the next day to present."},
+ { id:"hire", name:"Hire Power", unit:"Management", href:"/hire-power/teacher",
+   who:"Random pairs (one group of 3 if odd), one device each.", go:"Hire Power",
+   learn:[
+    "Hiring: deciding what kind of employee fits a company before you look at anyone.",
+    "Turning job responsibilities into the skills and experience you need, without two jobs doubling up.",
+    "Designing an interview process that checks real skills, track record, and how people act at work.",
+    "Grading a plan fairly against a rubric."
+   ],
+   tell:[
+    "You and your partner are the CEO and HR director of a company that needs to hire four people.",
+    "Four stages: pick three traits for the kind of employee you want; pick 3 skills and an experience level for each job; build your interview process (6 hours per candidate); rank the four candidates for each job.",
+    "The game builds your slideshow as you go. You present it from the board.",
+    "When other pairs present, you grade them on five rows. Your grade is how close you come to the engine: same number is 100, one off is 60, two off is 20."
+   ],
+   strat:[
+    "Read the company description twice. The traits it needs are hiding in it.",
+    "Give every job different skills. If two jobs ask for the same thing, you're paying twice.",
+    "Pick interview steps that find problems a resume hides. Not every step catches something.",
+    "Rank candidates by what you said you wanted, not by who has the most years.",
+    "When you grade, compare their slides to their own plan. Don't grade them up because they presented well."
+   ],
+   steps:[
+    "Open Hire Power, set the minutes for each stage, and click <b>Create game</b>. Students join with the code.",
+    "Click <b>Make the groups</b>, then <b>Open Stage 1: Who we hire</b>.",
+    "Open each stage when the class is ready. Use <b>+2 minutes</b> if they need time.",
+    "Click <b>Start presentations →</b>. Pairs present, the class grades, then <b>Next company →</b>.",
+    "After the last company, click <b>The verdict →</b>. Walk through each company, then <b>Sharpest graders →</b> for the Top 5 and <b>Class results</b>."
+   ],
+   need:["Building takes about 35 minutes. Presentations take 2 to 3 minutes per pair.","Plan on two blocks for a class of 28: build on day 1, present and reveal on day 2."],
+   tip:"Games last 14 days. Click <b>Resume game</b> the next day. If a grader joins late, click <b>Rescore with late grades</b> on the verdict screen."},
  { id:"motive", name:"Motivation Live", unit:"Management", href:"/motivation-live/teacher",
    who:"1 student per iPad (Kahoot style).", go:"Motivation Live",
    learn:["Intrinsic vs. extrinsic motivation, Maslow's hierarchy, and Herzberg's hygiene factors and motivators.","Theory X and Theory Y managers.","Reading motivation data and making the manager's call."],

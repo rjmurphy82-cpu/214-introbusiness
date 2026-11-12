@@ -27,6 +27,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/leadership-style/` | Leadership Style Finder: 24-question Goleman leadership styles survey with results and a reflection one-pager (self-paced, no teacher console) |
 | `/culture-launch/` | Culture Launch unit project (random pairs build and present a culture guide; the class rates tone alignment; games last 14 days) |
 | `/culture-launch/teacher` | Culture Launch host screen (can resume a game after a reload or on another day) |
+| `/hire-power/` | Hire Power hiring simulation (random pairs are the CEO and HR director of 14 different companies; the graders are graded against the engine; games last 14 days) |
+| `/hire-power/teacher` | Hire Power host screen (can resume a game after a reload or on another day) |
 | `/motivation-live/` | Motivation Live review game (students join with a code) |
 | `/motivation-live/teacher` | Motivation Live host screen |
 | `/keep-the-crew/` | Keep the Crew employee motivation simulation (pairs run a shop for six months, same partner all game; Play Solo for absent students) |
@@ -58,6 +60,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `mgmt-kit/` | Shared code for Shift Manager and Keep the Crew: groups of 2 or 3 with few repeat partners, join screen, timers, lobby, finale (`kit.js`) and their extra styles (`kit.css`) |
 | `shift-manager/` | Shift Manager: the 10 Sole Revival employees (8 regular, 2 twists), each with a true development level, four opening lines, three follow-ups, and the Perfect Line the class votes against, are in `data.js`. Runs on `api/live.js` |
 | `culture-launch/` | Culture Launch: tones, styles, values, the 10 investment levers, 7 policies, 6 infractions, 6 crisis cards, the audience rubric, and the alignment engine are all in `data.js`, with the model explained at the top. `culture.js` has the 8-slide deck builder. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
+| `hire-power/` | Hire Power: the 12 traits, 8 interview steps, the 14 companies (each with 4 jobs, responsibilities, key skills, and candidate backgrounds), the candidate builder, the 5-row rubric, and the hiring engine are all in `data.js`, with the model explained at the top. `hire.js` has the 9-slide deck builder and grader scoring. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
 | `motivation-live/` | Motivation Live: same engine as Ad Buy Live. The 42 questions (six rounds: intrinsic vs. extrinsic, Maslow, Herzberg, Theory X/Y, motivation data, Manager's Call) are in `live.js` under QUESTION BANK. Runs on `api/live.js` (game type `motive`) |
 | `keep-the-crew/` | Keep the Crew: the 6 crew members, 7 survey items, 15 moves (with their Hygiene/Motivator and Extrinsic/Intrinsic answers), the 6 monthly events, and the Herzberg engine are all in `data.js`, with the full model explained at the top. Runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
