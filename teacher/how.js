@@ -81,6 +81,35 @@ const HOW = [
    ],
    need:["Building takes about 35 minutes. Presentations take about 2 minutes per pair.","Print the audience rubric backup in case devices act up."],
    tip:"Games last 14 days. Build one day, then click <b>Resume game</b> the next day to present."},
+ { id:"turn", name:"The Turnaround", unit:"Management", href:"/turnaround/teacher",
+   who:"Random pairs (one group of 3 if odd), one device each.", go:"The Turnaround",
+   learn:[
+    "Spotting management problems in real evidence: charts, quotes, notes, and policies.",
+    "Connecting each problem to a unit concept: situational leadership, Herzberg, Maslow, Theory X and Y, culture, structure, and hiring.",
+    "Prioritizing fixes when you can't afford to fix everything."
+   ],
+   tell:[
+    "One year later, your company is losing people. You're the turnaround team.",
+    "Stage 1: go through all 7 evidence cards. When a line shows a management problem, flag it and pick the problem. You get 10 flags.",
+    "Flagging normal business costs points, so flag what the evidence shows.",
+    "Stage 2: spend $15,000 on fixes. You can't fix everything.",
+    "Your report stays on your device. You'll use it for your reflection."
+   ],
+   strat:[
+    "Split up the cards with your partner, then compare.",
+    "On the survey, look for the low bars.",
+    "A problem that shows up on two cards is a bigger problem. Fix those first.",
+    "Quick fixes like pizza or a bonus feel nice, but they don't fix the cause."
+   ],
+   steps:[
+    "Open The Turnaround, set the minutes, and click <b>Create game</b>. Students join with the code.",
+    "Click <b>Make the groups</b>, then <b>Open Stage 1: Investigate</b>.",
+    "When most teams have 5+ flags, click <b>Open Stage 2: Fix</b>.",
+    "Click <b>Reveal the results →</b> and walk through each company, or skip to the leaderboard.",
+    "Show <b>Class results</b> for the most-missed concepts, then hand out the Turnaround Reflection."
+   ],
+   need:["About 30 minutes of work plus the reveal. Plan a second block for the reflection.","Print the Turnaround Reflection worksheet (one per student)."],
+   tip:"The class results list of most-missed problems is your reteach list before the unit test."},
  { id:"hire", name:"Hire Power", unit:"Management", href:"/hire-power/teacher",
    who:"Random pairs (one group of 3 if odd), one device each.", go:"Hire Power",
    learn:[
