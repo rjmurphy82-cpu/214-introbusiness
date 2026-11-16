@@ -106,9 +106,9 @@ const HOW = [
     "Click <b>Make the groups</b>, then <b>Open Stage 1: Investigate</b>.",
     "When most teams have 5+ flags, click <b>Open Stage 2: Fix</b>.",
     "Click <b>Reveal the results →</b> and walk through each company, or skip to the leaderboard.",
-    "Show <b>Class results</b> for the most-missed concepts, then hand out the Turnaround Reflection."
+    "Show <b>Class results</b> for the most-missed concepts, then hand out the Management Reflection."
    ],
-   need:["About 30 minutes of work plus the reveal. Plan a second block for the reflection.","Print the Turnaround Reflection worksheet (one per student)."],
+   need:["About 30 minutes of work plus the reveal. Plan a second block for the reflection.","Print the Management Reflection worksheet (one per student)."],
    tip:"The class results list of most-missed problems is your reteach list before the unit test."},
  { id:"hire", name:"Hire Power", unit:"Management", href:"/hire-power/teacher",
    who:"Random pairs (one group of 3 if odd), one device each.", go:"Hire Power",
