@@ -31,6 +31,8 @@ One site with every Intro to Business game, laid out like the District 214 Accou
 | `/turnaround/teacher` | The Turnaround host screen (can resume) |
 | `/hire-power/` | Hire Power hiring simulation (random pairs are the CEO and HR director of 14 different companies; the graders are graded against the engine; games last 14 days) |
 | `/hire-power/teacher` | Hire Power host screen (can resume a game after a reload or on another day) |
+| `/mgmt-jeopardy/` | Management Jeopardy whole-unit review (students scan the QR or enter the code; random teams of 2 to 8) |
+| `/mgmt-jeopardy/teacher` | Management Jeopardy host screen (board, steals, Daily Doubles, Final Jeopardy; can resume) |
 | `/motivation-live/` | Motivation Live review game (students join with a code) |
 | `/motivation-live/teacher` | Motivation Live host screen |
 | `/keep-the-crew/` | Keep the Crew employee motivation simulation (pairs run a shop for six months, same partner all game; Play Solo for absent students) |
@@ -64,6 +66,7 @@ Each game's start screen offers **Live in Class** (joins the game you run from i
 | `culture-launch/` | Culture Launch: tones, styles, values, the 10 investment levers, 7 policies, 6 infractions, 6 crisis cards, the audience rubric, and the alignment engine are all in `data.js`, with the model explained at the top. `culture.js` has the 8-slide deck builder. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
 | `turnaround/` | The Turnaround: the 12 problem types (each tied to a unit concept, with evidence templates and a fix), the quick fixes, the case builder (reuses the 14 Hire Power companies from `/hire-power/data.js`, which must load first), and scoring are in `data.js`, with the model explained at the top. `turnaround.js` has the screens and the report |
 | `hire-power/` | Hire Power: the 12 traits, 8 interview steps, the 14 companies (each with 4 jobs, responsibilities, key skills, and candidate backgrounds), the candidate builder, the 5-row rubric, and the hiring engine are all in `data.js`, with the model explained at the top. `hire.js` has the 9-slide deck builder and grader scoring. Runs on `api/live.js` as a 14-day game (`kind: "engagement"`) |
+| `mgmt-jeopardy/` | Management Jeopardy: the 30 clues and Final Jeopardy are at the top of `jeopardy.js` under CLUES. The teacher screen scores everything; a wrong answer picks a random team that hasn't tried the clue to steal. Runs on `api/live.js` (game type `mjep`) |
 | `motivation-live/` | Motivation Live: same engine as Ad Buy Live. The 42 questions (six rounds: intrinsic vs. extrinsic, Maslow, Herzberg, Theory X/Y, motivation data, Manager's Call) are in `live.js` under QUESTION BANK. Runs on `api/live.js` (game type `motive`) |
 | `keep-the-crew/` | Keep the Crew: the 6 crew members, 7 survey items, 15 moves (with their Hygiene/Motivator and Extrinsic/Intrinsic answers), the 6 monthly events, and the Herzberg engine are all in `data.js`, with the full model explained at the top. Runs on `api/live.js` |
 | `api/crisis-board.js` | Brand Crisis Hall of Fame. When a game ends, the server re-scores it from the saved picks and keeps the top 3 teams (stored under `bcrisis:`) |
