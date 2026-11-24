@@ -60,10 +60,13 @@ window.SITE_SECTIONS = [
 ];
 // The two big groups on the hub, in the order they show. Every item has a cat that matches one of these.
 window.SITE_CATS = [
+  { id: "Investing", note: "Stocks, sectors, and the basic ratios investors check first" },
   { id: "Management", note: "Leadership styles, situational leadership, motivation, culture, and hiring" },
   { id: "Marketing", note: "Target marketing, ad buys, social media ads, segmentation, and brand crises" }
 ];
 window.SITE_ITEMS = [
+  { section: "live", cat: "Investing", topic: "Stocks, sectors & ratios · Review", title: "Market Basics Live", href: "/market-live/",
+    text: "Kahoot-style review on stock investing: buying and selling, gain and loss math, matching the 8 sector funds and the companies inside them, defensive vs. confident sectors, P/E, dividend yield, revenue growth, profit margin, and investor decisions. Speed earns points, wrong answers cost points, so don't guess.", count: "Everyone plays · join with a code", go: "Join" },
   { section: "live", cat: "Management", topic: "Leadership styles · Pairs", title: "Boss Moves", href: "/boss-moves/",
     text: "A new partner and a new workplace problem every round. Pick the leadership style that fits, write the statement you'd give your team, then vote for the one closest to the Perfect Statement.", count: "New partner every round · join with a code", go: "Join" },
   { section: "live", cat: "Management", topic: "Organizational culture · Project", title: "Culture Launch", href: "/culture-launch/",
